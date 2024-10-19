@@ -29,6 +29,7 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: Assi
   const { data: session } = useSession()
   const [link, setLink] = useState<string>('')
   const [isOpen, setIsOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false) // State baru untuk melacak status pengiriman
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: Assi
     try {
       await deleteAssigmentForStudent(id)
       toast('Assignment deleted successfully')
-      onDelete(id) // Panggil callback untuk menghapus dari daftar
+      onDelete(id)
       setIsOpen(false)
     } catch (error) {
       toast('Failed to delete assignment')
@@ -107,12 +108,26 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: Assi
           )}
           {session?.user.role === "ADMIN" && (
             <div>
-              <button
-                onClick={handleDelete}
-                className="rounded-lg bg-red-600 px-4 py-2 text-white"
-              >
-                Delete
-              </button>
+              <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                <DialogTrigger>
+                  <button
+                    className="rounded-lg bg-red-600 px-4 py-2 text-white"
+                  >
+                    Delete
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    Are you sure want to delete the assigment?
+                  </DialogHeader>
+                  <Button onClick={handleDelete} variant={"destructive"}>
+                    Sure!
+                  </Button>
+                  <Button variant={"outline"} onClick={() => setIsDeleteOpen(false)}>
+                    Cancel
+                  </Button>
+                </DialogContent>
+              </Dialog>
               <Link href={`/assignments/${id}`}>
                 <Button>
                   See Responden
