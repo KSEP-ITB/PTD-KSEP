@@ -1,3 +1,7 @@
+export const config = {
+  runtime: "nodejs",
+};
+
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { signInSchema } from "./lib/schemas"
