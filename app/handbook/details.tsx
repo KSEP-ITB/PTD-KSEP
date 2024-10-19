@@ -12,4 +12,4 @@ const HandbookDetails = () => {
   )
 }
 
-export default HandbookDetails
+export default HandbookDetails 
