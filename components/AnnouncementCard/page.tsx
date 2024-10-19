@@ -32,7 +32,6 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
           <DialogTrigger asChild onClick={() => setIsOpen(true)}>
             <button 
               className='mt-4 bg-red-600 text-white rounded px-4 py-2' 
-              onClick={() => onDelete(id)} 
             >
               Delete
             </button>
