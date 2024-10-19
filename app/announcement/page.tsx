@@ -57,7 +57,10 @@ const page = () => {
     async function getAllAnnouncementData() {
       try {
         const data = await getAllAnnouncement()
-        setAnnouncement(data)
+
+        if (data) {
+          setAnnouncement(data)
+        }
       } catch (error) {
         console.error("Error fetching announcements:", error)
       }

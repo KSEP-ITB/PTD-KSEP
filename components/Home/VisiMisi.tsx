@@ -46,7 +46,8 @@ const VisiMisi = () => {
             <div className="grid md:grid-cols-2 pb-32 gap-10 px-10 pt-20">
                 <div>
                     <div className="relative">
-                        <p className="text-white font-[500] bg-gradient-to-b from-[#3E205A] to-[#E84756] p-5 pt-8 border-solid border-white border-[6px] rounded-3xl overflow-hidden shadow-2xl">Rorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.</p>
+                        <p className="text-white font-[500] bg-gradient-to-b from-[#3E205A] to-[#E84756] p-5 pt-8 border-solid border-white border-[6px] rounded-3xl overflow-hidden shadow-2xl">"PTD KSEP ITB 2024 sebagai penumbuh pembelajar ekonomi dan pasar modal
+                        yang berkualitas dan mampu mengedepankan kebersamaan serta kekeluargaan.”</p>
                         <Image 
                             src={Visi}
                             alt="Visi"
@@ -56,7 +57,9 @@ const VisiMisi = () => {
                 </div>
                 <div>
                     <div className="relative">
-                        <p className="text-white font-[500] bg-gradient-to-b from-[#3E205A] to-[#E84756] p-5 pt-8 border-solid border-white border-[6px] rounded-3xl overflow-hidden shadow-2xl">Rorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.</p>
+                        <p className="text-white font-[500] bg-gradient-to-b from-[#3E205A] to-[#E84756] p-5 pt-8 border-solid border-white border-[6px] rounded-3xl overflow-hidden shadow-2xl">1. Melahirkan pembelajar ekonomi dan pasar modal, <br />
+                        2. Mengembangkan peserta yang berkualitas melalui potensinya, dan <br />
+                        3. Mengenalkan kekeluargaan dan kaderisasi yang adil kepada pesertanya. <br /></p>
                         <Image 
                             src={Misi}
                             alt="Visi"

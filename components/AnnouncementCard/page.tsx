@@ -1,15 +1,26 @@
 "use client"
+
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import React from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '../ui/button';
 
 type Data = {
   id: string;
   title: string;
   content: string;
-  onDelete: (id: string) => void; // Add onDelete prop
+  onDelete: (id: string) => void;
 };
 
 export default function AnnouncementCard({ id, title, content, onDelete }: Data) {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const { data: session } = useSession()
 
   return (
@@ -17,12 +28,27 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
       <div className='font-bold text-lg mb-5'> {title} </div>
       <div className='overflow-x-auto'> {content} </div>
       {session?.user.role === "ADMIN" && (
-      <button 
-        className='mt-4 bg-red-600 text-white rounded px-4 py-2' 
-        onClick={() => onDelete(id)} // Call onDelete when clicked
-      >
-        Delete
-      </button>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+            <button 
+              className='mt-4 bg-red-600 text-white rounded px-4 py-2' 
+              onClick={() => onDelete(id)} 
+            >
+              Delete
+            </button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              Are you sure want to delete the Announcement?
+            </DialogHeader>
+            <Button onClick={() => onDelete(id)} variant={"destructive"}>
+              Sure!
+            </Button>
+            <Button variant={"outline"} onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
