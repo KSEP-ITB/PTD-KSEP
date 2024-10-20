@@ -57,6 +57,7 @@ const AssignmentsPage = () => {
       title: "",
       description: "",
       dueDate: "",
+      linkAttach: "",
     }
   })
 
@@ -147,7 +148,18 @@ const AssignmentsPage = () => {
                           </FormControl>
                         </FormItem>
                       )}
-                    />
+                    /><FormField 
+                    control={form.control}
+                    name='linkAttach'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Link Attachment</FormLabel>
+                        <FormControl>
+                          <Input placeholder='Enter link attachment' {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                     <div className='py-2' />
                     <Button type='submit' className='w-full'>
                       Create Announcement
@@ -161,13 +173,6 @@ const AssignmentsPage = () => {
       )}
       
       <div className="mx-auto max-w-2xl px-4 py-8">
-        {/* <div className="mb-8">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full rounded-full border border-gray-300 px-4 py-2 focus:border-[#FF6B6B] focus:outline-none"
-          />
-        </div> */}
         <div className="space-y-4">
         {assigment.map((assignment, index) => (
           <AssignmentCard
@@ -176,7 +181,8 @@ const AssignmentsPage = () => {
             day={assignment.day}
             title={assignment.title}
             description={assignment.description}
-            dueDate="15-05-2025" // Misalnya due date tetap
+            dueDate={assignment.dueDate}
+            linkAttach={assignment.linkAttach}
             onDelete={handleDeleteAssignment}
           />
         ))}

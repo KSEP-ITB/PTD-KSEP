@@ -1,15 +1,15 @@
 import z from 'zod'
 
 export const signInSchema = z.object({
-  username: z.string().min(2),
-  password: z.string().min(2)
+  username: z.string().min(1),
+  password: z.string().min(1)
 })
 
 export type signInSchemaType = z.infer<typeof signInSchema>
 
 export const announcementSchema = z.object({
-  title: z.string().min(8),
-  content: z.string().min(8).max(500)
+  title: z.string().min(1),
+  content: z.string().min(1).max(500)
 })
 
 export type announcementSchemaType = z.infer<typeof announcementSchema>
@@ -22,8 +22,8 @@ export type announcementSchemaTypeWithId = {
 
 export const handbookSchema = z.object({
   day: z.string().min(1),
-  title: z.string().min(4),
-  link: z.string().min(5)
+  title: z.string().min(1),
+  link: z.string().min(1)
 })
 
 export type handbookSchemaType = z.infer<typeof handbookSchema>
@@ -53,9 +53,10 @@ export type studentAssignmentTypeWithId = {
 // Schema untuk AssignmentForStudent
 export const assignmentForStudentSchema = z.object({
   day: z.string().min(1),
-  title: z.string().min(8),
-  description: z.string().min(8),
-  dueDate: z.string()
+  title: z.string().min(1),
+  description: z.string().min(1),
+  dueDate: z.string(),
+  linkAttach: z.string()
 });
 
 export type assignmentForStudentType = z.infer<typeof assignmentForStudentSchema>;
@@ -65,5 +66,7 @@ export type assignmentForStudentTypeWithId = {
   day: string;
   title: string;
   description: string;
+  dueDate: string;
+  linkAttach: string;
   submissions?: studentAssignmentType[];
 };

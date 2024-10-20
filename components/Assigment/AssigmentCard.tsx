@@ -17,26 +17,27 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 interface AssignmentCardProps {
-  id: string // Tambahkan id untuk menghapus tugas
+  id: string 
   day: string
   title: string
   dueDate: string
   description: string
-  onDelete: (id: string) => void // Callback untuk penghapusan tugas
+  onDelete: (id: string) => void 
+  linkAttach: string
 }
 
-const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: AssignmentCardProps) => {
+const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAttach }: AssignmentCardProps) => {
   const { data: session } = useSession()
   const [link, setLink] = useState<string>('')
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false) // State baru untuk melacak status pengiriman
+  const [isSubmitted, setIsSubmitted] = useState(false) 
 
   useEffect(() => {
     const checkSubmission = async () => {
       if (session?.user.id) {
         const hasSubmitted = await getStudentAssigmentByAssigmentIdAndUserId(id, session.user.id);
-        setIsSubmitted(hasSubmitted); // Atur status pengiriman
+        setIsSubmitted(hasSubmitted);
       }
     };
     checkSubmission();
@@ -62,8 +63,8 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: Assi
     try {
       await createStudentAssigment(session?.user.id as string, id, link)
       toast('Assignment submitted successfully')
-      setLink('') // Reset input setelah submit
-      setIsSubmitted(true) // Set status pengiriman menjadi true
+      setLink('') 
+      setIsSubmitted(true)
     } catch (error) {
       toast('Failed to submit assignment')
     }
@@ -140,6 +141,9 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete }: Assi
       <p className='py-2'>
         {description}
       </p>
+      <Link href={linkAttach} target='_blank'>
+          {linkAttach}
+      </Link>
     </div>
   )
 }
