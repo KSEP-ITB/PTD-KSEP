@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 
 export const getUserByUsername = async (username: any, password: any) => {
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         username,
         password

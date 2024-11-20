@@ -52,7 +52,7 @@ const SignInPage = () => {
         toast.error("An error occurred when signing in, no result");
       } else {
         toast.success("Signed in successfully");
-        router.push("/assigments")
+        router.push("/assignments")
       }
     } catch (error) {
       console.log(error);
