@@ -24,6 +24,9 @@ const Card = ({ day, title, link }: CardProps) => {
     <motion.div 
       ref={ref}
       className="border-2 rounded-2xl w-full bg-gradient-to-tr from-[#0F389B] to-[#8CAAF4] p-4 border-white"
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, ease: "easeInOut" }} 
     >
       <div className='font-bold text-lg text-white'>{day}</div>
       <div className="overflow-x-auto text-white">
