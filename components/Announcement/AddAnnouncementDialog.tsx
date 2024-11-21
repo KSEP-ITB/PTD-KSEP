@@ -98,7 +98,7 @@ const AddAnnouncementDialog = ({ onAddAnnouncement }: AddAnnouncementDialogProps
                   <FormLabel className='text-white'>Title</FormLabel>
                   <FormControl>
                     <Input 
-                      placeholder='Enter title...' 
+                      placeholder='Masukkan judul pengumuman' 
                       {...field} 
                       className='focus-visible:ring-0 text-black'
                     />

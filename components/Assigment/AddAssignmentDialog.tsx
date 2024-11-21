@@ -99,7 +99,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Day</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Enter day...' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan hari penugasan' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,7 +112,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Title</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Enter title...' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan judul tugas' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,7 +143,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Deadliine Date</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Ikutin format DD/MM/YYYY' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Ikuti format DD/MM/YYYY' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,7 +155,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
               <FormItem>
                 <FormLabel className='text-white'>Link Attachment</FormLabel>
                 <FormControl>
-                  <Input className='text-black focus-visible:ring-transparent' placeholder='Enter link attachment' {...field} />
+                  <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan tautan lampiran' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

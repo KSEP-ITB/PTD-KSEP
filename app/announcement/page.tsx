@@ -105,13 +105,16 @@ const page = () => {
       </div>
 
       <div className="max-w-5xl w-full space-y-4">
-        {announcements.map((item) => (
-          <AnnouncementCard
-            key={item.id}
-            title={item.title}
-            content={item.content}
-            onDelete={handleDelete}
-          />
+        {announcements
+          .slice()
+          .reverse()
+          .map((item) => (
+            <AnnouncementCard
+              key={item.id}
+              title={item.title}
+              content={item.content}
+              onDelete={handleDelete}
+            />
         ))}
       </div>
     </div>

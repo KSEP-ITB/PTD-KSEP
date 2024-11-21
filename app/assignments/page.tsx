@@ -124,17 +124,20 @@ const AssignmentsPage = () => {
       </div>
 
       <div className="max-w-5xl w-full space-y-4">
-        {assignments.map((assignment, index) => (
-          <AssignmentCard
-            key={index} // Use `index` if there's no unique `id` in the dummy data
-            id={index.toString()} // Replace with a real unique ID in production
-            day={assignment.day}
-            title={assignment.title}
-            description={assignment.description}
-            dueDate={assignment.dueDate}
-            linkAttach={assignment.linkAttach}
-            onDelete={handleDelete}
-          />
+        {assignments
+          .slice()
+          .reverse()
+          .map((assignment, index) => (
+            <AssignmentCard
+              key={index}
+              id={index.toString()}
+              day={assignment.day}
+              title={assignment.title}
+              description={assignment.description}
+              dueDate={assignment.dueDate}
+              linkAttach={assignment.linkAttach}
+              onDelete={handleDelete}
+            />
         ))}
       </div>
 

@@ -87,7 +87,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
               <FormControl>
                 <Input 
                   className='focus-visible:ring-transparent  text-black'
-                  placeholder='Enter day...' {...form.register('day')} 
+                  placeholder='Masukkan hari terbit buku pegangan' {...form.register('day')} 
                 />
               </FormControl>
               <FormMessage />
@@ -97,7 +97,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
               <FormControl>
                 <Input 
                   className='focus-visible:ring-transparent  text-black'
-                  placeholder='Enter title...' {...form.register('title')} 
+                  placeholder='Masukkan judul buku pegangan' {...form.register('title')} 
                 />
               </FormControl>
               <FormMessage />
@@ -107,7 +107,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
               <FormControl>
                 <Input
                   className='focus-visible:ring-transparent  text-black'
-                  placeholder='The link must be from a google drive PDF file.' {...form.  register('link')} 
+                  placeholder='Tautan harus dari file PDF google drive' {...form.  register('link')} 
                 />
               </FormControl>
               <FormMessage />
