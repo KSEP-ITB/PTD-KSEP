@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Dice from '@/app/assets/Dice1.png'
 import Sparkle from '@/app/assets/StarShining.png'
-import AnnouncementCard from '@/components/AnnouncementCard/page'
+import AnnouncementCard from '@/components/Announcement/page'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import {

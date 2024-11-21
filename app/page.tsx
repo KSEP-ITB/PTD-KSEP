@@ -1,3 +1,4 @@
+// Components Import
 import Hero from "@/components/Home/Hero";
 import VisiMisi from "@/components/Home/VisiMisi";
 import Testimoni from "@/components/Home/Testimoni";

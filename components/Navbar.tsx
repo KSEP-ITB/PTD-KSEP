@@ -1,43 +1,31 @@
 "use client"
 
+// Library Import
 import React from 'react'
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Button } from './ui/button'
+import { usePathname } from 'next/navigation'
+
+// Auth Import
+import { signOut, useSession } from 'next-auth/react'
+
+// Utils Import
 import { cn } from '@/lib/utils'
+
+// Components Import
+import { Button } from './ui/button'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+
+// Icons Import
 import { Menu } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react'
 import { LogIn } from 'lucide-react';
 import { LogOut } from 'lucide-react';
 
-const navItems = [
-  {
-    name: "Home",
-    path: "/",
-  },
-  {
-    name: "Assignments",
-    path: "/assignments",
-    requiresAuth: true,
-  },
-  {
-    name: "Handbook",
-    path: "/handbook",
-    requiresAuth: true,
-  },
-  {
-    name: "Announcement",
-    path: "/announcement",
-  }
-]
+// Constants Import
+import { navItems } from '@/lib/constants'
 
 const Navbar = () => {
   const { data } = useSession();
@@ -54,10 +42,10 @@ const Navbar = () => {
 
         <div className='flex gap-x-12'>
           {navItems.map((item, index) => {
-            // Periksa apakah item memerlukan autentikasi
             if (item.requiresAuth && !data) {
-              return null; // Jangan tampilkan jika belum login
+              return null;
             }
+            
             return (
               <Link key={index} href={item.path} className={cn(
                 'text-[#B6B6B6] font-bold',
@@ -99,10 +87,10 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent className='flex flex-col items-center justify-center gap-y-8'>
             {navItems.map((item, index) => {
-              // Periksa apakah item memerlukan autentikasi
               if (item.requiresAuth && !data) {
-                return null; // Jangan tampilkan jika belum login
+                return null;
               }
+              
               return (
                 <Link key={index} href={item.path} className={cn(
                   'text-[#B6B6B6] font-bold',

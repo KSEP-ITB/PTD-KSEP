@@ -1,8 +1,8 @@
 'use client'
 
-import SearchBar from '@/components/HBSearchBar'
+import SearchBar from '@/components/Handbook/HBSearchBar'
 import Card from '@/components/HBCard'
-import Jumbotron from '@/components/HBJumbotron'
+import Jumbotron from '@/components/Handbook/HBJumbotron'
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'

@@ -1,4 +1,4 @@
-import Jumbotron from '@/components/HBJumbotron'
+import Jumbotron from '@/components/Handbook/HBJumbotron'
 import React from 'react'
 
 const HandbookDetails = () => {
