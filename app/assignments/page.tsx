@@ -46,9 +46,9 @@ const AssignmentsPage = () => {
     getAllAssigmentData()
   }, [])
 
-  if (!session) {
-    router.push("/sign-in")
-  }
+  // if (!session) {
+  //   router.push("/sign-in")
+  // }
 
   const form = useForm<assignmentForStudentType>({
     resolver: zodResolver(assignmentForStudentSchema),

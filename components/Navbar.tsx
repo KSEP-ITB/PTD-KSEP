@@ -42,9 +42,9 @@ const Navbar = () => {
 
         <div className='flex gap-x-12'>
           {navItems.map((item, index) => {
-            if (item.requiresAuth && !data) {
-              return null;
-            }
+            // if (item.requiresAuth && !data) {
+            //   return null;
+            // }
             
             return (
               <Link key={index} href={item.path} className={cn(
@@ -87,9 +87,9 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent className='flex flex-col items-center justify-center gap-y-8'>
             {navItems.map((item, index) => {
-              if (item.requiresAuth && !data) {
-                return null;
-              }
+              // if (item.requiresAuth && !data) {
+              //   return null;
+              // }
               
               return (
                 <Link key={index} href={item.path} className={cn(

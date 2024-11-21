@@ -1,10 +1,13 @@
+// Library Import
 import React from 'react'
 import Image from 'next/image'
-import Pawn from '../app/assets/Pawn2.png'
-import Dice from '../app/assets/Dice5.png'
-import Bubble1 from '../app/assets/Bubble1.png'
-import Bubble2 from '../app/assets/Bubble2.png'
-import Title from '../app/assets/HBTitle.png'
+
+// Assets Import
+import Pawn from '@/public/assets/Pawn1.png'
+import Dice from '@/public/assets/Dice5.png'
+import Bubble1 from '@/public/assets/Bubble1.png'
+import Bubble2 from '@/public/assets/Bubble2.png'
+import Title from '@/public/assets/HBTitle.png'
 
 const Jumbotron = () => {
   return (

@@ -1,11 +1,20 @@
 "use client"
 
+// Library Import
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+
+// Auth Import
+import { useSession } from 'next-auth/react'
+
+// Assets Import
 import Dice from '@/app/assets/Dice1.png'
 import Sparkle from '@/app/assets/StarShining.png'
+
+// Components Import
 import AnnouncementCard from '@/components/Announcement/page'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -25,28 +34,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useForm } from 'react-hook-form'
-import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithId } from '@/lib/schemas'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Textarea } from '@/components/ui/textarea'
-import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
 import { toast } from 'sonner'
 
-type Data = {
-  title: string;
-  content: string;
-};
+// Schemas Import
+import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithId } from '@/lib/schemas'
 
-const Data = [
-  {
-    title: "New Product Release Announcement",
-    content: "We are excited to announce the release of our latest product, which offers innovative solutions for your business."
-  },
-  {
-    title: "💸 𝐌𝐚𝐫𝐤𝐞𝐭 𝐑𝐞𝐯𝐢𝐞𝐰 : 𝐒𝐢𝐱-𝐌𝐨𝐧𝐭𝐡 𝐌𝐚𝐫𝐤𝐞𝐭 𝐑𝐞𝐜𝐚𝐩 💸",
-    content: "Haloo massa KSEP👋 Udah lama nih kita ga market review, tentunya kalian semua butuh informasi market buat prospek kedepannya biar porto makin ijo ga sihh🤑🤑 Karena itu, RnCD KSEP bakal ngadain ✨ 𝐌𝐚𝐫𝐤𝐞𝐭 𝐑𝐞𝐯𝐢𝐞𝐰✨ yang mau ikut bisa cek details di bawah ini yaa‼️ 🗓️ : Kamis, 26 September 2024 ⏱️ : 18.45 - 21.00 WIB 📍 : bit.ly/SekreOnline2425 Save the date and langsung aja join Market Review by RnCD yaa biar kita bisa saling share ilmu disana via link RSVP ini, https://bit.ly/MarketReviewNomor1 https://bit.ly/MarketReviewNomor1 https://bit.ly/MarketReviewNomor1🥰🥰 see u there massa KSEP‼️ @All"
-  }
-]
+// Actions Import
+import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
 
 const page = () => {
   const { data: session, status } = useSession()
@@ -119,66 +114,63 @@ const page = () => {
         />
       </div>
 
-      {/* ADMIN ONLY */}
-      {session?.user.role === "ADMIN" && (
-        <div className='bg-[#4E2865] w-full px-4 py-8 text-white flex flex-col items-center justify-center
-        '>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger>
-              <Button onClick={() => setDialogOpen(true)}>
-                Add Announcement
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add Announcement</DialogTitle>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormField 
-                      control={form.control}
-                      name='title'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder='Enter title...' {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField 
-                      control={form.control}
-                      name='content'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Content</FormLabel>
-                          <FormControl>
-                            <Textarea placeholder='Enter content...' {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <div className='py-2' />
-                    <Button type='submit' className='w-full'>
-                      Create Announcement
-                    </Button>
-                  </form>
-                </Form>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>  
-      )}
+      <div className='bg-[#4E2865] w-full px-4 py-8 text-white flex flex-col items-center justify-center
+      '>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger>
+            <Button onClick={() => setDialogOpen(true)}>
+              Add Announcement
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Announcement</DialogTitle>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <FormField 
+                    control={form.control}
+                    name='title'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder='Enter title...' {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField 
+                    control={form.control}
+                    name='content'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Content</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder='Enter content...' {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <div className='py-2' />
+                  <Button type='submit' className='w-full'>
+                    Create Announcement
+                  </Button>
+                </form>
+              </Form>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>  
 
-<div className='bg-[#4E2865] px-20 py-20 z-20'>
+    <div className='bg-[#4E2865] px-20 py-20 z-20'>
         {announcement.map((item) => {
           return (
             <AnnouncementCard
-              key={item.id} // Use the ID as the key
-              id={item.id} // Pass the id to the card
+              key={item.id}
+              id={item.id}
               title={item.title}
               content={item.content}
-              onDelete={handleDelete} // Pass the delete handler
+              onDelete={handleDelete}
             />
           )
         })}

@@ -7,25 +7,20 @@ import { Linkedin } from 'lucide-react';
 import Link from 'next/link';
 
 const socialMediaItems = [
-  // {
-  //   name: 'TikTok'
-  //   logo: 
-  //   path: '' 
-  // },
   {
     name: 'Instagram',
     logo: Instagram,
-    path: '' 
+    path: 'https://www.instagram.com/ptd_ksepitb/' 
   },
   {
     name: 'YouTube',
     logo: Youtube,
-    path: '' 
+    path: 'https://www.youtube.com/@ksepitb' 
   },
   {
     name: 'LinkedIn',
     logo: Linkedin,
-    path: '' 
+    path: 'https://www.linkedin.com/company/ksepitb' 
   },
 ]
 

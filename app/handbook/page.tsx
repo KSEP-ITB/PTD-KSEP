@@ -1,7 +1,7 @@
 'use client'
 
 import SearchBar from '@/components/Handbook/HBSearchBar'
-import Card from '@/components/HBCard'
+import Card from '@/components/Handbook/HBCard'
 import Jumbotron from '@/components/Handbook/HBJumbotron'
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
@@ -34,9 +34,9 @@ const Handbook = () => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [handbooks, setHandbooks] = useState<handbookSchemaTypeWithId[]>([])
 
-  if (!session) {
-    router.push("/sign-in")
-  }
+  // if (!session) {
+  //   router.push("/sign-in")
+  // }
 
   useEffect(() => {
     async function getAllHandbookData() {
