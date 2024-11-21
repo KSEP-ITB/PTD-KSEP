@@ -10,11 +10,13 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 
 // Assets Import
-import Dice from '@/app/assets/Dice1.png'
-import Sparkle from '@/app/assets/StarShining.png'
+import Dice from '@/public/assets/Dice1.png'
+import Sparkle from '@/public/assets/StarShining.png'
 
 // Components Import
-import AnnouncementCard from '@/components/Announcement/page'
+import AnnouncementHeader from '@/components/Announcement/AnnouncementHeader'
+import AnnouncementCard from '@/components/Announcement/AnnouncementCard'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -44,77 +46,63 @@ import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithI
 import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
 
 const page = () => {
-  const { data: session, status } = useSession()
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [announcement, setAnnouncement] = useState<announcementSchemaTypeWithId[]>([])
+  // const { data: session, status } = useSession()
+  // const [dialogOpen, setDialogOpen] = useState(false)
+  // const [announcement, setAnnouncement] = useState<announcementSchemaTypeWithId[]>([])
 
-  useEffect(() => {
-    async function getAllAnnouncementData() {
-      try {
-        const data = await getAllAnnouncement()
+  // useEffect(() => {
+  //   async function getAllAnnouncementData() {
+  //     try {
+  //       const data = await getAllAnnouncement()
 
-        if (data) {
-          setAnnouncement(data)
-        }
-      } catch (error) {
-        console.error("Error fetching announcements:", error)
-      }
-    }
-    getAllAnnouncementData()
-  }, [])
+  //       if (data) {
+  //         setAnnouncement(data)
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching announcements:", error)
+  //     }
+  //   }
+  //   getAllAnnouncementData()
+  // }, [])
 
-  const form = useForm<announcementSchemaType>({
-    resolver: zodResolver(announcementSchema),
-    defaultValues: {
-      title: "",
-      content: ""
-    }
-  })
+  // const form = useForm<announcementSchemaType>({
+  //   resolver: zodResolver(announcementSchema),
+  //   defaultValues: {
+  //     title: "",
+  //     content: ""
+  //   }
+  // })
 
-  async function onSubmit(values: announcementSchemaType) {
-    try {
-      await createAnnouncement(values.title, values.content)
-      toast("Successfully create announcement")
-      setDialogOpen(false) 
-      const updatedAnnouncements = await getAllAnnouncement()
-      setAnnouncement(updatedAnnouncements)
-    } catch (error) {
-      console.log(error)
-      toast("Failed to create announcement")
-    }
-  }
+  // async function onSubmit(values: announcementSchemaType) {
+  //   try {
+  //     await createAnnouncement(values.title, values.content)
+  //     toast("Successfully create announcement")
+  //     setDialogOpen(false) 
+  //     const updatedAnnouncements = await getAllAnnouncement()
+  //     setAnnouncement(updatedAnnouncements)
+  //   } catch (error) {
+  //     console.log(error)
+  //     toast("Failed to create announcement")
+  //   }
+  // }
 
-  async function handleDelete(id: string) {
-    try {
-      await deleteAnnouncement(id);
-      toast("Announcement deleted successfully");
-      const updatedAnnouncements = await getAllAnnouncement();
-      setAnnouncement(updatedAnnouncements);
-    } catch (error) {
-      console.log(error);
-      toast("Failed to delete announcement");
-    }
-  }
+  // async function handleDelete(id: string) {
+  //   try {
+  //     await deleteAnnouncement(id);
+  //     toast("Announcement deleted successfully");
+  //     const updatedAnnouncements = await getAllAnnouncement();
+  //     setAnnouncement(updatedAnnouncements);
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast("Failed to delete announcement");
+  //   }
+  // }
 
   return (
-    <div className='w-full h-full overflow-clip'>
-      <div className='relative flex bg-gradient-to-r from-[#A958A7] to-[#3E205A] items-center justify-center h-[200px] md:h-[275px]'>
-        <Image 
-        src={Dice}
-        width={368}
-        alt='dice'
-        className='absolute -left-[250px] md:-left-[130px] top-[0px] md:top-[60px] w-100 z-10 '
-        />
-        <h1 className='relative font-sans font-extrabold text-3xl md:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-[#ED3633] to-[#EF7219] border-white white-stroke-text text-center'>ANNOUNCEMENT</h1>
-        <Image
-        src={Sparkle}
-        width = {350}
-        alt = 'sparkle'
-        className='absolute -top-[170px] -right-[140px] md:-right-[100px] md:-top-[100px]'
-        />
-      </div>
+    <div className='w-full h-full'>
+      <AnnouncementHeader />
 
-      <div className='bg-[#4E2865] w-full px-4 py-8 text-white flex flex-col items-center justify-center
+      {/* <div className='bg-[#4E2865] w-full px-4 py-8 text-white flex flex-col items-center justify-center
       '>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger>
@@ -174,7 +162,7 @@ const page = () => {
             />
           )
         })}
-      </div>
+      </div> */}
     </div>
   )
 }

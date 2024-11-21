@@ -2,7 +2,6 @@
 
 import SearchBar from '@/components/Handbook/HBSearchBar'
 import Card from '@/components/Handbook/HBCard'
-import Jumbotron from '@/components/Handbook/HBJumbotron'
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -27,64 +26,66 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import HandbookHeader from '@/components/Handbook/HandbookHeader'
 
 const Handbook = () => {
-  const { data: session } = useSession()
-  const router = useRouter()
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [handbooks, setHandbooks] = useState<handbookSchemaTypeWithId[]>([])
+  // const { data: session } = useSession()
+  // const router = useRouter()
+  // const [dialogOpen, setDialogOpen] = useState(false)
+  // const [handbooks, setHandbooks] = useState<handbookSchemaTypeWithId[]>([])
 
-  // if (!session) {
-  //   router.push("/sign-in")
+  // // if (!session) {
+  // //   router.push("/sign-in")
+  // // }
+
+  // useEffect(() => {
+  //   async function getAllHandbookData() {
+  //     const data = await getAllHandbook();
+  //     setHandbooks(data)
+  //   }
+
+  //   getAllHandbookData()
+  // }, [])
+
+  // const form = useForm<handbookSchemaType>({
+  //   resolver: zodResolver(handbookSchema),
+  //   defaultValues: {
+  //     day: "",
+  //     title: "",
+  //     link: ""
+  //   }
+  // })
+
+  // async function onSubmit(values: handbookSchemaType) {
+  //   try {
+  //     await createHandbook(values.day, values.title, values.link)
+  //     toast("Handbook created successfully")
+  //     setDialogOpen(false)
+  //     const updatedHandbooks = await getAllHandbook()
+  //     setHandbooks(updatedHandbooks)
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast("Failed to create handbook")
+  //   }
   // }
 
-  useEffect(() => {
-    async function getAllHandbookData() {
-      const data = await getAllHandbook();
-      setHandbooks(data)
-    }
-
-    getAllHandbookData()
-  }, [])
-
-  const form = useForm<handbookSchemaType>({
-    resolver: zodResolver(handbookSchema),
-    defaultValues: {
-      day: "",
-      title: "",
-      link: ""
-    }
-  })
-
-  async function onSubmit(values: handbookSchemaType) {
-    try {
-      await createHandbook(values.day, values.title, values.link)
-      toast("Handbook created successfully")
-      setDialogOpen(false)
-      const updatedHandbooks = await getAllHandbook()
-      setHandbooks(updatedHandbooks)
-    } catch (error) {
-      console.error(error)
-      toast("Failed to create handbook")
-    }
-  }
-
-  async function handleDelete(id: string) {
-    try {
-      await deleteHandbook(id)
-      toast("Handbook deleted successfully")
-      const updatedHandbooks = await getAllHandbook()
-      setHandbooks(updatedHandbooks)
-    } catch (error) {
-      console.error(error)
-      toast("Failed to delete handbook")
-    }
-  }
+  // async function handleDelete(id: string) {
+  //   try {
+  //     await deleteHandbook(id)
+  //     toast("Handbook deleted successfully")
+  //     const updatedHandbooks = await getAllHandbook()
+  //     setHandbooks(updatedHandbooks)
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast("Failed to delete handbook")
+  //   }
+  // }
 
   return (
-    <>
-      <Jumbotron/>
-      {/* ADMIN ONLY */}
+    <div className='w-full h-full'>
+      <HandbookHeader />
+
+      {/* ADMIN ONLY
       {session?.user.role === 'ADMIN' && (
         <div className='bg-[#0F389B] w-full px-4 py-8 text-white flex flex-col items-center'>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -138,8 +139,8 @@ const Handbook = () => {
             isAdmin={session?.user.role === "ADMIN"}
           />
         ))}
-      </div>
-    </>
+      </div> */}
+    </div>
   )
 }
 

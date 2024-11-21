@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import KSEPLogo from '@/app/assets/KSEPLogo.png'
+import KSEPLogo from '@/public/assets/KSEPLogo.png'
 import { Instagram } from 'lucide-react';
 import { Youtube } from 'lucide-react';
 import { Linkedin } from 'lucide-react';

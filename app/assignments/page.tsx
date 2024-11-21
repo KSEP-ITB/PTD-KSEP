@@ -1,7 +1,7 @@
 "use client"
 
-import Banner from '@/components/Assigment/AssigmentBanner'
-import AssignmentCard from '@/components/Assigment/AssigmentCard'
+import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
+import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -32,58 +32,58 @@ import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForSt
 import { toast } from 'sonner'
 
 const AssignmentsPage = () => {
-  const { data: session } = useSession()
-  const router = useRouter()
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [assigment, setAssigment] = useState<assignmentForStudentTypeWithId[]>([])
+  // const { data: session } = useSession()
+  // const router = useRouter()
+  // const [dialogOpen, setDialogOpen] = useState(false)
+  // const [assigment, setAssigment] = useState<assignmentForStudentTypeWithId[]>([])
 
-  useEffect(() => {
-    async function getAllAssigmentData() {
-      const data = await getAllAssigmentForStudent()
-      setAssigment(data)
-    }
+  // useEffect(() => {
+  //   async function getAllAssigmentData() {
+  //     const data = await getAllAssigmentForStudent()
+  //     setAssigment(data)
+  //   }
 
-    getAllAssigmentData()
-  }, [])
+  //   getAllAssigmentData()
+  // }, [])
 
-  // if (!session) {
-  //   router.push("/sign-in")
+  // // if (!session) {
+  // //   router.push("/sign-in")
+  // // }
+
+  // const form = useForm<assignmentForStudentType>({
+  //   resolver: zodResolver(assignmentForStudentSchema),
+  //   defaultValues: {
+  //     day: "",
+  //     title: "",
+  //     description: "",
+  //     dueDate: "",
+  //     linkAttach: "",
+  //   }
+  // })
+
+  // async function onSubmit(values: assignmentForStudentType) {
+  //   console.log(values)
+  //   try {
+  //     await createAssigmentForStudent(values.day, values.title, values.description, values.dueDate)
+  //     toast("Successfully created an assigment")
+  //     setDialogOpen(false)
+
+  //     const data = await getAllAssigmentForStudent()
+  //     setAssigment(data)
+  //   } catch (error) {
+  //     toast("Failed to create an assigment")
+  //   }
   // }
 
-  const form = useForm<assignmentForStudentType>({
-    resolver: zodResolver(assignmentForStudentSchema),
-    defaultValues: {
-      day: "",
-      title: "",
-      description: "",
-      dueDate: "",
-      linkAttach: "",
-    }
-  })
-
-  async function onSubmit(values: assignmentForStudentType) {
-    console.log(values)
-    try {
-      await createAssigmentForStudent(values.day, values.title, values.description, values.dueDate)
-      toast("Successfully created an assigment")
-      setDialogOpen(false)
-
-      const data = await getAllAssigmentForStudent()
-      setAssigment(data)
-    } catch (error) {
-      toast("Failed to create an assigment")
-    }
-  }
-
-  const handleDeleteAssignment = (id: string) => {
-    setAssigment(prev => prev.filter(assignment => assignment.id !== id))
-  }
+  // const handleDeleteAssignment = (id: string) => {
+  //   setAssigment(prev => prev.filter(assignment => assignment.id !== id))
+  // }
   
   return (
-    <div className="min-h-screen bg-[#FFCBD5]">
-      <Banner />
+    <div className="w-full h-full">
+      <AssignmentHeader />
 
-      {/* ADMIN ONLY */}
+      {/* ADMIN ONLY
       {session?.user.role === "ADMIN" && (
         <div className='bg-[#FFCBD5] w-full px-4 py-8 text-white flex flex-col items-center justify-center
         '>
@@ -187,7 +187,7 @@ const AssignmentsPage = () => {
           />
         ))}
       </div>
-      </div>
+      </div> */}
     </div>
   )
 }

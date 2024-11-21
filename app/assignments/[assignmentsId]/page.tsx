@@ -2,7 +2,7 @@
 
 import { getAllStudentAssigmentByAssigmentId } from '@/actions/assigment-actions'
 import { getUserById } from '@/actions/user-actions'
-import Banner from '@/components/Assigment/AssigmentBanner'
+import Banner from '@/components/Assigment/AssignmentHeader'
 import { studentAssignmentTypeWithId } from '@/lib/schemas'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
