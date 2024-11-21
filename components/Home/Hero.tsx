@@ -15,7 +15,7 @@ import Rail2 from "@/public/UlerTanggaStraight2.png"
 const Hero = () => {
   return (
     <section>
-      <div className='min-h-screen h-full bg-gradient-to-br from-[#ED422E] to-[#FE9110] relative overflow-hidden flex flex-col items-center justify-center'>
+      <div className='min-h-[675px] h-full bg-gradient-to-br from-[#ED422E] to-[#FE9110] relative overflow-hidden flex flex-col items-center justify-center'>
         <motion.p
           className="hidden w-full md:block text-white text-base md:text-xl z-20 pb-10 text-center"
           initial={{ opacity: 0, y: -20 }}
@@ -30,7 +30,7 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="w-full flex justify-center items-center"
         >
-          <Image src={Title} alt="Title" className="z-20 w-[90%] md:w-[60%]" />
+          <Image src={Title} alt="Title" className="z-20 w-[80%] md:w-[45%]" />
         </motion.div>
         <motion.p
           className="bg-white px-4 py-2 lg:px-8 lg:py-4 rounded-full text-[#B91A19] mt-10 md:text-lg z-20 text-center"

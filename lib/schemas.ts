@@ -9,7 +9,7 @@ export type signInSchemaType = z.infer<typeof signInSchema>
 
 export const announcementSchema = z.object({
   title: z.string().min(1),
-  content: z.string().min(1).max(500)
+  content: z.string().min(1)
 })
 
 export type announcementSchemaType = z.infer<typeof announcementSchema>

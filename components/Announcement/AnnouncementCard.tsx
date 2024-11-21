@@ -1,7 +1,12 @@
 "use client"
 
-import React, { useState } from 'react';
+// Library Import
+import React, { useState, useRef } from 'react';
+import { motion, useInView } from "framer-motion";
+// Auth Import
 import { useSession } from 'next-auth/react';
+
+// Components Import
 import {
   Dialog,
   DialogContent,
@@ -20,14 +25,28 @@ type Data = {
 };
 
 export default function AnnouncementCard({ id, title, content, onDelete }: Data) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const { data: session } = useSession()
+  // const [isOpen, setIsOpen] = useState<boolean>(false)
+  // const { data: session } = useSession()
+
+
+  const ref = useRef(null);
+  
+  const isInView = useInView(ref, { once: true });
 
   return (
-    <div className='bg-gradient-to-b from-[#CF9FC8] to-[#A74899] rounded-3xl border-[3px] border-white mb-5 p-10 text-white'>
-      <div className='font-bold text-lg mb-5'> {title} </div>
-      <div className='overflow-x-auto'> {content} </div>
-      {session?.user.role === "ADMIN" && (
+    <motion.div
+      ref={ref}
+      className="bg-gradient-to-br to-[#CF9FC8] from-[#A74899] border-2 rounded-2xl w-full p-4 border-white"
+      initial={{ opacity: 0, y: 20 }} // Awal animasi
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, ease: "easeInOut" }} 
+    >
+      <div className='font-bold text-lg text-white'>{title}</div>
+      <div
+        className="overflow-x-auto text-white"
+        dangerouslySetInnerHTML={{ __html: content }}
+      ></div>
+      {/* {session?.user.role === "ADMIN" && (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild onClick={() => setIsOpen(true)}>
             <button 
@@ -48,7 +67,7 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
             </Button>
           </DialogContent>
         </Dialog>
-      )}
-    </div>
+      )} */}
+    </motion.div>
   );
 }
