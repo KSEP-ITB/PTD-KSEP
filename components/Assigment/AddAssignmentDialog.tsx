@@ -138,7 +138,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
               name='dueDate'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-white'>dueDate</FormLabel>
+                  <FormLabel className='text-white'>Deadliine Date</FormLabel>
                   <FormControl>
                     <Input className='text-black' placeholder='Ikutin format DD/MM/YYYY' {...field} />
                   </FormControl>

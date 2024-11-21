@@ -107,7 +107,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
               <FormControl>
                 <Input
                   className='focus-visible:ring-transparent  text-black'
-                  placeholder='Enter link...' {...form.  register('link')} 
+                  placeholder='The link must be from a google drive PDF file.' {...form.  register('link')} 
                 />
               </FormControl>
               <FormMessage />
