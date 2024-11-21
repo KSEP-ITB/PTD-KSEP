@@ -27,13 +27,6 @@ const AssignmentHeader = () => {
           width: 150, 
           height: 150 
         },
-        { 
-          src: Dice1, 
-          alt: 'Dice', 
-          className: 'absolute -bottom-12 w-[70px] md:w-[140px]', 
-          width: 100, 
-          height: 100 
-        },
       ]}
     />
   )

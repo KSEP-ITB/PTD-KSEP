@@ -42,7 +42,7 @@ const Footer = () => {
           {socialMediaItems.map((item, index) => {
             const Icon = item.logo
             return (
-              <Link key={index} href={item.path}>
+              <Link key={index} href={item.path} target='_blank'>
                 <Icon className='w-10 h-10 text-[#ED5126]' />
               </Link>
             )
