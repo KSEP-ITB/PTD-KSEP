@@ -13,7 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-  title: "PTD KSEP ITB | Pendidikan Tingkat Dasar",
+  title: "PTD KSEP ITB",
   description: "Pendidikan Tingkat Dasar KSEP ITB adalah program pendidikan yang fokus pada pembelajaran ekonomi dan pasar modal serta pembentukan karakter melalui kebersamaan dan kekeluargaan.",
   openGraph: {
     type: 'website',

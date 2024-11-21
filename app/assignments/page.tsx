@@ -2,34 +2,55 @@
 
 import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
 import AssignmentCard from '@/components/Assigment/AssignmentCard'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { assignmentForStudentSchema, assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Textarea } from '@/components/ui/textarea'
-import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForStudent } from '@/actions/assigment-actions'
-import { toast } from 'sonner'
+import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
+import { useState } from 'react'
+// import { useSession } from 'next-auth/react'
+// import { useRouter } from 'next/navigation'
+// import { useEffect, useState } from 'react'
+// import { useForm } from 'react-hook-form'
+// import { assignmentForStudentSchema, assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
+// import { zodResolver } from '@hookform/resolvers/zod'
+// import { Textarea } from '@/components/ui/textarea'
+// import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForStudent } from '@/actions/assigment-actions'
+// import { toast } from 'sonner'
+
+const dummyAssignments = [
+  {
+    day: "Monday",
+    title: "Introduction to React",
+    description: "Learn the basics of React.js, including components, state, and props.",
+    dueDate: "25/11/2024",
+    linkAttach: "https://example.com/react-intro-resources",
+  },
+  {
+    day: "Wednesday",
+    title: "Advanced JavaScript",
+    description: "Explore advanced JavaScript concepts such as closures, promises, and async/await.",
+    dueDate: "27/11/2024",
+    linkAttach: "https://example.com/js-advanced-resources",
+  },
+  {
+    day: "Friday",
+    title: "UI Design Principles",
+    description: "Understand key principles of user interface design and create wireframes for your projects.",
+    dueDate: "29/11/2024",
+    linkAttach: "https://example.com/ui-design-resources",
+  },
+  {
+    day: "Tuesday",
+    title: "Database Fundamentals",
+    description: "Introduction to relational databases, SQL queries, and database design best practices.",
+    dueDate: "03/12/2024",
+    linkAttach: "https://example.com/db-fundamentals",
+  },
+  {
+    day: "Thursday",
+    title: "APIs and Integration",
+    description: "Learn about RESTful APIs, how to consume them in your applications, and best practices for integration.",
+    dueDate: "05/12/2024",
+    linkAttach: "https://example.com/apis-integration",
+  },
+];
 
 const AssignmentsPage = () => {
   // const { data: session } = useSession()
@@ -77,117 +98,46 @@ const AssignmentsPage = () => {
 
   // const handleDeleteAssignment = (id: string) => {
   //   setAssigment(prev => prev.filter(assignment => assignment.id !== id))
+
+  const [assignments, setAssignments] = useState(dummyAssignments);
   // }
+
+  const handleAddAssignment = (newAssignment: { day: string; title: string, description: string, dueDate: string, linkAttach:string }) => {
+    const id = (assignments.length + 1).toString(); // Generate ID
+
+    // @ts-ignore
+    setAssignments([...assignments, { id, ...newAssignment }]); // Tambahkan data baru
+  };
+
+  const handleDelete = (id: string) => { 
+    // @ts-ignore
+    const updatedassignments = assignments.filter((item) => item.id !== id);
+    setAssignments(updatedassignments);
+  };
   
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col items-center space-y-8 bg-pink-100 pb-20">
       <AssignmentHeader />
 
-      {/* ADMIN ONLY
-      {session?.user.role === "ADMIN" && (
-        <div className='bg-[#FFCBD5] w-full px-4 py-8 text-white flex flex-col items-center justify-center
-        '>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger>
-              <Button onClick={() => setDialogOpen(true)}>
-                Add Assigment
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add Assigment</DialogTitle>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormField 
-                      control={form.control}
-                      name='day'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Day</FormLabel>
-                          <FormControl>
-                            <Input placeholder='Enter day...' {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField 
-                      control={form.control}
-                      name='title'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder='Enter title...' {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField 
-                      control={form.control}
-                      name='description'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Description</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder='Enter description...'
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField 
-                      control={form.control}
-                      name='dueDate'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>dueDate</FormLabel>
-                          <FormControl>
-                            <Input placeholder='Ikutin format DD/MM/YYYY' {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    /><FormField 
-                    control={form.control}
-                    name='linkAttach'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Link Attachment</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Enter link attachment' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                    <div className='py-2' />
-                    <Button type='submit' className='w-full'>
-                      Create Announcement
-                    </Button>
-                  </form>
-                </Form>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>  
-      )}
-      
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <div className="space-y-4">
-        {assigment.map((assignment, index) => (
+      <div className='max-w-5xl w-full flex flex-col items-start'>
+        <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
+      </div>
+
+      <div className="max-w-5xl w-full space-y-4">
+        {assignments.map((assignment, index) => (
           <AssignmentCard
-            key={index}
-            id={assignment.id}
+            key={index} // Use `index` if there's no unique `id` in the dummy data
+            id={index.toString()} // Replace with a real unique ID in production
             day={assignment.day}
             title={assignment.title}
             description={assignment.description}
             dueDate={assignment.dueDate}
             linkAttach={assignment.linkAttach}
-            onDelete={handleDeleteAssignment}
+            onDelete={handleDelete}
           />
         ))}
       </div>
-      </div> */}
+
     </div>
   )
 }

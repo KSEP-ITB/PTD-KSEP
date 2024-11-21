@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -91,6 +90,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
                   placeholder='Enter day...' {...form.register('day')} 
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
             <FormItem>
               <FormLabel className='text-white'>Title</FormLabel>
@@ -100,6 +100,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
                   placeholder='Enter title...' {...form.register('title')} 
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
             <FormItem>
               <FormLabel className='text-white'>Link</FormLabel>
@@ -109,6 +110,7 @@ const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
                   placeholder='Enter link...' {...form.  register('link')} 
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
             <div className='py-2' />
             <Button 

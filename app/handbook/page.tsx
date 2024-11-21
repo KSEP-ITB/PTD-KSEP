@@ -8,14 +8,11 @@ import HandbookHeader from '@/components/Handbook/HandbookHeader'
 import HandbookCard from '@/components/Handbook/HandbookCard'
 import AddHandbookDialog from '@/components/Handbook/AddHandbookDialog'
 
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { handbookSchema, handbookSchemaType, handbookSchemaTypeWithId } from '@/lib/schemas'
-import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbook-actions'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-
+// import { useSession } from 'next-auth/react'
+// import { useRouter } from 'next/navigation'
+// import { handbookSchema, handbookSchemaType, handbookSchemaTypeWithId } from '@/lib/schemas'
+// import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbook-actions'
+// import { toast } from 'sonner'
 
 const dummyHandbook = [
   {

@@ -1,8 +1,7 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
-import Background from '@/public/SignInBackground.png'
 import SignInText from '@/public/SIGNIN.png'
 import LogoPTD from '@/public/LOGOPTD.png'
 import { Button } from "@/components/ui/button"

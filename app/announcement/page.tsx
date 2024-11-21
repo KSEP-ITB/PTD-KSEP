@@ -1,27 +1,22 @@
 "use client"
 
 // Library Import
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
+import React, { useState } from 'react'
 
 // Auth Import
-import { useSession } from 'next-auth/react'
-
-// Assets Import
-import Dice from '@/public/assets/Dice1.png'
-import Sparkle from '@/public/assets/StarShining.png'
+// import { useSession } from 'next-auth/react'
 
 // Components Import
 import AnnouncementHeader from '@/components/Announcement/AnnouncementHeader'
 import AddAnnouncementDialog from '@/components/Announcement/AddAnnouncementDialog'
 import AnnouncementCard from '@/components/Announcement/AnnouncementCard'
-import { toast } from 'sonner'
+// import { toast } from 'sonner'
 
 // Schemas Import
-import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithId } from '@/lib/schemas'
+// import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithId } from '@/lib/schemas'
 
 // Actions Import
-import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
+// import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
 
 // Data Dummy
 const dummyAnnouncements = [

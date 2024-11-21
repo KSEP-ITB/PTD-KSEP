@@ -4,19 +4,19 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from "framer-motion";
 
-// Auth Import
-import { useSession } from 'next-auth/react';
+// // Auth Import
+// import { useSession } from 'next-auth/react';
 
-// Components Import
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from '../ui/button';
+// // Components Import
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from "@/components/ui/dialog"
+// import { Button } from '../ui/button';
 
 type Data = {
   title: string;
