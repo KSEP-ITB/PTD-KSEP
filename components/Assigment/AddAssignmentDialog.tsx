@@ -99,8 +99,9 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Day</FormLabel>
                   <FormControl>
-                    <Input className='text-black' placeholder='Enter day...' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Enter day...' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -111,8 +112,9 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Title</FormLabel>
                   <FormControl>
-                    <Input className='text-black' placeholder='Enter title...' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Enter title...' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -130,6 +132,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                       className='bg-white text-black'
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -140,8 +143,9 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Deadliine Date</FormLabel>
                   <FormControl>
-                    <Input className='text-black' placeholder='Ikutin format DD/MM/YYYY' {...field} />
+                    <Input className='text-black focus-visible:ring-transparent' placeholder='Ikutin format DD/MM/YYYY' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             /><FormField 
@@ -151,8 +155,9 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
               <FormItem>
                 <FormLabel className='text-white'>Link Attachment</FormLabel>
                 <FormControl>
-                  <Input className='text-black' placeholder='Enter link attachment' {...field} />
+                  <Input className='text-black focus-visible:ring-transparent' placeholder='Enter link attachment' {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
