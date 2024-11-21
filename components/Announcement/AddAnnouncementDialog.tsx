@@ -4,6 +4,9 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { motion } from 'framer-motion'
+
+// Quill Import
 import dynamic from 'next/dynamic'
 import 'react-quill/dist/quill.snow.css'
 
@@ -66,12 +69,18 @@ const AddAnnouncementDialog = ({ onAddAnnouncement }: AddAnnouncementDialogProps
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button 
-          className='w-[150px] rounded-xl bg-fuchsia-950 border-fuchsia-700 border-2 hover:bg-fuchsia-800' 
-          onClick={() => setDialogOpen(true)}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
         >
-          Add Announcement
-        </Button>
+          <Button 
+            className='w-[150px] rounded-xl bg-fuchsia-950 border-fuchsia-700 border-2 hover:bg-fuchsia-800' 
+            onClick={() => setDialogOpen(true)}
+          >
+            Add Announcement
+          </Button>
+        </motion.div>
       </DialogTrigger>
       <DialogContent className='bg-gradient-to-r from-[#7E1E8E] to-[#4A176A] border-purple-700 text-white'>
         <DialogHeader>

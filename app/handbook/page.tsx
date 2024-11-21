@@ -10,29 +10,55 @@ import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbo
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+
+// Components Import
 import HandbookHeader from '@/components/Handbook/HandbookHeader'
+import HandbookDialog from '@/components/Handbook/HandbookDialog'
+
+const dummyHandbook = [
+  {
+    id: "1",
+    day: "Monday",
+    title: "Introduction to Programming",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+  {
+    id: "2",
+    day: "Tuesday",
+    title: "JavaScript Basics",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+  {
+    id: "3",
+    day: "Wednesday",
+    title: "Understanding React",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+  {
+    id: "4",
+    day: "Thursday",
+    title: "Styling with CSS",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+  {
+    id: "5",
+    day: "Friday",
+    title: "Introduction to APIs",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+  {
+    id: "6",
+    day: "Saturday",
+    title: "Building a Full-Stack Application",
+    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
+  },
+];
 
 const Handbook = () => {
   // const { data: session } = useSession()
   // const router = useRouter()
   // const [dialogOpen, setDialogOpen] = useState(false)
-  // const [handbooks, setHandbooks] = useState<handbookSchemaTypeWithId[]>([])
+  const [handbooks, setHandbooks] = useState(dummyHandbook)
 
   // // if (!session) {
   // //   router.push("/sign-in")
@@ -81,54 +107,25 @@ const Handbook = () => {
   //   }
   // }
 
+  const handleAddHandbook = (newHandbook: { day: string, title: string; link: string }) => {
+    const id = (handbooks.length + 1).toString(); // Generate ID
+    setHandbooks([...handbooks, { id, ...newHandbook }]); // Tambahkan data baru
+  };
+
+  const handleDelete = (id: string) => {
+    const updatedAnnouncements = handbooks.filter((item) => item.id !== id);
+    setHandbooks(updatedAnnouncements);
+  };
+
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full flex flex-col items-center space-y-8 bg-[#0F389B]  pb-20'>
       <HandbookHeader />
 
-      {/* ADMIN ONLY
-      {session?.user.role === 'ADMIN' && (
-        <div className='bg-[#0F389B] w-full px-4 py-8 text-white flex flex-col items-center'>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger>
-              <Button onClick={() => setDialogOpen(true)}>
-                Add Handbook
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add Handbook</DialogTitle>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormItem>
-                      <FormLabel>Day</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter day...' {...form.register('day')} />
-                      </FormControl>
-                    </FormItem>
-                    <FormItem>
-                      <FormLabel>Title</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter title...' {...form.register('title')} />
-                      </FormControl>
-                    </FormItem>
-                    <FormItem>
-                      <FormLabel>Link</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter link...' {...form.register('link')} />
-                      </FormControl>
-                    </FormItem>
-                    <div className='py-2' />
-                    <Button type='submit' className='w-full'>
-                      Create Handbook
-                    </Button>
-                  </form>
-                </Form>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
-      )}
-      <div className='bg-[#0F389B] px-20 py-20'>
+      <div className='max-w-5xl w-full flex flex-col items-start'>
+        <HandbookDialog onAddHandbook={handleAddHandbook} />
+      </div>
+
+      {/* <div className='bg-[#0F389B] px-20 py-20'>
         {handbooks.map((item) => (
           <Card
             key={item.id}

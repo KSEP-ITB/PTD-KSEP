@@ -1,8 +1,9 @@
 "use client"
 
 // Library Import
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from "framer-motion";
+
 // Auth Import
 import { useSession } from 'next-auth/react';
 
@@ -28,7 +29,6 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
   // const [isOpen, setIsOpen] = useState<boolean>(false)
   // const { data: session } = useSession()
 
-
   const ref = useRef(null);
   
   const isInView = useInView(ref, { once: true });
@@ -37,7 +37,7 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
     <motion.div
       ref={ref}
       className="bg-gradient-to-br to-[#CF9FC8] from-[#A74899] border-2 rounded-2xl w-full p-4 border-white"
-      initial={{ opacity: 0, y: 20 }} // Awal animasi
+      initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, ease: "easeInOut" }} 
     >
