@@ -2,20 +2,20 @@
 
 // import prisma from "@/lib/prisma"
 
-// export const getUserByUsername = async (username: any, password: any) => {
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         username,
-//         password
-//       }
-//     })
+export const getUserByUsername = async (username: any, password: any) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+        password
+      }
+    })
 
-//     return user
-//   } catch (error) {
-//     throw new Error("Cannot find the specific user")    
-//   }
-// }
+    return user
+  } catch (error) {
+    throw new Error("Cannot find the specific user")    
+  }
+}
 
 // export const getUserRole = async (username: any) => {
 //   try {
