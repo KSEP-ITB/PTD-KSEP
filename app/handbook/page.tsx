@@ -1,8 +1,13 @@
 'use client'
 
-import SearchBar from '@/components/Handbook/HBSearchBar'
-import Card from '@/components/Handbook/HBCard'
-import React, { useEffect, useState } from 'react'
+// Library Import
+import React, { useState } from 'react'
+
+// Components Import
+import HandbookHeader from '@/components/Handbook/HandbookHeader'
+import HandbookCard from '@/components/Handbook/HandbookCard'
+import AddHandbookDialog from '@/components/Handbook/AddHandbookDialog'
+
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { handbookSchema, handbookSchemaType, handbookSchemaTypeWithId } from '@/lib/schemas'
@@ -11,9 +16,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-// Components Import
-import HandbookHeader from '@/components/Handbook/HandbookHeader'
-import HandbookDialog from '@/components/Handbook/HandbookDialog'
 
 const dummyHandbook = [
   {
@@ -122,21 +124,19 @@ const Handbook = () => {
       <HandbookHeader />
 
       <div className='max-w-5xl w-full flex flex-col items-start'>
-        <HandbookDialog onAddHandbook={handleAddHandbook} />
+        <AddHandbookDialog onAddHandbook={handleAddHandbook} />
       </div>
 
-      {/* <div className='bg-[#0F389B] px-20 py-20'>
+      <div className="max-w-5xl w-full space-y-4">
         {handbooks.map((item) => (
-          <Card
+          <HandbookCard
             key={item.id}
-            HBDay={item.day}
-            HBTitle={item.title}
+            title={item.title}
+            day={item.day}
             link={item.link}
-            onDelete={() => handleDelete(item.id)}
-            isAdmin={session?.user.role === "ADMIN"}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   )
 }

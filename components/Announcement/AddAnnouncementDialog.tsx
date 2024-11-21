@@ -128,7 +128,7 @@ const AddAnnouncementDialog = ({ onAddAnnouncement }: AddAnnouncementDialogProps
             <div className='py-2' />
             <Button 
               type='submit' 
-              className='w-full bg-fuchsia-950 border-fuchsia-700 border-2 rounded-lg'
+              className='w-full bg-fuchsia-950 border-fuchsia-700 border-2 rounded-lg hover:bg-fuchsia-800'
             >
               Create Announcement
             </Button>

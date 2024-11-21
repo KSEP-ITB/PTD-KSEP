@@ -32,7 +32,7 @@ interface AddHandbookDialogProps {
   onAddHandbook: (newHandbook: handbookSchemaType) => void;
 }
 
-const HandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
+const AddHandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const form = useForm<handbookSchemaType>({
@@ -69,10 +69,11 @@ const HandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
           <Button 
+            asChild
             className='w-[150px] rounded-xl bg-sky-950 border-sky-700 border-2 hover:bg-sky-800' 
             onClick={() => setDialogOpen(true)}
           >
-            Add Handbook
+            <div>Add Handbook</div>
           </Button>
         </motion.div>
       </DialogTrigger>
@@ -85,25 +86,34 @@ const HandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
             <FormItem>
               <FormLabel className='text-white'>Day</FormLabel>
               <FormControl>
-                <Input placeholder='Enter day...' {...form.register('day')} />
+                <Input 
+                  className='focus-visible:ring-transparent  text-black'
+                  placeholder='Enter day...' {...form.register('day')} 
+                />
               </FormControl>
             </FormItem>
             <FormItem>
               <FormLabel className='text-white'>Title</FormLabel>
               <FormControl>
-                <Input placeholder='Enter title...' {...form.register('title')} />
+                <Input 
+                  className='focus-visible:ring-transparent  text-black'
+                  placeholder='Enter title...' {...form.register('title')} 
+                />
               </FormControl>
             </FormItem>
             <FormItem>
               <FormLabel className='text-white'>Link</FormLabel>
               <FormControl>
-                <Input placeholder='Enter link...' {...form.register('link')} />
+                <Input
+                  className='focus-visible:ring-transparent  text-black'
+                  placeholder='Enter link...' {...form.  register('link')} 
+                />
               </FormControl>
             </FormItem>
             <div className='py-2' />
             <Button 
               type='submit' 
-              className='w-full bg-sky-950 border-sky-700 border-2 rounded-lg'
+              className='w-full bg-sky-950 border-sky-700 border-2 rounded-lg hover:bg-sky-800'
             >
               Create Handbook
             </Button>
@@ -114,4 +124,4 @@ const HandbookDialog = ({ onAddHandbook }: AddHandbookDialogProps) => {
   )
 }
 
-export default HandbookDialog
+export default AddHandbookDialog

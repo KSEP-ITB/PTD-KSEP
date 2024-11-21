@@ -19,13 +19,12 @@ import {
 import { Button } from '../ui/button';
 
 type Data = {
-  id: string;
   title: string;
   content: string;
   onDelete: (id: string) => void;
 };
 
-export default function AnnouncementCard({ id, title, content, onDelete }: Data) {
+export default function AnnouncementCard({ title, content, onDelete }: Data) {
   // const [isOpen, setIsOpen] = useState<boolean>(false)
   // const { data: session } = useSession()
 

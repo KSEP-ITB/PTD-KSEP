@@ -13,6 +13,7 @@ import Sparkle from '@/public/assets/StarShining.png'
 
 // Components Import
 import AnnouncementHeader from '@/components/Announcement/AnnouncementHeader'
+import AddAnnouncementDialog from '@/components/Announcement/AddAnnouncementDialog'
 import AnnouncementCard from '@/components/Announcement/AnnouncementCard'
 import { toast } from 'sonner'
 
@@ -21,7 +22,6 @@ import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithI
 
 // Actions Import
 import { createAnnouncement, deleteAnnouncement, getAllAnnouncement } from '@/actions/announcement-actions'
-import AddAnnouncementDialog from '@/components/Announcement/AddAnnouncementDialog'
 
 // Data Dummy
 const dummyAnnouncements = [
@@ -113,27 +113,12 @@ const page = () => {
         {announcements.map((item) => (
           <AnnouncementCard
             key={item.id}
-            id={item.id}
             title={item.title}
             content={item.content}
             onDelete={handleDelete}
           />
         ))}
       </div>
-
-    {/* <div className='bg-[#4E2865] px-20 py-20 z-20'>
-        {announcement.map((item) => {
-          return (
-            <AnnouncementCard
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              content={item.content}
-              onDelete={handleDelete}
-            />
-          )
-        })}
-      </div> */}
     </div>
   )
 }
