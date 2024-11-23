@@ -82,7 +82,7 @@ export const changeUserPassword = async (id: string, password: string) => {
         id,
       },
       data: {
-        password: "newPassword",
+        password: password,
       },
     });
 
