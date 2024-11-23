@@ -28,6 +28,7 @@ type Data = {
 export default function AnnouncementCard({ id, title, content, onDelete }: Data) {
   const { data: session } = useSession();
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false); 
 
   const ref = useRef(null);
@@ -48,7 +49,7 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
         dangerouslySetInnerHTML={{ __html: content }}
       ></div>
       {session?.user.role === "ADMIN" && (
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <div className='w-full flex justify-end'>
               <Button 
@@ -83,7 +84,7 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
                 className="w-full"
                 variant={"outline"}
                 disabled={isProcessing} 
-                onClick={() => setIsProcessing(false)} 
+                onClick={() => {setIsProcessing(false); setIsDialogOpen(false)}} 
               >
                 Cancel
               </Button>

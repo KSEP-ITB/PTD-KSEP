@@ -1,7 +1,7 @@
 "use client";
 
 // Library Import
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 // Components Importa
@@ -17,6 +17,7 @@ import { Button } from '../ui/button';
 
 // Auth Import
 import { useSession } from "next-auth/react";
+import { set } from "zod";
 
 interface CardProps {
   id: string;
@@ -30,6 +31,7 @@ const Card = ({ id, day, title, link, onDelete }: CardProps) => {
   const { data: session } = useSession()
 
   const [showPdf, setShowPdf] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const ref = useRef(null);
@@ -52,7 +54,7 @@ const Card = ({ id, day, title, link, onDelete }: CardProps) => {
 
       <div className="py-4">
         {session?.user.role === "ADMIN" && (
-          <Dialog>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
               <div className='w-full flex justify-end'>
                 <Button 
@@ -84,7 +86,7 @@ const Card = ({ id, day, title, link, onDelete }: CardProps) => {
                   className='w-full' 
                   variant={"outline"}
                   disabled={isProcessing}
-                  onClick={() => setIsProcessing(false)}
+                  onClick={() => {setIsProcessing(false); setIsOpen(false)}}
                 >
                   Cancel
                 </Button>

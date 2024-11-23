@@ -42,6 +42,7 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
   
   const [isProcessing, setIsProcessing] = useState(false); 
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogDeleteOpen, setDialogDeleteOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   
   const ref = useRef(null);
@@ -175,7 +176,7 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
         </Dialog>
       )}
       {session && session.user.role === "ADMIN" && (
-        <Dialog>
+        <Dialog open={dialogDeleteOpen} onOpenChange={setDialogDeleteOpen}>
           <DialogTrigger asChild>
             <div className='w-full flex justify-end'>
               <Button 
@@ -210,7 +211,7 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
                 className="w-full"
                 variant={"outline"}
                 disabled={isProcessing} 
-                onClick={() => setIsProcessing(false)} 
+                onClick={() => { setIsProcessing(false); setDialogDeleteOpen(false) }} 
               >
                 Cancel
               </Button>

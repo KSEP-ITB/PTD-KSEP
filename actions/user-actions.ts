@@ -46,16 +46,27 @@ export const getUserRole = async (username: string): Promise<string | null> => {
   }
 };
 
-// export const getUserById = async (id: string) => {
-//   try {
-//     const user = await prisma.user.findFirst({
-//       where: {
-//         id
-//       }
-//     })
+export const getUsernameById = async (id: string): Promise<string | null> => {
+  try {
+    if (!id) {
+      throw new Error("Id is required");
+    }
 
-//     return user;
-//   } catch (error) {
-//     throw new Error("Cannot find the specific user")    
-//   }
-// }
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        username: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error(`User with id "${id}" not found`);
+    }
+
+    return user.username;
+  } catch (error) {
+    throw new Error("Failed to retrieve username");
+  }
+}
