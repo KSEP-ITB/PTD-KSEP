@@ -1,6 +1,5 @@
 import z from 'zod'
 
-
 // Sign In Schema
 export const signInSchema = z.object({
   username: z.string().nonempty(),

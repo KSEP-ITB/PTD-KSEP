@@ -1,10 +1,23 @@
 "use client"
 
+// Library Import
 import React, { useState, useRef } from 'react'
 import { motion, useInView } from "framer-motion"
 import Link from 'next/link'
+
+// Auth Import
 import { useSession } from 'next-auth/react'
-import { toast } from 'sonner'
+
+// Components Import
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '../ui/button';
 
 interface AssignmentCardProps {
   id: string 
@@ -18,6 +31,8 @@ interface AssignmentCardProps {
 
 const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAttach }: AssignmentCardProps) => {
   const { data: session } = useSession()
+  
+  const [isProcessing, setIsProcessing] = useState(false); 
   const [link, setLink] = useState<string>('')
   const [isSubmitted, setIsSubmitted] = useState(false)
   
@@ -40,13 +55,11 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
       // toast('Assignment deleted successfully')
       // onDelete(id)
     } catch (error) {
-      toast('Failed to delete assignment')
     }
   }
 
   const handleSubmit = async () => {
     if (!link) {
-      toast('Please provide a link')
       return
     }
 
@@ -85,12 +98,48 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
         </Link>
       )}
       {session?.user.role === "ADMIN" && (
-        <button
-          className="mt-4 bg-red-600 text-white px-4 py-2 rounded"
-          onClick={handleDelete}
-        >
-          Delete Assignment
-        </button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className='w-full flex justify-end'>
+              <Button 
+                className='mt-4 bg-red-500 hover:bg-red-400 rounded-full border-2 border-red-700 text-white px-4 py-2' 
+              >
+                Delete
+              </Button>
+            </div>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                Are you sure want to delete the Announcement?
+              </DialogTitle>
+              <DialogDescription>
+                This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <div className='flex gap-x-4 w-full'>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  setIsProcessing(true); 
+                  onDelete(id);
+                }}
+                variant={"destructive"}
+                disabled={isProcessing} 
+              >
+                Sure!
+              </Button>
+              <Button
+                className="w-full"
+                variant={"outline"}
+                disabled={isProcessing} 
+                onClick={() => setIsProcessing(false)} 
+              >
+                Cancel
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
     </motion.div>
   )

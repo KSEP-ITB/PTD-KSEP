@@ -85,7 +85,8 @@ export const createAssignmentForStudent = async (
   day: string,
   title: string,
   description: string,
-  dueDate: string
+  dueDate: string,
+  linkAttach?: string
 ) => {
   try {
     if (!day || !title || !description || !dueDate) {
@@ -93,7 +94,7 @@ export const createAssignmentForStudent = async (
     }
 
     const newAssignment = await prisma.assignmentForStudent.create({
-      data: { day, title, description, dueDate },
+      data: { day, title, description, dueDate, linkAttach },
     });
 
     return newAssignment;
@@ -117,11 +118,3 @@ export const deleteAssignmentForStudent = async (id: string) => {
     throw new Error("Unable to delete assignment for student.");
   }
 };
-
-export const deleteAssigmentForStudent = async (id: string) => {
-  return await prisma.assignmentForStudent.delete({
-    where: {
-      id,
-    }
-  })
-}

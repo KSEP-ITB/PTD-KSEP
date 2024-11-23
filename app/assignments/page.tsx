@@ -16,7 +16,7 @@ import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
 import { assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
 
 // Actions Import
-import { getAllAssignments } from '@/actions/assigment-actions'
+import { createAssignmentForStudent, deleteAssignmentForStudent, getAllAssignments } from '@/actions/assigment-actions'
 
 const AssignmentsPage = () => {
   const { data: session } = useSession()
@@ -51,16 +51,40 @@ const AssignmentsPage = () => {
     fetchAssignments();
   }, []);
 
-  const handleAddAssignment = (newAssignment: assignmentForStudentType) => {
-    const newId = (assignments.length + 1).toString();
-    setAssignments((prev) => [
-      ...prev,
-      { id: newId, ...newAssignment },
-    ]);
+  const handleAddAssignment = async (newAssignment: { 
+    day: string, 
+    title: string, 
+    description: string,
+    dueDate: string,
+    linkAttach?: string,
+  }) => {
+    console.log(newAssignment);
+
+    try {
+      const createdAssignment = await createAssignmentForStudent(
+        newAssignment.day,
+        newAssignment.title,
+        newAssignment.description,
+        newAssignment.dueDate,
+        newAssignment.linkAttach
+      );
+
+      setAssignments((prev) => [
+        ...prev,
+        { id: createdAssignment.id, ...newAssignment },
+      ]);
+    } catch (error) {
+      console.error("Error adding assignment:", error);
+    }
   };
 
-  const handleDelete = (id: string) => {
-    setAssignments((prev) => prev.filter((assignment) => assignment.id !== id));
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteAssignmentForStudent(id);
+      setAssignments((prev) => prev.filter((assignment) => assignment.id !== id));
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
   };
   
   return (
@@ -74,7 +98,7 @@ const AssignmentsPage = () => {
       )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
-        {assignments
+        {assignments && assignments
           .slice()
           .reverse()
           .map((assignment, index) => (
@@ -89,6 +113,11 @@ const AssignmentsPage = () => {
               onDelete={handleDelete}
             />
         ))}
+        {assignments.length === 0 && (
+          <p className='w-full text-center text-black/80 text-xl'>
+            No assignments to show.
+          </p>
+        )}
       </div>
 
     </div>
