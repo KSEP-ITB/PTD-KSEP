@@ -5,19 +5,11 @@ import prisma from "@/lib/prisma";
 export const createStudentAssignment = async (
   userId: string,
   assignmentId: string,
-  link: string
+  link: string,
 ) => {
   try {
     if (!userId || !assignmentId || !link) {
       throw new Error("All fields (userId, assignmentId, and link) are required.");
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    });
-
-    if (!user || user.role !== "USER") {
-      throw new Error("Only users with the role 'USER' can submit assignments.");
     }
 
     const newStudentAssignment = await prisma.studentAssignment.create({
@@ -32,17 +24,6 @@ export const createStudentAssignment = async (
   } catch (error) {
     console.error("Error creating student assignment:", error);
     throw new Error("Unable to create student assignment.");
-  }
-};
-
-export const getAllAssignments = async () => {
-  try {
-    const assignments = await prisma.assignmentForStudent.findMany();
-
-    return assignments;
-  } catch (error) {
-    console.error("Error fetching assignments:", error);
-    throw new Error("Unable to fetch assignments.");
   }
 };
 
@@ -78,6 +59,18 @@ export const getStudentAssignmentByAssignmentIdAndUserId = async (
   } catch (error) {
     console.error("Error checking student assignment existence:", error);
     throw new Error("Unable to check student assignment.");
+  }
+};
+
+// ASSIGNMENT FOR STUDENT (NOT SUBMISSION)
+export const getAllAssignments = async () => {
+  try {
+    const assignments = await prisma.assignmentForStudent.findMany();
+
+    return assignments;
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    throw new Error("Unable to fetch assignments.");
   }
 };
 
@@ -118,3 +111,18 @@ export const deleteAssignmentForStudent = async (id: string) => {
     throw new Error("Unable to delete assignment for student.");
   }
 };
+
+export const getAssignmentForStudentById = async (id: string) => {
+  try {
+    if (!id) {
+      throw new Error("Assignment ID is required.");
+    }
+
+    return await prisma.assignmentForStudent.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.error("Error fetching assignment for student:", error);
+    throw new Error("Unable to fetch assignment for student.");
+  }
+}

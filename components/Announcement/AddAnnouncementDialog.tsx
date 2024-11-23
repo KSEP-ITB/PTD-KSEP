@@ -52,17 +52,11 @@ const AddAnnouncementDialog = ({ onAddAnnouncement }: AddAnnouncementDialogProps
 
   async function onSubmit(values: announcementSchemaType) {
     try {
-      //await createAnnouncement(values.title, values.content)
-      //toast("Successfully create announcement")
-      //setDialogOpen(false) 
-      //const updatedAnnouncements = await getAllAnnouncement()
-      //setAnnouncement(updatedAnnouncements)
       onAddAnnouncement({ ...values })
-      form.reset() // Reset form
-      setDialogOpen(false) // Tutup dialog
+      form.reset()
+      setDialogOpen(false)
     } catch (error) {
       console.log(error)
-      //toast("Failed to create announcement")
     }
   }
 

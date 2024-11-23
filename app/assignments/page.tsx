@@ -13,7 +13,7 @@ import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
 
 // Schemas Import
-import { assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
+import { assignmentForStudentTypeWithId } from '@/lib/schemas'
 
 // Actions Import
 import { createAssignmentForStudent, deleteAssignmentForStudent, getAllAssignments } from '@/actions/assigment-actions'
@@ -104,7 +104,7 @@ const AssignmentsPage = () => {
           .map((assignment, index) => (
             <AssignmentCard
               key={index}
-              id={index.toString()}
+              id={assignment.id}
               day={assignment.day}
               title={assignment.title}
               description={assignment.description}
