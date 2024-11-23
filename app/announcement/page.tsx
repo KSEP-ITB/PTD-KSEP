@@ -22,33 +22,8 @@ import AnnouncementCard from '@/components/Announcement/AnnouncementCard'
 const dummyAnnouncements = [
   {
     id: "1",
-    title: "New Feature Release",
-    content: "We're excited to announce our new feature is now live!",
-  },
-  {
-    id: "2",
-    title: "Scheduled Maintenance",
-    content: "Our servers will be down for maintenance on 25th Nov from 1AM to 3AM.",
-  },
-  {
-    id: "3",
-    title: "Holiday Announcement",
-    content: "We will be closed on 26th Dec for the holiday season.",
-  },
-  {
-    id: "4",
-    title: "New Feature Release",
-    content: "We're excited to announce our new feature is now live!",
-  },
-  {
-    id: "5",
-    title: "Scheduled Maintenance",
-    content: "Our servers will be down for maintenance on 25th Nov from 1AM to 3AM.",
-  },
-  {
-    id: "6",
-    title: "Holiday Announcement",
-    content: "We will be closed on 26th Dec for the holiday season.",
+    title: "🚀 Launcing PTD Website 🚀",
+    content: "Hai-Hai Ca-KSEP ^_^ <br /> Kami dengan bangga mengumumkan bahwa website PTD telah resmi diluncurkan! Website ini akan menjadi tempat informasi tugas dan buku pegangan kalian. Jangan lupa untuk selalu cek website ini ya! <br /> <br /> Untuk masuk ke akun kalian, silahkan gunakan format <br /> Username : caksep{No. Ca KSEP} <br /> Password : P@55word_{No. Ca-KSEP} <br/> <br /> Apabila menemukan kendala atau kesalahan sistem (Bug), mohon lapor ke ID Line : atqeeya <br /> <br /> Terima kasih! 🎉",
   },
 ];
 

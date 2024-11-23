@@ -141,7 +141,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
               name='dueDate'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-white'>Deadliine Date</FormLabel>
+                  <FormLabel className='text-white'>Deadline Date</FormLabel>
                   <FormControl>
                     <Input className='text-black focus-visible:ring-transparent' placeholder='Ikuti format DD/MM/YYYY' {...field} />
                   </FormControl>
@@ -153,7 +153,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
             name='linkAttach'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-white'>Link Attachment</FormLabel>
+                <FormLabel className='text-white'>Link Attachment (Optional)</FormLabel>
                 <FormControl>
                   <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan tautan lampiran' {...field} />
                 </FormControl>

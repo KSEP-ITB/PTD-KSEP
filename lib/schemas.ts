@@ -24,7 +24,7 @@ export type announcementSchemaTypeWithId = {
 export const handbookSchema = z.object({
   day: z.string().nonempty(),
   title: z.string().nonempty(), 
-  link: z.string().url().nonempty(),
+  link: z.string().nonempty(),
 });
 export type handbookSchemaType = z.infer<typeof handbookSchema>
 export type handbookSchemaTypeWithId = {
@@ -53,7 +53,7 @@ export const assignmentForStudentSchema = z.object({
   title: z.string().nonempty(), 
   description: z.string().nonempty(), 
   dueDate: z.string().nonempty(),
-  linkAttach: z.string().url().optional(),
+  linkAttach: z.string().optional(),
 });
 export type assignmentForStudentType = z.infer<typeof assignmentForStudentSchema>;
 export type assignmentForStudentTypeWithId = {
@@ -62,6 +62,6 @@ export type assignmentForStudentTypeWithId = {
   title: string;
   description: string;
   dueDate: string;
-  linkAttach: string;
+  linkAttach?: string;
   submissions?: studentAssignmentType[];
 };
