@@ -32,7 +32,6 @@ export const navItems = [
   {
     name: "Handbook",
     path: "/handbook",
-    requiresAuth: true,
   },
   {
     name: "Announcement",

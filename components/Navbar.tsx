@@ -44,9 +44,9 @@ const Navbar = () => {
 
         <div className='flex gap-x-12'>
           {navItems.map((item, index) => {
-            // if (item.requiresAuth && !data) {
-            //   return null;
-            // }
+            if (item.requiresAuth && !data) {
+              return null;
+            }
             
             return (
               <Link key={index} href={item.path} className={cn(
@@ -89,9 +89,9 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent className='flex flex-col items-center justify-center gap-y-8'>
             {navItems.map((item, index) => {
-              // if (item.requiresAuth && !data) {
-              //   return null;
-              // }
+              if (item.requiresAuth && !data) {
+                return null;
+              }
               
               return (
                 <Link key={index} href={item.path} className={cn(
@@ -106,7 +106,10 @@ const Navbar = () => {
             })}
             {data && (
               <Button 
-                onClick={() => {signOut()}}
+                onClick={() => {
+                  signOut()
+                  setIsOpen(false)
+                }}
                 variant={"outline"} 
                 className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2'
               >
@@ -116,7 +119,7 @@ const Navbar = () => {
 
             {!data && (
               <Link href={"/sign-in"}>
-                <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2'>
+                <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2' onClick={() => setIsOpen(false)}>
                   Sign In <LogIn className='w-4 h-4' />
                 </Button>
               </Link>

@@ -2,9 +2,14 @@ export const config = {
   runtime: "nodejs",
 };
 
+// Library Import
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+
+// Schema Import
 import { signInSchema } from "./lib/schemas"
+
+// Actions Import
 import { getUserByUsername } from "./actions/user-actions"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -19,35 +24,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("Missing credentials");
         }
 
-        // Validasi input menggunakan signInSchema
-        const { username, password } = await signInSchema.parseAsync(
-          credentials
-        );
+        const { username, password } = await signInSchema.parseAsync(credentials);
 
-        let user;
         try {
-          // Dapatkan user berdasarkan username dan password
-          user = await getUserByUsername(username, password);
-        } catch (error) {
-          // Fungsi sebelumnya ngethrow error
-          console.error("User not found.");
-          throw new Error("User not found.");
+          const user = await getUserByUsername(username, password);
+      
+          if (!user) {
+            return null;
+          }
+      
+          return user;
+        } catch (error: any) {
+          console.error("Error in authorize:", error.message);
+          return null;
         }
-
-        if (!user) {
-          console.error("User not found.");
-          throw new Error("Invalid username or passoword.");
-        }
-
-        console.log("USER", user)
-        return user
       },
     }),
   ],
   callbacks: {
-    // Fungsi callback untuk JWT
     async jwt({ token, user }) {
-      // Jika user ada (saat login), tambahkan ke token
       if (user) {
         token.id = user.id;
         token.name = user.username;
@@ -56,9 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return token;
     },
-    // Fungsi callback untuk sesi
     async session({ session, token }) {
-      // Tambahkan properti dari token ke sesi
       session.user.id = token.id as string;
       session.user.name = token.name as string;
       session.user.role = token.role as string;

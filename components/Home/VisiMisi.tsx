@@ -39,15 +39,15 @@ const VisiMisi = () => {
         </motion.div>
 
         {/* Content Section */}
-        <div className="gap-5 pt-20 relative w-full flex flex-col items-center max-w-4xl">
+        <div className="gap-5 pt-20 relative flex flex-col items-center max-w-5xl w-full px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.3 }}
-            className="flex flex-col px-10 md:pr-16"
+            className="flex flex-col md:pr-16"
           >
             <Image src={WhatIs} alt="Title" width={400} height={100} className="z-10" />
-            <p className="text-[#3E205A] p-5 bg-white/60 rounded-lg mt-5 text-sm md:text-[16px]">
+            <p className="text-[#3E205A] bg-white/60 rounded-lg mt-5 text-sm md:text-[16px] p-4">
               Pendidikan Tingkat Dasar KSEP ITB is a place to learn about the world of economics and
               capital markets as well as a place for applicants to join and fulfill the profiles
               held by KSEP ITB
