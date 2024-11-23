@@ -1,20 +1,39 @@
 "use client";
 
 // Library Import
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 // Components Importa
-import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '../ui/button';
+
+// Auth Import
+import { useSession } from "next-auth/react";
+import { set } from "zod";
 
 interface CardProps {
+  id: string;
   day: string;
   title: string;
   link: string;
+  onDelete: (id: string) => void;
 }
 
-const Card = ({ day, title, link }: CardProps) => {
+const Card = ({ id, day, title, link, onDelete }: CardProps) => {
+  const { data: session } = useSession()
+
   const [showPdf, setShowPdf] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -33,6 +52,50 @@ const Card = ({ day, title, link }: CardProps) => {
         {title}
       </div>
 
+      <div className="py-4">
+        {session?.user.role === "ADMIN" && (
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <div className='w-full flex justify-end'>
+                <Button 
+                  className='mt-4 bg-red-500 hover:bg-red-400 rounded-full border-2 border-red-700 text-white px-4 py-2' 
+                >
+                  Delete
+                </Button>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  Are you sure want to delete the Handbook?
+                </DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone.
+                </DialogDescription>
+              </DialogHeader>
+              <div className='flex gap-x-4 w-full'>
+                <Button 
+                  className='w-full' onClick={() => { 
+                    onDelete(id)
+                    setIsProcessing(true);
+                  }} 
+                  variant={"destructive"}>
+                  Sure!
+                </Button>
+                <Button 
+                  className='w-full' 
+                  variant={"outline"}
+                  disabled={isProcessing}
+                  onClick={() => {setIsProcessing(false); setIsOpen(false)}}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
+    
       {/* Show ViewerJS */}
       <div className="w-full h-auto flex justify-end pt-4 md:pt-0">
         {showPdf ? (

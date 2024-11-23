@@ -1,7 +1,11 @@
 "use client"
 
 // Library Import
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+// Auth Import
+import { useSession } from 'next-auth/react'
 
 // Components Import
 import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
@@ -9,106 +13,98 @@ import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
 
 // Schemas Import
-import { assignmentForStudentType } from '@/lib/schemas'
-// import { useSession } from 'next-auth/react'
-// import { useRouter } from 'next/navigation'
-// import { useEffect, useState } from 'react'
-// import { useForm } from 'react-hook-form'
-// import { assignmentForStudentSchema, assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { Textarea } from '@/components/ui/textarea'
-// import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForStudent } from '@/actions/assigment-actions'
-// import { toast } from 'sonner'
+import { assignmentForStudentTypeWithId } from '@/lib/schemas'
 
-const dummyAssignments = [
-  {
-    day: "Monday",
-    title: "Introduction to React",
-    description: "Learn the basics of React.js, including components, state, and props.",
-    dueDate: "25/11/2024",
-    linkAttach: "https://example.com/react-intro-resources",
-  },
-];
+// Actions Import
+import { createAssignmentForStudent, deleteAssignmentForStudent, getAllAssignments } from '@/actions/assigment-actions'
 
 const AssignmentsPage = () => {
-  // const { data: session } = useSession()
-  // const router = useRouter()
-  // const [dialogOpen, setDialogOpen] = useState(false)
-  // const [assigment, setAssigment] = useState<assignmentForStudentTypeWithId[]>([])
+  const { data: session } = useSession()
+  const router = useRouter()
 
-  // useEffect(() => {
-  //   async function getAllAssigmentData() {
-  //     const data = await getAllAssigmentForStudent()
-  //     setAssigment(data)
-  //   }
+  const [assignments, setAssignments] = useState<
+    assignmentForStudentTypeWithId[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  //   getAllAssigmentData()
-  // }, [])
+  useEffect(() => {
+    if (!session) {
+      router.push("/sign-in");
+    } else if (session?.user.role !== "ADMIN") {
+      router.push("/assignments");
+    }
+  }, [session, router]);
 
-  // // if (!session) {
-  // //   router.push("/sign-in")
-  // // }
+  useEffect(() => {
+    async function fetchAssignments() {
+      try {
+        setIsLoading(true);
+        const fetchedAssignments = await getAllAssignments()
+        setAssignments(fetchedAssignments);
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  // const form = useForm<assignmentForStudentType>({
-  //   resolver: zodResolver(assignmentForStudentSchema),
-  //   defaultValues: {
-  //     day: "",
-  //     title: "",
-  //     description: "",
-  //     dueDate: "",
-  //     linkAttach: "",
-  //   }
-  // })
+    fetchAssignments();
+  }, []);
 
-  // async function onSubmit(values: assignmentForStudentType) {
-  //   console.log(values)
-  //   try {
-  //     await createAssigmentForStudent(values.day, values.title, values.description, values.dueDate)
-  //     toast("Successfully created an assigment")
-  //     setDialogOpen(false)
+  const handleAddAssignment = async (newAssignment: { 
+    day: string, 
+    title: string, 
+    description: string,
+    dueDate: string,
+    linkAttach?: string,
+  }) => {
+    console.log(newAssignment);
 
-  //     const data = await getAllAssigmentForStudent()
-  //     setAssigment(data)
-  //   } catch (error) {
-  //     toast("Failed to create an assigment")
-  //   }
-  // }
+    try {
+      const createdAssignment = await createAssignmentForStudent(
+        newAssignment.day,
+        newAssignment.title,
+        newAssignment.description,
+        newAssignment.dueDate,
+        newAssignment.linkAttach
+      );
 
-  // const handleDeleteAssignment = (id: string) => {
-  //   setAssigment(prev => prev.filter(assignment => assignment.id !== id))
-
-  const [assignments, setAssignments] = useState(dummyAssignments);
-  // }
-
-  const handleAddAssignment = (newAssignment: assignmentForStudentType) => {
-    const id = (assignments.length + 1).toString(); // Generate ID
-
-    // @ts-ignore
-    setAssignments([...assignments, { id, ...newAssignment }]); // Tambahkan data baru
+      setAssignments((prev) => [
+        ...prev,
+        { id: createdAssignment.id, ...newAssignment },
+      ]);
+    } catch (error) {
+      console.error("Error adding assignment:", error);
+    }
   };
 
-  const handleDelete = (id: string) => { 
-    // @ts-ignore
-    const updatedassignments = assignments.filter((item) => item.id !== id);
-    setAssignments(updatedassignments);
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteAssignmentForStudent(id);
+      setAssignments((prev) => prev.filter((assignment) => assignment.id !== id));
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
   };
   
   return (
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-pink-100 pb-20">
       <AssignmentHeader />
 
-      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
-        <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
-      </div>
+      { session && session.user.role === 'ADMIN' && (
+        <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
+          <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
+        </div>
+      )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
-        {assignments
+        {assignments && assignments
           .slice()
           .reverse()
           .map((assignment, index) => (
             <AssignmentCard
               key={index}
-              id={index.toString()}
+              id={assignment.id}
               day={assignment.day}
               title={assignment.title}
               description={assignment.description}
@@ -117,6 +113,11 @@ const AssignmentsPage = () => {
               onDelete={handleDelete}
             />
         ))}
+        {assignments.length === 0 && (
+          <p className='w-full text-center text-black/80 text-xl'>
+            No assignments to show.
+          </p>
+        )}
       </div>
 
     </div>

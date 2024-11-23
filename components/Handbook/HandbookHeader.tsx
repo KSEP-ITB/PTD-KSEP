@@ -14,7 +14,7 @@ const HandbookHeader = () => {
       title="HANDBOOK"
       titleColor="bg-gradient-to-br from-indigo-300 to-indigo-200"
       images={[
-        { src: Bubble1, alt: 'Bubble 1', className: 'translate-y-[40vw] md:translate-y-[4vw] w-[35vw]', width: 550, height: 550 },
+        { src: Bubble1, alt: 'Bubble 1', className: 'translate-y-[40vw] md:translate-y-[10vh] w-[35vw]', width: 550, height: 550 },
         { src: Pawn, alt: 'Pawn', className: '-translate-x-[1vw] translate-y-[5vw] w-[15vw]', width: 300, height: 300 },
         { src: Bubble2, alt: 'Bubble 2', className: 'translate-x-[70vw] -translate-y-[2vw]', width: 550, height: 550 },
         { src: Dice, alt: 'Dice', className: ' translate-x-[75vw] md:translate-x-[85vw] translate-y-[37vw] md:translate-y-[4vw] w-[27.5vw]', width: 400, height: 400 },
