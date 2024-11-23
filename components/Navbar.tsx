@@ -28,7 +28,7 @@ import { LogOut } from 'lucide-react';
 import { navItems } from '@/lib/constants'
 
 const Navbar = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const pathname = usePathname()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -44,7 +44,7 @@ const Navbar = () => {
 
         <div className='flex gap-x-12'>
           {navItems.map((item, index) => {
-            if (item.requiresAuth && !data) {
+            if (item.requiresAuth && !session) {
               return null;
             }
             
@@ -57,9 +57,20 @@ const Navbar = () => {
               </Link>
             )
           })}
+          {session && (
+            <Link
+              href={session ? `/profile/${session.user.id}` : "/sign-in"}
+              className={cn(
+                "text-[#B6B6B6] font-bold",
+                /^\/profile\/[^/]+$/.test(pathname) && "text-orange-gradient"
+              )}
+            >
+              Profile
+            </Link>
+          )}
         </div>
         
-        {data && (
+        {session && (
           <Button 
             onClick={() => {signOut()}}
             variant={"outline"} 
@@ -69,7 +80,7 @@ const Navbar = () => {
           </Button>
         )}
 
-        {!data && (
+        {!session && (
           <Link href={"/sign-in"}>
             <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]'>
               Sign In <LogIn className='w-4 h-4' />
@@ -89,7 +100,7 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent className='flex flex-col items-center justify-center gap-y-8'>
             {navItems.map((item, index) => {
-              if (item.requiresAuth && !data) {
+              if (item.requiresAuth && !session) {
                 return null;
               }
               
@@ -104,7 +115,18 @@ const Navbar = () => {
                 </Link>
               )
             })}
-            {data && (
+            {session && (
+              <Link
+                href={session ? `/profile/${session.user.id}` : "/sign-in"}
+                className={cn(
+                  "text-[#B6B6B6] font-bold",
+                  /^\/profile\/[^/]+$/.test(pathname) && "text-orange-gradient"
+                )}
+              >
+                Profile
+              </Link>
+            )}
+            {session && (
               <Button 
                 onClick={() => {
                   signOut()
@@ -117,7 +139,7 @@ const Navbar = () => {
               </Button>
             )}
 
-            {!data && (
+            {!session && (
               <Link href={"/sign-in"}>
                 <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]' onClick={() => setIsOpen(false)}>
                   Sign In <LogIn className='w-4 h-4' />
