@@ -3,12 +3,15 @@
 // Library Import
 import React, { useState } from 'react'
 
+// Auth Import
+import { useSession } from 'next-auth/react'
+
 // Components Import
 import HandbookHeader from '@/components/Handbook/HandbookHeader'
 import HandbookCard from '@/components/Handbook/HandbookCard'
 import AddHandbookDialog from '@/components/Handbook/AddHandbookDialog'
 
-// import { useSession } from 'next-auth/react'
+
 // import { useRouter } from 'next/navigation'
 // import { handbookSchema, handbookSchemaType, handbookSchemaTypeWithId } from '@/lib/schemas'
 // import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbook-actions'
@@ -24,9 +27,10 @@ const dummyHandbook = [
 ];
 
 const Handbook = () => {
-  // const { data: session } = useSession()
+  const { data: session } = useSession()
+
   // const router = useRouter()
-  // const [dialogOpen, setDialogOpen] = useState(false)
+
   const [handbooks, setHandbooks] = useState(dummyHandbook)
 
   // // if (!session) {
@@ -90,9 +94,11 @@ const Handbook = () => {
     <div className='w-full h-full flex flex-col items-center space-y-8 bg-[#0F389B]  pb-20'>
       <HandbookHeader />
 
-      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
-        <AddHandbookDialog onAddHandbook={handleAddHandbook} />
-      </div>
+      {session && session.user.role === "ADMIN" && (
+        <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
+          <AddHandbookDialog onAddHandbook={handleAddHandbook} />
+        </div>
+      )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
         {handbooks.map((item) => (

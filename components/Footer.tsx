@@ -36,6 +36,11 @@ const Footer = () => {
         />
         <h5 className='text-orange-gradient font-bold text-center text-[18px] md:text-2xl'>Kelompok Studi Ekonomi dan Pasar Modal</h5>
       </div>
+      <div className='-my-6'>
+        <Link href={"/credits"} className='underline text-center text-orange-500'>
+          See Credits
+        </Link>
+      </div>
       <div className='flex flex-col gap-y-4 items-center'>
         <p className='text-center text-orange-gradient'>Our Social Media</p>
         <div className='flex gap-x-10 lg:gap-x-20'> 

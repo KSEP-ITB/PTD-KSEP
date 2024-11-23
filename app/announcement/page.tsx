@@ -4,13 +4,13 @@
 import React, { useState } from 'react'
 
 // Auth Import
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 // Components Import
 import AnnouncementHeader from '@/components/Announcement/AnnouncementHeader'
 import AddAnnouncementDialog from '@/components/Announcement/AddAnnouncementDialog'
 import AnnouncementCard from '@/components/Announcement/AnnouncementCard'
-// import { toast } from 'sonner'
+import { toast } from 'sonner'
 
 // Schemas Import
 // import { announcementSchema, announcementSchemaType, announcementSchemaTypeWithId } from '@/lib/schemas'
@@ -28,10 +28,10 @@ const dummyAnnouncements = [
 ];
 
 const page = () => {
+  const { data: session } = useSession()
+
   const [announcements, setAnnouncements] = useState(dummyAnnouncements);
 
-  // const { data: session, status } = useSession()
-  // const [dialogOpen, setDialogOpen] = useState(false)
   // const [announcement, setAnnouncement] = useState<announcementSchemaTypeWithId[]>([])
 
   // useEffect(() => {
@@ -75,9 +75,11 @@ const page = () => {
     <div className='w-full h-full flex flex-col items-center space-y-8 bg-[#4E2865] pb-20'>
       <AnnouncementHeader />
 
-      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
-        <AddAnnouncementDialog onAddAnnouncement={handleAddAnnouncement} />
-      </div>
+      { session && session.user.role === 'ADMIN' && (
+        <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
+          <AddAnnouncementDialog onAddAnnouncement={handleAddAnnouncement} />
+        </div>
+      )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
         {announcements

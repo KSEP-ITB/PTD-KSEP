@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!user) {
             return null;
           }
-      
+
           return user;
         } catch (error: any) {
           console.error("Error in authorize:", error.message);

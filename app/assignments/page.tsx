@@ -1,24 +1,29 @@
 "use client"
 
 // Library Import
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+// Auth Import
+import { useSession } from 'next-auth/react'
 
 // Components Import
 import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
 import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
+import { toast } from 'sonner'
 
 // Schemas Import
 import { assignmentForStudentType } from '@/lib/schemas'
-// import { useSession } from 'next-auth/react'
-// import { useRouter } from 'next/navigation'
-// import { useEffect, useState } from 'react'
+
+
+
 // import { useForm } from 'react-hook-form'
 // import { assignmentForStudentSchema, assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
 // import { zodResolver } from '@hookform/resolvers/zod'
 // import { Textarea } from '@/components/ui/textarea'
 // import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForStudent } from '@/actions/assigment-actions'
-// import { toast } from 'sonner'
+
 
 const dummyAssignments = [
   {
@@ -31,8 +36,18 @@ const dummyAssignments = [
 ];
 
 const AssignmentsPage = () => {
-  // const { data: session } = useSession()
-  // const router = useRouter()
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  if (!session) {
+    router.push("/sign-in")
+  }
+
+  if (session && session.user.role === 'USER') {
+    router.push("/assignments")
+  }
+
+
   // const [dialogOpen, setDialogOpen] = useState(false)
   // const [assigment, setAssigment] = useState<assignmentForStudentTypeWithId[]>([])
 
@@ -76,12 +91,12 @@ const AssignmentsPage = () => {
 
   // const handleDeleteAssignment = (id: string) => {
   //   setAssigment(prev => prev.filter(assignment => assignment.id !== id))
-
-  const [assignments, setAssignments] = useState(dummyAssignments);
   // }
 
+  const [assignments, setAssignments] = useState(dummyAssignments);
+
   const handleAddAssignment = (newAssignment: assignmentForStudentType) => {
-    const id = (assignments.length + 1).toString(); // Generate ID
+    const id = (assignments.length + 1).toString();
 
     // @ts-ignore
     setAssignments([...assignments, { id, ...newAssignment }]); // Tambahkan data baru
@@ -97,9 +112,11 @@ const AssignmentsPage = () => {
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-pink-100 pb-20">
       <AssignmentHeader />
 
-      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
-        <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
-      </div>
+      { session && session.user.role === 'ADMIN' && (
+        <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
+          <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
+        </div>
+      )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
         {assignments
