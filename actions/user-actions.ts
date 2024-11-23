@@ -70,3 +70,24 @@ export const getUsernameById = async (id: string): Promise<string | null> => {
     throw new Error("Failed to retrieve username");
   }
 }
+
+export const changeUserPassword = async (id: string, password: string) => {
+  try {
+    if (!id) {
+      throw new Error("Id is required");
+    }
+
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: "newPassword",
+      },
+    });
+
+    return user;
+  } catch (error) {
+    throw new Error("Failed to change user password");
+  }
+}
