@@ -1,77 +1,116 @@
-// "use server"
+"use server"
 
-// import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
-// export const createStudentAssigment = async (userId: string, assignmentId: string, link: string) => {  
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         id: userId
-//       }
-//     })
-  
-//     if (!user || user.role !== 'USER') {
-//       throw new Error('Hanya pengguna dengan peran USER yang dapat mengumpulkan tugas.');
-//     }
+export const createStudentAssignment = async (
+  userId: string,
+  assignmentId: string,
+  link: string
+) => {
+  try {
+    if (!userId || !assignmentId || !link) {
+      throw new Error("All fields (userId, assignmentId, and link) are required.");
+    }
 
-//     const newStudentAssigment = await prisma.studentAssignment.create({
-//       data: {
-//         link,
-//         userId,
-//         assignmentId,
-//       }
-//     })
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
 
-//     return newStudentAssigment
-//   } catch (error) {
-//     throw new Error('Cant create student assigment');
-//   }
-// }
+    if (!user || user.role !== "USER") {
+      throw new Error("Only users with the role 'USER' can submit assignments.");
+    }
 
-// export const getAllStudentAssigmentByAssigmentId = async (id: string) => {
-//   return await prisma.studentAssignment.findMany({
-//     where: {
-//       assignmentId: id
-//     }
-//   })
-// }
+    const newStudentAssignment = await prisma.studentAssignment.create({
+      data: {
+        link,
+        userId,
+        assignmentId,
+      },
+    });
 
-// export const getStudentAssigmentByAssigmentIdAndUserId = async (assigmentId: string, userId: string) => {
-//   const data = prisma.studentAssignment.findFirst({
-//     where: {
-//       assignmentId: assigmentId,
-//       userId: userId
-//     }
-//   })
+    return newStudentAssignment;
+  } catch (error) {
+    console.error("Error creating student assignment:", error);
+    throw new Error("Unable to create student assignment.");
+  }
+};
 
-//   return data !== null
-// }
+export const getAllStudentAssignmentByAssignmentId = async (id: string) => {
+  try {
+    if (!id) {
+      throw new Error("Assignment ID is required.");
+    }
 
-// export const createAssigmentForStudent = async(day: string, title: string, description: string, dueDate: string) => {
-//   try {
-//     const newAssignmentForStudent = await prisma.assignmentForStudent.create({
-//       data: {
-//         day,
-//         title,
-//         description,
-//         dueDate,
-//       },
-//     });
+    return await prisma.studentAssignment.findMany({
+      where: { assignmentId: id },
+    });
+  } catch (error) {
+    console.error("Error fetching student assignments:", error);
+    throw new Error("Unable to fetch student assignments.");
+  }
+};
 
-//     return newAssignmentForStudent
-//   } catch (error) {
-//     throw new Error('Cant create assigment for student');
-//   }
-// }
+export const getStudentAssignmentByAssignmentIdAndUserId = async (
+  assignmentId: string,
+  userId: string
+) => {
+  try {
+    if (!assignmentId || !userId) {
+      throw new Error("Both assignmentId and userId are required.");
+    }
 
-// export const getAllAssigmentForStudent = async () => {
-//   return await prisma.assignmentForStudent.findMany()
-// }
+    const data = await prisma.studentAssignment.findFirst({
+      where: { assignmentId, userId },
+    });
 
-// export const deleteAssigmentForStudent = async (id: string) => {
-//   return await prisma.assignmentForStudent.delete({
-//     where: {
-//       id,
-//     }
-//   })
-// }
+    return data !== null;
+  } catch (error) {
+    console.error("Error checking student assignment existence:", error);
+    throw new Error("Unable to check student assignment.");
+  }
+};
+
+export const createAssignmentForStudent = async (
+  day: string,
+  title: string,
+  description: string,
+  dueDate: string
+) => {
+  try {
+    if (!day || !title || !description || !dueDate) {
+      throw new Error("All fields (day, title, description, and dueDate) are required.");
+    }
+
+    const newAssignment = await prisma.assignmentForStudent.create({
+      data: { day, title, description, dueDate },
+    });
+
+    return newAssignment;
+  } catch (error) {
+    console.error("Error creating assignment for student:", error);
+    throw new Error("Unable to create assignment for student.");
+  }
+};
+
+export const deleteAssignmentForStudent = async (id: string) => {
+  try {
+    if (!id) {
+      throw new Error("Assignment ID is required.");
+    }
+
+    return await prisma.assignmentForStudent.delete({
+      where: { id },
+    });
+  } catch (error) {
+    console.error("Error deleting assignment for student:", error);
+    throw new Error("Unable to delete assignment for student.");
+  }
+};
+
+export const deleteAssigmentForStudent = async (id: string) => {
+  return await prisma.assignmentForStudent.delete({
+    where: {
+      id,
+    }
+  })
+}
