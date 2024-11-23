@@ -47,7 +47,7 @@ const VisiMisi = () => {
             className="flex flex-col px-10 md:pr-16"
           >
             <Image src={WhatIs} alt="Title" width={400} height={100} className="z-10" />
-            <p className="text-[#3E205A] p-5 bg-white/60 rounded-lg mt-5">
+            <p className="text-[#3E205A] p-5 bg-white/60 rounded-lg mt-5 text-sm md:text-[16px]">
               Pendidikan Tingkat Dasar KSEP ITB is a place to learn about the world of economics and
               capital markets as well as a place for applicants to join and fulfill the profiles
               held by KSEP ITB
@@ -56,7 +56,7 @@ const VisiMisi = () => {
         </div>
 
         {/* Visi & Misi Section */}
-        <div className="grid md:grid-cols-2 pb-32 gap-10 px-10 pt-20 h-full">
+        <div className="w-full max-w-7xl grid md:grid-cols-2 pb-32 gap-10 px-4 pt-20 h-full text-sm md:text-[16px]">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={isInView ? { x: 0, opacity: 1 } : {}}

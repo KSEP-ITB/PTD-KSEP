@@ -3,9 +3,18 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
+  provider     = "cockroachdb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
+}
+
+model Widget {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model User {
@@ -21,24 +30,22 @@ model StudentAssignment {
   link                 String
   createdAt            DateTime             @default(now())
   userId               String
-  user                 User                 @relation(fields: [userId], references: [id])
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   assignmentId         String
-  assignmentForStudent AssignmentForStudent @relation(fields: [assignmentId], references: [id])
+  assignmentForStudent AssignmentForStudent @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([assignmentId])
 }
 
 model AssignmentForStudent {
-  id          String              @id @default(uuid())
-  day         String
-  title       String
-  description String
-  dueDate     String
-  linkAttach  String
-  submissions StudentAssignment[]
-}
-
-enum Role {
-  USER
-  ADMIN
+  id              String              @id @default(uuid())
+  day             String              
+  title           String
+  description     String
+  dueDate         DateTime
+  linkAttach      String?
+  studentAssignments StudentAssignment[]
 }
 
 model Announcement {
@@ -49,7 +56,7 @@ model Announcement {
 
 model Handbook {
   id    String @id @default(uuid())
-  day   String
+  day   String  
   title String
   link  String
 }

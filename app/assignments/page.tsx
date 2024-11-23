@@ -1,9 +1,15 @@
 "use client"
 
+// Library Import
+import { useState } from 'react'
+
+// Components Import
 import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
 import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
-import { useState } from 'react'
+
+// Schemas Import
+import { assignmentForStudentType } from '@/lib/schemas'
 // import { useSession } from 'next-auth/react'
 // import { useRouter } from 'next/navigation'
 // import { useEffect, useState } from 'react'
@@ -21,34 +27,6 @@ const dummyAssignments = [
     description: "Learn the basics of React.js, including components, state, and props.",
     dueDate: "25/11/2024",
     linkAttach: "https://example.com/react-intro-resources",
-  },
-  {
-    day: "Wednesday",
-    title: "Advanced JavaScript",
-    description: "Explore advanced JavaScript concepts such as closures, promises, and async/await.",
-    dueDate: "27/11/2024",
-    linkAttach: "https://example.com/js-advanced-resources",
-  },
-  {
-    day: "Friday",
-    title: "UI Design Principles",
-    description: "Understand key principles of user interface design and create wireframes for your projects.",
-    dueDate: "29/11/2024",
-    linkAttach: "https://example.com/ui-design-resources",
-  },
-  {
-    day: "Tuesday",
-    title: "Database Fundamentals",
-    description: "Introduction to relational databases, SQL queries, and database design best practices.",
-    dueDate: "03/12/2024",
-    linkAttach: "https://example.com/db-fundamentals",
-  },
-  {
-    day: "Thursday",
-    title: "APIs and Integration",
-    description: "Learn about RESTful APIs, how to consume them in your applications, and best practices for integration.",
-    dueDate: "05/12/2024",
-    linkAttach: "https://example.com/apis-integration",
   },
 ];
 
@@ -102,7 +80,7 @@ const AssignmentsPage = () => {
   const [assignments, setAssignments] = useState(dummyAssignments);
   // }
 
-  const handleAddAssignment = (newAssignment: { day: string; title: string, description: string, dueDate: string, linkAttach:string }) => {
+  const handleAddAssignment = (newAssignment: assignmentForStudentType) => {
     const id = (assignments.length + 1).toString(); // Generate ID
 
     // @ts-ignore
@@ -119,11 +97,11 @@ const AssignmentsPage = () => {
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-pink-100 pb-20">
       <AssignmentHeader />
 
-      <div className='max-w-5xl w-full flex flex-col items-start'>
+      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
         <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
       </div>
 
-      <div className="max-w-5xl w-full space-y-4">
+      <div className="px-4 max-w-5xl w-full space-y-4">
         {assignments
           .slice()
           .reverse()
