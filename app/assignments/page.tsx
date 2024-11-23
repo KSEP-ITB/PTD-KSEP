@@ -11,101 +11,56 @@ import { useSession } from 'next-auth/react'
 import AssignmentHeader from '@/components/Assigment/AssignmentHeader'
 import AssignmentCard from '@/components/Assigment/AssignmentCard'
 import AddAssignmentDialog from '@/components/Assigment/AddAssignmentDialog'
-import { toast } from 'sonner'
 
 // Schemas Import
-import { assignmentForStudentType } from '@/lib/schemas'
+import { assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
 
-
-
-// import { useForm } from 'react-hook-form'
-// import { assignmentForStudentSchema, assignmentForStudentType, assignmentForStudentTypeWithId } from '@/lib/schemas'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { Textarea } from '@/components/ui/textarea'
-// import { createAssigmentForStudent, createStudentAssigment, getAllAssigmentForStudent } from '@/actions/assigment-actions'
-
-
-const dummyAssignments = [
-  {
-    day: "Monday",
-    title: "Introduction to React",
-    description: "Learn the basics of React.js, including components, state, and props.",
-    dueDate: "25/11/2024",
-    linkAttach: "https://example.com/react-intro-resources",
-  },
-];
+// Actions Import
+import { getAllAssignments } from '@/actions/assigment-actions'
 
 const AssignmentsPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
 
-  if (!session) {
-    router.push("/sign-in")
-  }
+  const [assignments, setAssignments] = useState<
+    assignmentForStudentTypeWithId[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (session && session.user.role === 'USER') {
-    router.push("/assignments")
-  }
+  useEffect(() => {
+    if (!session) {
+      router.push("/sign-in");
+    } else if (session?.user.role !== "ADMIN") {
+      router.push("/assignments");
+    }
+  }, [session, router]);
 
+  useEffect(() => {
+    async function fetchAssignments() {
+      try {
+        setIsLoading(true);
+        const fetchedAssignments = await getAllAssignments()
+        setAssignments(fetchedAssignments);
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  // const [dialogOpen, setDialogOpen] = useState(false)
-  // const [assigment, setAssigment] = useState<assignmentForStudentTypeWithId[]>([])
-
-  // useEffect(() => {
-  //   async function getAllAssigmentData() {
-  //     const data = await getAllAssigmentForStudent()
-  //     setAssigment(data)
-  //   }
-
-  //   getAllAssigmentData()
-  // }, [])
-
-  // // if (!session) {
-  // //   router.push("/sign-in")
-  // // }
-
-  // const form = useForm<assignmentForStudentType>({
-  //   resolver: zodResolver(assignmentForStudentSchema),
-  //   defaultValues: {
-  //     day: "",
-  //     title: "",
-  //     description: "",
-  //     dueDate: "",
-  //     linkAttach: "",
-  //   }
-  // })
-
-  // async function onSubmit(values: assignmentForStudentType) {
-  //   console.log(values)
-  //   try {
-  //     await createAssigmentForStudent(values.day, values.title, values.description, values.dueDate)
-  //     toast("Successfully created an assigment")
-  //     setDialogOpen(false)
-
-  //     const data = await getAllAssigmentForStudent()
-  //     setAssigment(data)
-  //   } catch (error) {
-  //     toast("Failed to create an assigment")
-  //   }
-  // }
-
-  // const handleDeleteAssignment = (id: string) => {
-  //   setAssigment(prev => prev.filter(assignment => assignment.id !== id))
-  // }
-
-  const [assignments, setAssignments] = useState(dummyAssignments);
+    fetchAssignments();
+  }, []);
 
   const handleAddAssignment = (newAssignment: assignmentForStudentType) => {
-    const id = (assignments.length + 1).toString();
-
-    // @ts-ignore
-    setAssignments([...assignments, { id, ...newAssignment }]); // Tambahkan data baru
+    const newId = (assignments.length + 1).toString();
+    setAssignments((prev) => [
+      ...prev,
+      { id: newId, ...newAssignment },
+    ]);
   };
 
-  const handleDelete = (id: string) => { 
-    // @ts-ignore
-    const updatedassignments = assignments.filter((item) => item.id !== id);
-    setAssignments(updatedassignments);
+  const handleDelete = (id: string) => {
+    setAssignments((prev) => prev.filter((assignment) => assignment.id !== id));
   };
   
   return (

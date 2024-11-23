@@ -57,7 +57,7 @@ const Navbar = () => {
               </Link>
             )
           })}
-          {session && (
+          {session && session.user.role === "USER" && (
             <Link
               href={session ? `/profile/${session.user.id}` : "/sign-in"}
               className={cn(
@@ -115,7 +115,7 @@ const Navbar = () => {
                 </Link>
               )
             })}
-            {session && (
+            {session && session.user.role === "USER" &&  (
               <Link
                 href={session ? `/profile/${session.user.id}` : "/sign-in"}
                 className={cn(

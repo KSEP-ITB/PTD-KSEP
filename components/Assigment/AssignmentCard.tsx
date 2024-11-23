@@ -13,7 +13,7 @@ interface AssignmentCardProps {
   dueDate: string
   description: string
   onDelete: (id: string) => void 
-  linkAttach: string
+  linkAttach?: string | undefined | null
 }
 
 const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAttach }: AssignmentCardProps) => {
@@ -72,16 +72,18 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
         <div>
           <p className="mb-1 text-white font-semibold">Day {day}</p>
           <h2 className="text-xl md:text-2xl font-bold text-white">{title}</h2>
-          <p className="text-sm text-white font-light">Due Date: {dueDate}</p>
+          {/* <p className="text-sm text-white font-light">Due Date: {dueDate}</p> */}
         </div>
       </div>
       <div
         className="overflow-x-auto text-white pt-2 md:pt-4"
         dangerouslySetInnerHTML={{ __html: description }}
       ></div>
-      <Link href={linkAttach} target='_blank' className="text-blue-300 underline">
-        {linkAttach}
-      </Link>
+      {linkAttach && (
+        <Link href={linkAttach} target='_blank' className="text-blue-300 underline">
+          {linkAttach}
+        </Link>
+      )}
       {session?.user.role === "ADMIN" && (
         <button
           className="mt-4 bg-red-600 text-white px-4 py-2 rounded"

@@ -52,7 +52,7 @@ export const assignmentForStudentSchema = z.object({
   day: z.string().nonempty(),
   title: z.string().nonempty(), 
   description: z.string().nonempty(), 
-  dueDate: z.string().nonempty(),
+  dueDate: z.string(),
   linkAttach: z.string().optional(),
 });
 export type assignmentForStudentType = z.infer<typeof assignmentForStudentSchema>;
@@ -62,6 +62,6 @@ export type assignmentForStudentTypeWithId = {
   title: string;
   description: string;
   dueDate: string;
-  linkAttach?: string;
+  linkAttach?: string | undefined | null;
   submissions?: studentAssignmentType[];
 };

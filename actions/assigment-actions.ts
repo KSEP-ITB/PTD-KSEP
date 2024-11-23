@@ -35,6 +35,17 @@ export const createStudentAssignment = async (
   }
 };
 
+export const getAllAssignments = async () => {
+  try {
+    const assignments = await prisma.assignmentForStudent.findMany();
+
+    return assignments;
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    throw new Error("Unable to fetch assignments.");
+  }
+};
+
 export const getAllStudentAssignmentByAssignmentId = async (id: string) => {
   try {
     if (!id) {
