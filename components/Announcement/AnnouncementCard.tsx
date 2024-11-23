@@ -35,14 +35,14 @@ export default function AnnouncementCard({ title, content, onDelete }: Data) {
   return (
     <motion.div
       ref={ref}
-      className="bg-gradient-to-br to-[#CF9FC8] from-[#A74899] border-2 rounded-2xl w-full p-4 border-white space-y-4"
+      className="bg-gradient-to-br to-[#CF9FC8] from-[#A74899] border-2 rounded-2xl w-full p-4 border-white space-y-2 md:space-y-4"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, ease: "easeInOut" }} 
     >
-      <div className='font-bold text-2xl text-white'>{title}</div>
+      <div className='font-bold text-xl md:text-2xl text-white'>{title}</div>
       <div
-        className="overflow-x-auto text-white"
+        className="overflow-x-auto text-white text-sm md:text-[16px]"
         dangerouslySetInnerHTML={{ __html: content }}
       ></div>
       {/* {session?.user.role === "ADMIN" && (

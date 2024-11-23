@@ -1,7 +1,7 @@
 "use client"
 
 // Library Import
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -30,6 +30,8 @@ import { navItems } from '@/lib/constants'
 const Navbar = () => {
   const { data } = useSession();
   const pathname = usePathname()
+
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <header className='w-full'>
@@ -81,7 +83,7 @@ const Navbar = () => {
         <Link href="/">  
           <h1 className='font-black text-3xl text-orange-gradient text-shadow-orange'>PTD KSEP</h1>
         </Link>
-        <Sheet>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger>
             <Menu className='text-[#ED3633]' />
           </SheetTrigger>
@@ -96,7 +98,9 @@ const Navbar = () => {
                   'text-[#B6B6B6] font-bold',
                   pathname === item.path && "text-orange-gradient"
                 )}>
-                  {item.name}
+                  <span onClick={() => setIsOpen(false)}>
+                    {item.name}
+                  </span>
                 </Link>
               )
             })}

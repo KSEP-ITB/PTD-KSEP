@@ -23,23 +23,23 @@ const Card = ({ day, title, link }: CardProps) => {
   return (
     <motion.div 
       ref={ref}
-      className="border-2 rounded-2xl w-full bg-gradient-to-tr from-[#0F389B] to-[#8CAAF4] p-4 border-white space-y-4"
+      className="border-2 rounded-2xl w-full bg-gradient-to-tr from-[#0F389B] to-[#8CAAF4] p-4 border-white space-y-2 md:space-y-0"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, ease: "easeInOut" }} 
     >
-      <div className='font-bold text-2xl text-white'>{day}</div>
+      <div className='font-bold text-xl md:text-2xl text-white'>{day}</div>
       <div className="overflow-x-auto text-white">
         {title}
       </div>
 
       {/* Show ViewerJS */}
-      <div className="w-full h-auto flex justify-end">
+      <div className="w-full h-auto flex justify-end pt-4 md:pt-0">
         {showPdf ? (
           <div className="w-full flex flex-col items-center space-y-4">
             <div className="w-full flex justify-end">
               <div
-                className="rounded-full bg-sky-600 hover:bg-sky-400 border-2 border-sky-700 cursor-pointer py-1 px-2 flex items-center justify-center w-[150px] text-white"
+                className="rounded-full bg-sky-600 hover:bg-sky-400 border-2 border-sky-700 cursor-pointer py-1 px-2 flex items-center justify-center w-[150px] text-white text-sm md:text-[16px]"
                 onClick={() => setShowPdf(false)}
               >
                 Close Handbook
@@ -54,7 +54,7 @@ const Card = ({ day, title, link }: CardProps) => {
         ) : (
           <div className="flex justify-between items-center flex-col gap-y-4">
             <div
-              className="rounded-full bg-sky-600 hover:bg-sky-400 border-2 border-sky-700 cursor-pointer py-1 px-2 flex items-center justify-center w-[150px] text-white"
+              className="rounded-full bg-sky-600 hover:bg-sky-400 border-2 border-sky-700 cursor-pointer py-1 px-2 flex items-center justify-center w-[150px] text-white text-sm md:text-[16px]"
               onClick={() => setShowPdf(true)}
             >
               View Handbook

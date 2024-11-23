@@ -15,7 +15,7 @@ const AnnouncementHeader = () => {
         { 
           src: Dice, 
           alt: 'Dice', 
-          className: '-left-[250px] md:-left-[130px] top-[60px]', 
+          className: '-left-[200px] md:-left-[250px] md:-left-[130px] top-[60px]', 
           width: 368, 
           height: 368 
         },

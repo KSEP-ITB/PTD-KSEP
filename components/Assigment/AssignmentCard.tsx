@@ -71,12 +71,12 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
       <div className="flex items-center justify-between">
         <div>
           <p className="mb-1 text-white font-semibold">Day {day}</p>
-          <h2 className="text-xl font-bold text-white">{title}</h2>
-          <p className="text-sm text-white">Due Date: {dueDate}</p>
+          <h2 className="text-xl md:text-2xl font-bold text-white">{title}</h2>
+          <p className="text-sm text-white font-light">Due Date: {dueDate}</p>
         </div>
       </div>
       <div
-        className="overflow-x-auto text-white"
+        className="overflow-x-auto text-white pt-2 md:pt-4"
         dangerouslySetInnerHTML={{ __html: description }}
       ></div>
       <Link href={linkAttach} target='_blank' className="text-blue-300 underline">
