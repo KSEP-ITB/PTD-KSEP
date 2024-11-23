@@ -75,11 +75,11 @@ const page = () => {
     <div className='w-full h-full flex flex-col items-center space-y-8 bg-[#4E2865] pb-20'>
       <AnnouncementHeader />
 
-      <div className='max-w-5xl w-full flex flex-col items-start'>
+      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
         <AddAnnouncementDialog onAddAnnouncement={handleAddAnnouncement} />
       </div>
 
-      <div className="max-w-5xl w-full space-y-4">
+      <div className="px-4 max-w-5xl w-full space-y-4">
         {announcements
           .slice()
           .reverse()

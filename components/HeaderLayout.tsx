@@ -50,7 +50,7 @@ const HeaderLayout = ({
         transition={{ duration: 1 }}
       >
         <h1
-          className={`text-3xl md:text-8xl font-extrabold bg-gradient-to-r text-transparent bg-clip-text ${titleColor}`}
+          className={`text-5xl md:text-8xl font-extrabold bg-gradient-to-r text-transparent bg-clip-text ${titleColor}`}
         >
           {title}
         </h1>

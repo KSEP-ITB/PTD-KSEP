@@ -21,36 +21,6 @@ const dummyHandbook = [
     title: "Introduction to Programming",
     link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
   },
-  {
-    id: "2",
-    day: "Tuesday",
-    title: "JavaScript Basics",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
-  {
-    id: "3",
-    day: "Wednesday",
-    title: "Understanding React",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
-  {
-    id: "4",
-    day: "Thursday",
-    title: "Styling with CSS",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
-  {
-    id: "5",
-    day: "Friday",
-    title: "Introduction to APIs",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
-  {
-    id: "6",
-    day: "Saturday",
-    title: "Building a Full-Stack Application",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
 ];
 
 const Handbook = () => {
@@ -120,11 +90,11 @@ const Handbook = () => {
     <div className='w-full h-full flex flex-col items-center space-y-8 bg-[#0F389B]  pb-20'>
       <HandbookHeader />
 
-      <div className='max-w-5xl w-full flex flex-col items-start'>
+      <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
         <AddHandbookDialog onAddHandbook={handleAddHandbook} />
       </div>
 
-      <div className="max-w-5xl w-full space-y-4">
+      <div className="px-4 max-w-5xl w-full space-y-4">
         {handbooks.map((item) => (
           <HandbookCard
             key={item.id}
