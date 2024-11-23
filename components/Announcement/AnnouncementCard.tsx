@@ -1,7 +1,7 @@
 "use client"
 
 // Library Import
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useInView } from "framer-motion";
 
 // Auth Import
@@ -27,6 +27,8 @@ type Data = {
 
 export default function AnnouncementCard({ id, title, content, onDelete }: Data) {
   const { data: session } = useSession();
+
+  const [isProcessing, setIsProcessing] = useState(false); 
 
   const ref = useRef(null);
   
@@ -66,10 +68,23 @@ export default function AnnouncementCard({ id, title, content, onDelete }: Data)
               </DialogDescription>
             </DialogHeader>
             <div className='flex gap-x-4 w-full'>
-              <Button className='w-full' onClick={() => onDelete(id)} variant={"destructive"}>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  setIsProcessing(true); 
+                  onDelete(id);
+                }}
+                variant={"destructive"}
+                disabled={isProcessing} 
+              >
                 Sure!
               </Button>
-              <Button className='w-full' variant={"outline"}>
+              <Button
+                className="w-full"
+                variant={"outline"}
+                disabled={isProcessing} 
+                onClick={() => setIsProcessing(false)} 
+              >
                 Cancel
               </Button>
             </div>

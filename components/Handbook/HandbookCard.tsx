@@ -30,6 +30,7 @@ const Card = ({ id, day, title, link, onDelete }: CardProps) => {
   const { data: session } = useSession()
 
   const [showPdf, setShowPdf] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -71,10 +72,20 @@ const Card = ({ id, day, title, link, onDelete }: CardProps) => {
                 </DialogDescription>
               </DialogHeader>
               <div className='flex gap-x-4 w-full'>
-                <Button className='w-full' onClick={() => onDelete(id)} variant={"destructive"}>
+                <Button 
+                  className='w-full' onClick={() => { 
+                    onDelete(id)
+                    setIsProcessing(true);
+                  }} 
+                  variant={"destructive"}>
                   Sure!
                 </Button>
-                <Button className='w-full' variant={"outline"}>
+                <Button 
+                  className='w-full' 
+                  variant={"outline"}
+                  disabled={isProcessing}
+                  onClick={() => setIsProcessing(false)}
+                >
                   Cancel
                 </Button>
               </div>

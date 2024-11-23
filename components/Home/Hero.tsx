@@ -25,11 +25,16 @@ const Hero = () => {
           ITB’s Kelompok Studi Ekonomi dan Pasar Modal Present
         </motion.p>
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="w-full flex justify-center items-center"
-        >
+            animate={{
+              y: [0, -20, 0],
+            }}
+            transition={{
+              duration: 2, 
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="z-20 w-full flex justify-center items-center"
+          >
           <Image src={Title} alt="Title" className="z-20 w-[80%] md:w-[45%]" />
         </motion.div>
         <motion.p
