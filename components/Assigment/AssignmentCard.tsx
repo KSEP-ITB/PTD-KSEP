@@ -20,8 +20,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Form, FormControl, FormLabel, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
+import { toast } from 'sonner'
 
 // Schema Import
 import { studentAssignmentSchema, studentAssignmentType } from '@/lib/schemas'
@@ -84,11 +85,12 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
         data.link
       );
   
-      console.log("Assignment submitted successfully:", response);
+      toast.success("Assignment submitted successfully!");
       setIsProcessing(false);
       setDialogOpen(false);
+      setIsSubmitted(true);
     } catch (error) {
-      console.error("Failed to submit assignment:", error);
+      toast.error("Failed to submit assignment. Please try again.");
       setIsProcessing(false);
     }
   };
@@ -130,16 +132,24 @@ const AssignmentCard = ({ id, day, title, description, dueDate, onDelete, linkAt
       )}
       {session && session.user.role === "USER" && (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <div className='w-full flex justify-end'>
-              <Button 
-                className='mt-4 bg-sky-500 hover:bg-sky-400 rounded-full border-2 border-sky-700 text-white px-4 py-2 ' 
-                disabled={isSubmitted}
-              >
-                Submit Assignment
-              </Button>
+          {!isSubmitted && (
+            <DialogTrigger asChild>
+              <div className='w-full flex justify-end'>
+                <Button 
+                  className='mt-4 bg-sky-500 hover:bg-sky-400 rounded-full border-2 border-sky-700 text-white px-4 py-2 ' 
+                  disabled={isSubmitted}
+                >
+                  Submit Assignment
+                </Button>
+              </div>
+            </DialogTrigger>
+            )
+          }
+          {isSubmitted && (
+            <div className='w-full flex justify-end text-green-200 text-xl'>
+              <p>Submitted</p>
             </div>
-          </DialogTrigger>
+          )}
           <DialogContent className='bg-gradient-to-r from-[#FFCDE6] to-[#FFEFC7]'>
             <DialogHeader>
               <DialogTitle className='bg-gradient-to-r from-[#FF6B6B] to-[#FFB56B] text-transparent bg-clip-text'>

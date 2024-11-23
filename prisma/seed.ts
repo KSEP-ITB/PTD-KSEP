@@ -6,7 +6,7 @@ const { parse } = require("csv-parse");
 
 let players: any = [];
 
-fs.createReadStream("prisma/credentials.csv")
+fs.createReadStream("prisma/caksep.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
   .on("data", (data: any) => {
     players.push({
