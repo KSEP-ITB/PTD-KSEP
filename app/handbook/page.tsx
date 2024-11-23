@@ -1,7 +1,7 @@
 'use client'
 
 // Library Import
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Auth Import
 import { useSession } from 'next-auth/react'
@@ -11,83 +11,46 @@ import HandbookHeader from '@/components/Handbook/HandbookHeader'
 import HandbookCard from '@/components/Handbook/HandbookCard'
 import AddHandbookDialog from '@/components/Handbook/AddHandbookDialog'
 
+// Schemas Import
+import { handbookSchemaTypeWithId } from '@/lib/schemas'
 
-// import { useRouter } from 'next/navigation'
-// import { handbookSchema, handbookSchemaType, handbookSchemaTypeWithId } from '@/lib/schemas'
-// import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbook-actions'
-// import { toast } from 'sonner'
-
-const dummyHandbook = [
-  {
-    id: "1",
-    day: "Monday",
-    title: "Introduction to Programming",
-    link: "https://drive.google.com/file/d/14gO1rJypWcWjzUy7WOTY-LjNZUAyiYvJ/view",
-  },
-];
+// Actions Import
+import { createHandbook, deleteHandbook, getAllHandbook } from '@/actions/handbook-actions'
 
 const Handbook = () => {
   const { data: session } = useSession()
 
-  // const router = useRouter()
+  const [handbooks, setHandbooks] = useState<handbookSchemaTypeWithId[]>([])
 
-  const [handbooks, setHandbooks] = useState(dummyHandbook)
+  useEffect(() => {
+    async function fetchHandbooks() {
+      try {
+        const data = await getAllHandbook();
+        setHandbooks(data);
+      } catch (error) {
+        console.error("Error fetching handbooks:", error);
+      }
+    }
 
-  // // if (!session) {
-  // //   router.push("/sign-in")
-  // // }
+    fetchHandbooks();
+  }, []);
 
-  // useEffect(() => {
-  //   async function getAllHandbookData() {
-  //     const data = await getAllHandbook();
-  //     setHandbooks(data)
-  //   }
-
-  //   getAllHandbookData()
-  // }, [])
-
-  // const form = useForm<handbookSchemaType>({
-  //   resolver: zodResolver(handbookSchema),
-  //   defaultValues: {
-  //     day: "",
-  //     title: "",
-  //     link: ""
-  //   }
-  // })
-
-  // async function onSubmit(values: handbookSchemaType) {
-  //   try {
-  //     await createHandbook(values.day, values.title, values.link)
-  //     toast("Handbook created successfully")
-  //     setDialogOpen(false)
-  //     const updatedHandbooks = await getAllHandbook()
-  //     setHandbooks(updatedHandbooks)
-  //   } catch (error) {
-  //     console.error(error)
-  //     toast("Failed to create handbook")
-  //   }
-  // }
-
-  // async function handleDelete(id: string) {
-  //   try {
-  //     await deleteHandbook(id)
-  //     toast("Handbook deleted successfully")
-  //     const updatedHandbooks = await getAllHandbook()
-  //     setHandbooks(updatedHandbooks)
-  //   } catch (error) {
-  //     console.error(error)
-  //     toast("Failed to delete handbook")
-  //   }
-  // }
-
-  const handleAddHandbook = (newHandbook: { day: string, title: string; link: string }) => {
-    const id = (handbooks.length + 1).toString(); // Generate ID
-    setHandbooks([...handbooks, { id, ...newHandbook }]); // Tambahkan data baru
+  const handleAddHandbook = async (newHandbook: { day: string; title: string; link: string }) => {
+    try {
+      const addedHandbook = await createHandbook(newHandbook.day, newHandbook.title, newHandbook.link);
+      setHandbooks((prev) => [...prev, addedHandbook]);
+    } catch (error) {
+      console.error("Error adding handbook:", error);
+    }
   };
 
-  const handleDelete = (id: string) => {
-    const updatedAnnouncements = handbooks.filter((item) => item.id !== id);
-    setHandbooks(updatedAnnouncements);
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteHandbook(id);
+      setHandbooks((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting handbook:", error);
+    }
   };
 
   return (
@@ -101,14 +64,19 @@ const Handbook = () => {
       )}
 
       <div className="px-4 max-w-5xl w-full space-y-4">
-        {handbooks.map((item) => (
+        {handbooks && handbooks.map((item) => (
           <HandbookCard
+            id={item.id}
             key={item.id}
             title={item.title}
             day={item.day}
             link={item.link}
+            onDelete={handleDelete}
           />
         ))}
+        {handbooks.length === 0 && (
+          <p className='w-full text-center text-white text-xl'>No handbooks to show.</p>
+        )}
       </div>
     </div>
   )

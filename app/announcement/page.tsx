@@ -85,7 +85,7 @@ const page = () => {
             />
         ))}
         {announcements.length === 0 && (
-          <p className='w-full text-center text-white'>
+          <p className='w-full text-center text-white text-xl'>
             No announcements to show.
           </p>
         )}
