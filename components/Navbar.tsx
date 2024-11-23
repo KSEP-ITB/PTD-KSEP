@@ -63,7 +63,7 @@ const Navbar = () => {
           <Button 
             onClick={() => {signOut()}}
             variant={"outline"} 
-            className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2'
+            className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]'
           >
             Sign Out <LogOut className='w-4 h-4' />
           </Button>
@@ -71,7 +71,7 @@ const Navbar = () => {
 
         {!data && (
           <Link href={"/sign-in"}>
-            <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2'>
+            <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]'>
               Sign In <LogIn className='w-4 h-4' />
             </Button>
           </Link>
@@ -111,7 +111,7 @@ const Navbar = () => {
                   setIsOpen(false)
                 }}
                 variant={"outline"} 
-                className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2'
+                className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]'
               >
                 Sign Out <LogOut className='w-4 h-4' />
               </Button>
@@ -119,7 +119,7 @@ const Navbar = () => {
 
             {!data && (
               <Link href={"/sign-in"}>
-                <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2' onClick={() => setIsOpen(false)}>
+                <Button variant={"outline"} className='rounded-full border-2 border-[#ED3633] text-[#ED3633] hover:text-[#ED3633]/80 flex items-center gap-x-2 transition-all hover:gap-x-4 w-[125px]' onClick={() => setIsOpen(false)}>
                   Sign In <LogIn className='w-4 h-4' />
                 </Button>
               </Link>
