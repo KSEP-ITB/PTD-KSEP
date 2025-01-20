@@ -88,13 +88,13 @@ model Kajasep {
   userId         String              @unique
   user           User                @relation("OwnerRelation", fields: [userId], references: [id], onDelete: Cascade)
 
-  name           String
-  nickname       String
-  description    String
-  requirement    String
-  quota          Int
-  totalApplicants Int
+  name             String?
+  nickname         String?
+  description      String?
+  requirement      String?
+  quota            Int?
   imageUrl       String
+  totalApplicants Int               @default(0)
 
   dejaseps       User[]              @relation("AcceptedKajasepRelation")
   applications   KajasepApplication[] @relation("KajasepApplications")
