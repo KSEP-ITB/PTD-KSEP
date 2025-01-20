@@ -43,7 +43,7 @@ model User {
 
   @@index([acceptedKajasepId])
 
-  kajasepApplications KajasepApplication[] @relation("UserApplications")
+  kajasepApplications KajasepApplication? @relation("UserApplications")
 }
 
 model StudentAssignment {
@@ -107,7 +107,7 @@ model KajasepApplication {
   kajasepId    String
   kajasep      Kajasep            @relation("KajasepApplications", fields: [kajasepId], references: [id], onDelete: NoAction)
 
-  applicantId  String
+  applicantId  String             @unique
   applicant    User               @relation("UserApplications", fields: [applicantId], references: [id], onDelete: NoAction)
 
   message      String?
