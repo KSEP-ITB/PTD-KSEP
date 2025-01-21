@@ -2,6 +2,16 @@
 
 import prisma from "@/lib/prisma";
 
+export const getAllKajaseps = async () => {
+  try {
+    const kajaseps = await prisma.kajasep.findMany();
+    return kajaseps;
+  } catch (error) {
+    console.error("Error fetching Kajaseps:", error);
+    throw new Error("Unable to fetch Kajaseps.");
+  }
+};
+
 export const getKajasepFromUserId = async (userId: string) => {
   if (!userId) {
     throw new Error("Id is required");
@@ -17,6 +27,57 @@ export const getKajasepFromUserId = async (userId: string) => {
     return kajasep;
   } catch (error) {
     throw new Error("Failed to fetch kajasep");
+  }
+};
+
+export const createKajasep = async (
+  userId: string, // the user who owns this Kajasep
+  name?: string,
+  nickname?: string,
+  description?: string,
+  requirement?: string,
+  quota?: number,
+  imageUrl?: string
+) => {
+  try {
+    // userId is required to connect this Kajasep to its owner
+    if (!userId) {
+      throw new Error("User ID is required to create a Kajasep.");
+    }
+
+    const newKajasep = await prisma.kajasep.create({
+      data: {
+        userId,
+        name,
+        nickname,
+        description,
+        requirement,
+        quota,
+        imageUrl: imageUrl ?? "", // fallback if not provided
+      },
+    });
+
+    return newKajasep;
+  } catch (error) {
+    console.error("Error creating Kajasep:", error);
+    throw new Error("Unable to create Kajasep.");
+  }
+};
+
+export const deleteKajasep = async (id: string) => {
+  try {
+    if (!id) {
+      throw new Error("Kajasep ID is required.");
+    }
+
+    const deleted = await prisma.kajasep.delete({
+      where: { id },
+    });
+
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting Kajasep:", error);
+    throw new Error("Unable to delete Kajasep.");
   }
 };
 
