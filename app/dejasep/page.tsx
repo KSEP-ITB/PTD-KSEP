@@ -17,6 +17,7 @@ const page = () => {
     kuota: ''
   });
 
+  //@ts-ignore
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -25,23 +26,22 @@ const page = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  //@ts-ignore
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Handle form submission here
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-      <Card className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-12 border-white">
+      <Card className="max-w-xl mx-auto bg-white">
         <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center cursor-pointer">
-            <Link href="/terima-kajasep/info-pendaftar">
-                <span className="text-red-600">INFO</span>
-                <span className="text-black"> PENDAFTAR</span>
-            </Link>
-        </CardTitle>
-        </CardHeader>
+          <CardTitle className="w-full space-y-2">
+            <CardTitle className='text-center text-3xl bg-gradient-to-r text-transparent bg-clip-text from-[#FF5F6D] to-[#FFC371]'>Biodata</CardTitle>
+            <p className='text-center text-sm font-normal text-slate-400'>Disini kamu dapat mengisi biodata diri kamu untuk dikenalkan ke Ca-KSEP</p>
+          </CardTitle>
+          </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">

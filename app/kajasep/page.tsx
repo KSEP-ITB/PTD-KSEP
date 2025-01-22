@@ -85,6 +85,7 @@ const KajasepPage: React.FC = () => {
               <div className="space-y-[2px] w-full h-full flex-1">
                 <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
                 <p className="text-white">Kuota: {kajasep.quota}</p>
+                <p className="text-white">Pendaftar: {"2"}</p>
               </div>
               <Dialog>
                 <DialogTrigger asChild>
