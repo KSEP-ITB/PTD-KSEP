@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function CaKSEPCard() {
   interface DataItem {
@@ -36,13 +37,13 @@ export default function CaKSEPCard() {
             <h2 className="text-white font-bold">{item.name}</h2>
             <p className="text-white">Kuota: {item.quota}</p>
           </div>
-          <button
+          <Button
             className={`px-4 py-2 rounded ${
               index % 2 === 0 ? "bg-yellow-500" : "bg-red-500"
             } text-white`}
           >
             Daftar
-          </button>
+          </Button>
         </div>
       ))}
     </div>
