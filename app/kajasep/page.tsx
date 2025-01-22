@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import ProfilePage from "@/components/CaKSEP/CaKSEPProfile";
 import Popup from "@/components/CaKSEP/CaKSEPPopUp";
+import CaKSEPHeader from "@/components/CaKSEP/CaKSEPHeader";
 
 const mockData = [
   { id: 1, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
@@ -39,18 +40,21 @@ const KajasepPage: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-900 h-screen p-8 text-white">
+    <div className="w-full h-full flex flex-col items-center space-y-8 bg-gradient-to-b from-[#FFF5E4] to-[#FFBD59] pb-20">
+      <CaKSEPHeader />
       <div className="grid grid-cols-1 gap-4">
         {currentData.map((kajasep) => (
           <div
             key={kajasep.id}
-            className={`flex items-center p-4 rounded-lg ${kajasep.id % 2 !== 0 ? "bg-[#B91A19]" : "bg-[#FFC549] text-[#B91A19]"}`}>
-            <img src={kajasep.profilePicture} alt={kajasep.name} className="w-16 h-16 rounded-full mr-4" />
+            className="flex items-center w-full max-w-xl mx-auto p-6 rounded-lg shadow-lg bg-gradient-to-r from-[#FF9F43] to-[#FF6F3C]">
+            <img src={kajasep.profilePicture} alt={kajasep.name} className="w-16 h-16 rounded-full mr-6 border-2 border-white" />
             <div className="flex-1">
-              <h2 className={`font-bold ${kajasep.id % 2 !== 0 ? "text-white" : "text-[#B91A19]"}`}>{kajasep.name}</h2>
-              <p className={`${kajasep.id % 2 !== 0 ? "text-white" : "text-[#B91A19]"}`}>Kuota: {kajasep.quota}</p>
+              <h2 className="font-bold text-white text-lg">{kajasep.name}</h2>
+              <p className="text-white text-sm">Kuota: {kajasep.quota}</p>
             </div>
-            <button onClick={() => handleDaftar(kajasep)} className={`px-4 py-2 ${kajasep.id % 2 === 0 ? "bg-[#B91A19] text-[#FFC549]" : "bg-[#FFC549] text-[#B91A19]"} rounded`}>
+            <button
+              onClick={() => handleDaftar(kajasep)}
+              className="px-4 py-2 rounded font-bold shadow-md bg-white text-[#FF6F3C]">
               Daftar
             </button>
           </div>
@@ -62,7 +66,9 @@ const KajasepPage: React.FC = () => {
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 mx-1 rounded ${currentPage === index + 1 ? "bg-yellow-500" : "bg-gray-700"}`}>
+            className={`px-4 py-2 mx-1 rounded ${
+              currentPage === index + 1 ? "bg-[#FF9F43] text-white" : "bg-white text-[#FF6F3C] border border-[#FF9F43]"
+            }`}>
             {index + 1}
           </button>
         ))}

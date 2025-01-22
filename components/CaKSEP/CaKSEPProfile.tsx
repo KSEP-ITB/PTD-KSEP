@@ -15,8 +15,8 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ onDaftar, data, onBack }) => {
   return (
-    <div className="bg-gray-900 h-screen p-8 text-white flex justify-center items-center">
-      <div className="relative bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg shadow-lg flex items-center">
+    <div className="bg-gradient-to-b from-[#FFF5E4] to-[#FFBD59] h-screen p-8 text-[#3E1E68] flex justify-center items-center">
+      <div className="relative bg-gradient-to-r from-[#FF9F43] to-[#FF6F3C] p-6 rounded-lg shadow-lg flex items-center">
         <div className="relative w-[40vw] h-[20vw]">
           {/* Background Frame */}
           <Image
@@ -33,36 +33,38 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onDaftar, data, onBack }) => 
               alt="Profile Picture"
               width={160}
               height={160}
-              className="rounded-lg z-10"
+              className="rounded-lg z-10 border-2 border-white"
             />
           </div>
         </div>
 
-        <button 
-        className="absolute top-4 left-4 flex items-center text-red-500 font-bold hover:text-red-600"
-        onClick={onBack}>
+        <button
+          className="absolute top-4 left-4 flex items-center text-white font-bold hover:text-[#FF9F43]"
+          onClick={onBack}
+        >
           <Image src="/assets/StarShining.png" alt="Back Icon" width={24} height={24} />
           <span className="ml-2">Back</span>
         </button>
 
         {/* Description */}
         <div className="ml-4 w-[25vw]">
-          <h1 className="text-red-600 font-bold text-2xl">{data.name}</h1>
-          <h2 className="text-yellow-500 font-semibold text-xl">{data.nickname}</h2>
+          <h1 className="text-white font-bold text-2xl">{data.name}</h1>
+          <h2 className="text-[#FFBD59] font-semibold text-xl">{data.nickname}</h2>
           <div className="mt-4">
-            <h3 className="font-bold text-gray-900">Deskripsi</h3>
-            <p className="text-gray-700 mt-2">{data.description}</p>
+            <h3 className="font-bold text-white">Deskripsi</h3>
+            <p className="text-white mt-2">{data.description}</p>
           </div>
           <div className="mt-4">
-            <h3 className="font-bold text-gray-900">Syarat</h3>
-            <p className="text-gray-700">{data.requirements}</p>
+            <h3 className="font-bold text-white">Syarat</h3>
+            <p className="text-white">{data.requirements}</p>
           </div>
 
           {/* Register Button */}
           <div className="mt-6">
-            <Button 
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            onClick={onDaftar}>
+            <Button
+              className="bg-white text-[#FF6F3C] px-4 py-2 rounded font-bold shadow-md hover:bg-[#FF6F3C] hover:text-white"
+              onClick={onDaftar}
+            >
               Daftar
             </Button>
           </div>
