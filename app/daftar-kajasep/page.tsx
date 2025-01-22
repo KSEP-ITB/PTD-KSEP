@@ -24,14 +24,14 @@ const AdminPage = () => {
         </div>
         <div className="max-w-5xl flex flex-col gap-y-4 w-full items-center"> 
           {exampleData.map((admin, index) => (
-              <AdminCard
-                key={index}
-                name={admin.name}
-                currQuota={admin.currQuota}
-                quota={admin.quota}
-                dejasep={admin.dejasep}
-              />
-            ))}
+            <AdminCard
+              key={index}
+              name={admin.name}
+              currQuota={admin.currQuota}
+              quota={admin.quota}
+              dejasep={admin.dejasep}
+            />
+          ))}
         </div>
       </div>
     </main>
