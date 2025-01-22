@@ -15,7 +15,7 @@ const CaKSEPHeader = () => {
         {
           src: Pawn,
           alt: '',
-          className: 'absolute left-[200px] top-[60px] md:-left-[70px] md:top-[80px]',
+          className: 'absolute -left-[20px] top-[60px] md:-left-[70px] md:top-[80px]',
           width: 200,
           height: 200,
         },
