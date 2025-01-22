@@ -20,6 +20,7 @@ const KajasepPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedKajasep, setSelectedKajasep] = useState<any>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const itemsPerPage = 6;
   const totalPages = Math.ceil(mockData.length / itemsPerPage);
@@ -40,9 +41,10 @@ const KajasepPage: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center space-y-8 bg-gradient-to-b from-[#FFF5E4] to-[#FFBD59] pb-20">
+    <div className="w-full h-full flex flex-col items-center space-y-8 bg-[#FF5F6D]/25 pb-20">
       <CaKSEPHeader />
-      <div className="grid grid-cols-1 gap-4">
+      
+      <div className="px-4 max-w-5xl w-full space-y-4">
         {currentData.map((kajasep) => (
           <div
             key={kajasep.id}
