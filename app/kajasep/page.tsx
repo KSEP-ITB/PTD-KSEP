@@ -10,9 +10,6 @@ import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 // Asset Import
@@ -93,7 +90,7 @@ const KajasepPage: React.FC = () => {
                 <DialogTrigger asChild>
                   <Button
                     size={"default"}
-                    className="bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300">
+                    className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300">
                     Daftar
                   </Button>
                 </DialogTrigger>
@@ -120,7 +117,7 @@ const KajasepPage: React.FC = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
                       </p>
                     </div>
-                    <Button className="bg-white hover:bg-white text-[#FF5F6D] relative bottom-0">
+                    <Button className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]">
                       Daftar
                     </Button>
                   </div>

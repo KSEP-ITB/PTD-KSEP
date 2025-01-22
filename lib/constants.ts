@@ -41,5 +41,10 @@ export const navItems = [
     name: "KaJasep",
     path: "/kajasep",
     requiresAuth: false,
+  },
+  {
+    name: "Daftar KaJasep",
+    path: "/daftar-kajasep",
+    requiresAuth: false,
   }
 ]
