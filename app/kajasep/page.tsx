@@ -97,14 +97,29 @@ const KajasepPage: React.FC = () => {
                     Daftar
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[750px]">
+                <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[800px]">
                   <Image
                     src={JoYuri}
                     alt={kajasep.name}
                     className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
                   />
                   <div className="h-full space-y-4">
-                    <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
+                    <div className="">
+                      <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
+                      <p className="text-white">Nama Panggilan</p>
+                    </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Deskripsi</p>
+                      <p className="text-white text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Syarat</p>
+                      <p className="text-white text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                      </p>
+                    </div>
                     <Button className="bg-white hover:bg-white text-[#FF5F6D] relative bottom-0">
                       Daftar
                     </Button>

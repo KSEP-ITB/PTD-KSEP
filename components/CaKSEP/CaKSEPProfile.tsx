@@ -9,11 +9,9 @@ interface ProfilePageProps {
     requirements: string;
     profilePicture: string;
   };
-  onDaftar: () => void;
-  onBack: () => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ onDaftar, data, onBack }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ data }) => {
   return (
     <div className="bg-gradient-to-b from-[#FFF5E4] to-[#FFBD59] h-screen p-8 text-[#3E1E68] flex justify-center items-center">
       <div className="relative bg-gradient-to-r from-[#FF9F43] to-[#FF6F3C] p-6 rounded-lg shadow-lg flex items-center">
@@ -40,7 +38,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onDaftar, data, onBack }) => 
 
         <button
           className="absolute top-4 left-4 flex items-center text-white font-bold hover:text-[#FF9F43]"
-          onClick={onBack}
         >
           <Image src="/assets/StarShining.png" alt="Back Icon" width={24} height={24} />
           <span className="ml-2">Back</span>
@@ -63,7 +60,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onDaftar, data, onBack }) => 
           <div className="mt-6">
             <Button
               className="bg-white text-[#FF6F3C] px-4 py-2 rounded font-bold shadow-md hover:bg-[#FF6F3C] hover:text-white"
-              onClick={onDaftar}
             >
               Daftar
             </Button>
