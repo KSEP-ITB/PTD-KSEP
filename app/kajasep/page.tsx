@@ -3,11 +3,18 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useInView } from "framer-motion";
 // Components Import
 import CaKSEPHeader from "@/components/CaKSEP/CaKSEPHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 // Asset Import
 import JoYuri from '@/public/assets/JoYuti.jpg';
 // Icon Import
@@ -43,14 +50,10 @@ const KajasepPage: React.FC = () => {
     setCurrentPage(page);
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
     });
   };
 
   const currentData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
 
   return (
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-[#FF5F6D]/25 pb-20">
@@ -86,13 +89,28 @@ const KajasepPage: React.FC = () => {
                 <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
                 <p className="text-white">Kuota: {kajasep.quota}</p>
               </div>
-              <Link href={"/"}>
-                <Button
-                  size={"default"}
-                  className="bg-white font-medium hover:bg-[#FFC371] text-[#FF6F3C] transition-all duration-300">
-                  Daftar
-                </Button>
-              </Link>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    size={"default"}
+                    className="bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300">
+                    Daftar
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[750px]">
+                  <Image
+                    src={JoYuri}
+                    alt={kajasep.name}
+                    className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
+                  />
+                  <div className="h-full space-y-4">
+                    <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
+                    <Button className="bg-white hover:bg-white text-[#FF5F6D] relative bottom-0">
+                      Daftar
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           ))
         ) : (
