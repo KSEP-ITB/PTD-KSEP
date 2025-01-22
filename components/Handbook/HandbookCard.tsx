@@ -1,9 +1,7 @@
 "use client";
-
 // Library Import
 import React, { use, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-
 // Components Importa
 import {
   Dialog,
@@ -14,10 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from '../ui/button';
-
 // Auth Import
 import { useSession } from "next-auth/react";
-import { set } from "zod";
 
 interface CardProps {
   id: string;
