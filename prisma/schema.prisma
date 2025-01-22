@@ -19,7 +19,15 @@ enum crdb_internal_region {
 enum Role {
   USER
   ADMIN
+  KAJASEP
 }
+
+enum ApplicationStatus {
+  APPLIED
+  APPROVED
+  REJECTED
+}
+
 
 model User {
   id          String              @id @default(uuid())
@@ -27,6 +35,15 @@ model User {
   role        Role
   password    String
   assignments StudentAssignment[]
+
+  kajasep     Kajasep?            @relation("OwnerRelation")
+
+  acceptedKajasepId String?
+  acceptedKajasep   Kajasep?       @relation("AcceptedKajasepRelation", fields: [acceptedKajasepId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([acceptedKajasepId])
+
+  kajasepApplications KajasepApplication? @relation("UserApplications")
 }
 
 model StudentAssignment {
@@ -63,4 +80,41 @@ model Handbook {
   day   String  
   title String
   link  String
+}
+
+model Kajasep {
+  id             String              @id @default(uuid())
+
+  userId         String              @unique
+  user           User                @relation("OwnerRelation", fields: [userId], references: [id], onDelete: Cascade)
+
+  name             String?
+  nickname         String?
+  description      String?
+  requirement      String?
+  quota            Int?
+  imageUrl       String
+  totalApplicants Int               @default(0)
+
+  dejaseps       User[]              @relation("AcceptedKajasepRelation")
+  applications   KajasepApplication[] @relation("KajasepApplications")
+}
+
+
+model KajasepApplication {
+  id           String             @id @default(uuid())
+
+  kajasepId    String
+  kajasep      Kajasep            @relation("KajasepApplications", fields: [kajasepId], references: [id], onDelete: NoAction)
+
+  applicantId  String             @unique
+  applicant    User               @relation("UserApplications", fields: [applicantId], references: [id], onDelete: NoAction)
+
+  message      String?
+  applyStatus  ApplicationStatus  @default(APPLIED)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([kajasepId])
+  @@index([applicantId])
 }
