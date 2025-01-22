@@ -91,7 +91,7 @@ const AssignmentsPage = () => {
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-pink-100 pb-20">
       <AssignmentHeader />
 
-      { session && session.user.role === 'ADMIN' && (
+      {session && session.user.role === 'ADMIN' && (
         <div className='px-4 max-w-5xl w-full flex flex-col items-start'>
           <AddAssignmentDialog onAddAssignment={handleAddAssignment}/>
         </div>

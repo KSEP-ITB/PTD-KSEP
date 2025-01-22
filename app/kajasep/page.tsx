@@ -1,136 +1,165 @@
-'use client';
+"use client";
+// Library Import
+import React, { useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+// Components Import
+import CaKSEPHeader from "@/components/CaKSEP/CaKSEPHeader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+// Asset Import
+import JoYuri from '@/public/assets/JoYuti.jpg';
+// Icon Import
+import { Search } from 'lucide-react';
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import Link from 'next/link';
+const mockData = [
+  { id: 1, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
+  { id: 2, name: "John Doe", quota: 2, profilePicture: "/profile-picture.png" },
+  { id: 3, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
+  { id: 4, name: "John Doe", quota: 2, profilePicture: "/profile-picture.png" },
+  { id: 5, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
+  { id: 6, name: "John Doe", quota: 2, profilePicture: "/profile-picture.png" },
+  { id: 7, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
+  { id: 8, name: "John Doe", quota: 2, profilePicture: "/profile-picture.png" },
+  { id: 9, name: "John Doe", quota: 2, profilePicture: "/profile-picture.png" },
+  { id: 10, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
+  { id: 11, name: "Sigma Nuts", quota: 2, profilePicture: "/profile-picture.png" },
+];
 
-const page = () => {
-  const [formData, setFormData] = useState({
-    nama: '',
-    namaPanggilan: '',
-    deskripsi: '',
-    syarat: '',
-    kuota: ''
-  });
+const KajasepPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const itemsPerPage = 6;
+
+  const filteredData = mockData.filter((kajasep) =>
+    kajasep.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-  };
+  const currentData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center cursor-pointer">
-            <Link href="/kajasep/info-pendaftar">
-                <span className="text-red-600">INFO</span>
-                <span className="text-black"> PENDAFTAR</span>
-            </Link>
-        </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="nama" className="text-red-600">
-                Nama
-              </Label>
-              <Input
-                id="nama"
-                name="nama"
-                placeholder="Tulis namamu disini..."
-                value={formData.nama}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md"
-                required
-              />
-            </div>
+    <div className="w-full h-full flex flex-col items-center space-y-8 bg-[#FF5F6D]/25 pb-20">
+      <CaKSEPHeader />
 
-            <div className="space-y-2">
-              <Label htmlFor="namaPanggilan" className="text-red-600">
-                Nama Panggilan
-              </Label>
-              <Input
-                id="namaPanggilan"
-                name="namaPanggilan"
-                placeholder="Tulis panggilanmu disini..."
-                value={formData.namaPanggilan}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md"
-                required
-              />
-            </div>
+      {/* Search Bar */}
+      <div className="px-4 max-w-5xl w-full space-y-4">
+        <div className="w-full relative py-4">
+          <div className="relative">
+            <Input
+              className="focus:ring-0 focus:ring-offset-0 px-12 py-6 bg-gradient-to-r text-white from-[#FF5F6D]/75 to-[#FFC371]/75 rounded-full border-2 border-white placeholder:text-white text-[16px] placeholder:text-[16px]"
+              placeholder="Cari KaJasep"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="absolute top-1/2 left-4 transform -translate-y-1/2 w-6 h-6 text-white" />
+          </div>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="deskripsi" className="text-red-600">
-                Deskripsi
-              </Label>
-              <Textarea
-                id="deskripsi"
-                name="deskripsi"
-                placeholder="Tulis deskripsi disini..."
-                value={formData.deskripsi}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md h-32"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="syarat" className="text-red-600">
-                Syarat
-              </Label>
-              <Textarea
-                id="syarat"
-                name="syarat"
-                placeholder="Tulis syarat disini..."
-                value={formData.syarat}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md h-32"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="kuota" className="text-red-600">
-                Kuota
-              </Label>
-              <Input
-                id="kuota"
-                name="kuota"
-                type="text"
-                placeholder="1-3"
-                value={formData.kuota}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md max-w-[100px]"
-                required
-              />
-            </div>
-
-            <Button 
-              type="submit" 
-              className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md"
+        {/* Daftar KaJasep */}
+        {currentData.length > 0 ? (
+          currentData.map((kajasep) => (
+            <div
+              key={kajasep.id}
+              className="flex items-center gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
             >
-              Simpan
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              <Image
+                src={JoYuri}
+                alt={kajasep.name}
+                className="h-[120px] w-[120px] rounded-full border-2 border-white object-cover"
+              />
+              <div className="space-y-[2px] w-full h-full flex-1">
+                <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
+                <p className="text-white">Kuota: {kajasep.quota}</p>
+              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    size={"default"}
+                    className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300">
+                    Daftar
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[800px]">
+                  <Image
+                    src={JoYuri}
+                    alt={kajasep.name}
+                    className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
+                  />
+                  <div className="h-full space-y-4">
+                    <div className="">
+                      <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
+                      <p className="text-white">Nama Panggilan</p>
+                    </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Deskripsi</p>
+                      <p className="text-white text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Syarat</p>
+                      <p className="text-white text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Kontak</p>
+                      <p className="text-white text-sm">
+                       ID Line : naufarrel
+                      </p>
+                      <p className="text-white text-sm">
+                        Instagram : @naufarrel
+                      </p>
+                    </div>
+                    <Button className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]">
+                      Daftar
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-white text-lg">Tidak ada hasil yang ditemukan.</p>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {filteredData.length > 0 && (
+        <div className="flex justify-center mt-4">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-4 py-2 mx-1 rounded-full transition-all duration-300 ${
+                currentPage === index + 1
+                  ? "bg-[#FF5F6D] text-white border-2 border-white"
+                  : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
+              }`}>
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default page;
+export default KajasepPage;
+
+// from-[#FF5F6D]/75 to-[#FFC371]/75 
