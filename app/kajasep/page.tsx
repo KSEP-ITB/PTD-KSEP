@@ -117,6 +117,15 @@ const KajasepPage: React.FC = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
                       </p>
                     </div>
+                    <div>
+                      <p className="text-white text-[18px] font-semibold">Kontak</p>
+                      <p className="text-white text-sm">
+                       ID Line : naufarrel
+                      </p>
+                      <p className="text-white text-sm">
+                        Instagram : @naufarrel
+                      </p>
+                    </div>
                     <Button className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]">
                       Daftar
                     </Button>
