@@ -1,13 +1,12 @@
 'use client';
-
+// Library Import
 import { useState } from 'react';
+import Image from 'next/image';
+// Component Import
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { X } from "lucide-react";
+// Asset Import
+import JoYuri from '@/public/assets/JoYuti.jpg';
 
 interface ApplicantCardProps {
   name: string;
@@ -16,7 +15,6 @@ interface ApplicantCardProps {
 }
 
 const ApplicantCard = ({ name, reason, imageUrl }: ApplicantCardProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     nama: '',
     fakultas: '',
@@ -34,94 +32,25 @@ const ApplicantCard = ({ name, reason, imageUrl }: ApplicantCardProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    setIsModalOpen(false);
   };
 
   return (
-    <>
-      <Card className="w-full mb-4 overflow-hidden bg-gradient-to-r from-yellow-400 to-red-600 p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-yellow-200 border-2 border-red-500">
-            {/* Placeholder for profile image */}
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-black">{name}</h3>
-            <p className="text-sm text-black">{reason}</p>
-          </div>
+    <Card className="border-2 border-white rounded-xl w-full bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-4 flex items-center justify-between gap-6">
+      <div className="flex items-start gap-4">
+        <Image
+          src={JoYuri}
+          alt="Jo Yuri"
+          className="h-[120px] w-[120px] rounded-full border-2 border-white object-cover"
+        />
+        <div className="space-y-[2px] w-full h-full flex-1">
+          <h2 className="font-bold text-white text-2xl">Nama Ca-KSEP</h2>
+          <p className='text-white text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. </p>
         </div>
-        <Button 
-          variant="secondary"
-          className="bg-yellow-400 hover:bg-yellow-500 text-black px-6"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Terima
-        </Button>
-      </Card>
-
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-gradient-to-b from-red-600 via-orange-500 to-orange-400 border-none p-0">
-          <div className="p-6 relative">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute right-4 top-4 rounded-full bg-yellow-400 p-2 hover:bg-yellow-500"
-            >
-              <X className="h-4 w-4" />
-            </button>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="nama" className="text-white">
-                  Nama
-                </Label>
-                <Input
-                  id="nama"
-                  name="nama"
-                  value={formData.nama}
-                  onChange={handleChange}
-                  className="w-full rounded-md"
-                  placeholder="Nasya Fairisha"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="fakultas" className="text-white">
-                  Fakultas/Jurusan
-                </Label>
-                <Input
-                  id="fakultas"
-                  name="fakultas"
-                  value={formData.fakultas}
-                  onChange={handleChange}
-                  className="w-full rounded-md"
-                  placeholder="FMIPA-M"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="alasan" className="text-white">
-                  Alasan
-                </Label>
-                <Textarea
-                  id="alasan"
-                  name="alasan"
-                  value={formData.alasan}
-                  onChange={handleChange}
-                  className="w-full rounded-md h-32"
-                  placeholder="Karena aku suka sama kakak <3"
-                />
-              </div>
-
-              <Button 
-                type="submit"
-                className="w-full bg-red-700 hover:bg-red-800 text-white"
-              >
-                Terima
-              </Button>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+      </div>
+      <Button className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]">
+        Terima
+      </Button>
+    </Card>
   );
 };
 

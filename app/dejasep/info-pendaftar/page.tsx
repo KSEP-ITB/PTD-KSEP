@@ -1,5 +1,5 @@
 'use client';
-
+// Component Import
 import ApplicantCard from "@/components/Kajasep/ApplicantCard";
 
 // Dummy data for development
@@ -23,14 +23,14 @@ const applicants = [
 
 export default function InfoPendaftar() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-center text-3xl font-bold mb-8">
-          <span className="text-black">INFO </span>
-          <span className="text-red-600">PENDAFTAR</span>
-        </h1>
-        
-        <div className="space-y-4">
+    <div className="min-h-screen bg-[#FF5F6D]/25 p-12 flex flex-col items-center">
+      <div className="w-full max-w-5xl">
+        <div className="pb-8">
+          <h1 className="text-start bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] bg-clip-text text-transparent font-bold text-4xl">
+            Pendaftar
+          </h1>
+        </div>
+        <div className="w-full space-y-2">
           {applicants.map((applicant, index) => (
             <ApplicantCard
               key={index}
