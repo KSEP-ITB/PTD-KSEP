@@ -18,10 +18,12 @@ import Link from "next/link";
 import { UserRoundPen } from "lucide-react";
 // Types Import
 // Actions Import
+import { useRouter } from "next/navigation";
 
 const KajasepPage: React.FC = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
+  const router = useRouter()
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,6 +34,12 @@ const KajasepPage: React.FC = () => {
     null
   );
   const [message, setMessage] = useState<string>("");
+
+  useEffect(() => {
+    if (!session || session.user.role !== "USER") {
+      router.push("/")
+    }
+  }, [])
 
   useEffect(() => {
     async function fetchKajasepsAndApplications() {
@@ -98,7 +106,7 @@ const KajasepPage: React.FC = () => {
 
       {/* Search Bar */}
       <div className="px-4 max-w-5xl w-full space-y-4">
-        <div className="w-full flex items-center justify-between relative py-4 gap-x-4">
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between relative py-4 gap-4">
           <div className="relative w-full">
             <Input
               className="focus:ring-0 focus:ring-offset-0 px-12 py-6 bg-gradient-to-r text-white from-[#FF5F6D]/75 to-[#FFC371]/75 rounded-full border-2 border-white placeholder:text-white text-[16px] placeholder:text-[16px] w-full"
@@ -108,7 +116,7 @@ const KajasepPage: React.FC = () => {
             />
             <Search className="absolute top-1/2 left-4 transform -translate-y-1/2 w-6 h-6 text-white" />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end w-full">
             <Link href={"/kajasep/my-application"}>
               <Button
                 variant={"outline"}

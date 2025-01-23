@@ -1,17 +1,26 @@
 'use client';
-
 // Library
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 // Components Import
 import AdminCard from "@/components/AdminCard";
 // Types Import
 import { Kajasep } from "@/types/types";
 // Actions Import
 import { getAllKajasep } from "@/actions/admin-actions";
+import { useRouter } from "next/navigation";
 
 const AdminPage = () => {
+  const { data: session } = useSession()
+  const router = useRouter()
   const [kajasepList, setKajasepList] = useState<Kajasep[]>([]);
 
+  useEffect(() => {
+    if (!session || session.user.role !== "ADMIN") {
+      router.push("/")
+    }
+  
+  }, [])
   useEffect(() => {
     async function fetchKajasep() {
       try {

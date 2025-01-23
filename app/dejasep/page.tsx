@@ -14,10 +14,18 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { UploadButton } from "@/lib/uploadthing";
 import { MoveUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const KajasepForm = () => {
   const { data: session } = useSession();
+  const router = useRouter()
   const userId = session?.user?.id || null; // Get user ID from session
+
+  useEffect(() => {
+    if (!session || session.user.role !== "KAJASEP") {
+      router.push("/")
+    }
+  }, [])
 
   const [formData, setFormData] = useState({
     nama: "",

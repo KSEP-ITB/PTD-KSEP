@@ -57,6 +57,39 @@ const Navbar = () => {
               </Link>
             )
           })}
+          {session && session.user.role === "ADMIN" && (
+            <Link
+              href={"/daftar-kajasep"}
+              className={cn(
+                'text-[#B6B6B6] font-bold',
+                pathname === "/daftar-kajasep" && "text-orange-gradient"
+              )}
+            >
+              Daftar KaJasep
+            </Link>
+          )}
+          {session && session.user.role === "USER" && (
+            <Link
+              href={"/kajasep"}
+              className={cn(
+                'text-[#B6B6B6] font-bold',
+                pathname === "/kajasep" && "text-orange-gradient"
+              )}
+            >
+              KaJasep
+            </Link>
+          )}
+          {session && session.user.role === "KAJASEP" && (
+            <Link
+              href={"/dejasep"}
+              className={cn(
+                'text-[#B6B6B6] font-bold',
+                pathname === "/dejasep" && "text-orange-gradient"
+              )}
+            >
+              DeJasep
+            </Link>
+          )}
           {session && session.user.role === "USER" && (
             <Link
               href={session ? `/profile/${session.user.id}` : "/sign-in"}
@@ -115,6 +148,39 @@ const Navbar = () => {
                 </Link>
               )
             })}
+            {session && session.user.role === "ADMIN" && (
+              <Link
+                href={"/daftar-kajasep"}
+                className={cn(
+                  'text-[#B6B6B6] font-bold',
+                  pathname === "/daftar-kajasep" && "text-orange-gradient"
+                )}
+              >
+                Daftar KaJasep
+              </Link>
+            )}
+            {session && session.user.role === "USER" && (
+              <Link
+                href={"/kajasep"}
+                className={cn(
+                  'text-[#B6B6B6] font-bold',
+                  pathname === "/kajasep" && "text-orange-gradient"
+                )}
+              >
+                KaJasep
+              </Link>
+            )}
+            {session && session.user.role === "KAJASEP" && (
+              <Link
+                href={"/dejasep"}
+                className={cn(
+                  'text-[#B6B6B6] font-bold',
+                  pathname === "/dejasep" && "text-orange-gradient"
+                )}
+              >
+                DeJasep
+              </Link>
+            )}
             {session && session.user.role === "USER" &&  (
               <Link
                 href={session ? `/profile/${session.user.id}` : "/sign-in"}
