@@ -136,7 +136,7 @@ const KajasepPage: React.FC = () => {
         {/* Daftar KaJasep */}
         {currentData.length > 0 ? (
           // @ts-ignore
-          currentData.sort((a, b) => a.name.localeCompare(b.name)).map((kajasep) => {
+          currentData.map((kajasep) => {
             const isApplied = userApplications.includes(kajasep.id);
 
             return (
@@ -311,7 +311,7 @@ const KajasepPage: React.FC = () => {
 
     {/* Tombol Pagination */}
     {[...Array(totalPages)].map((_, index) => {
-      const startPage = Math.max(currentPage - 1, 1); // 1 halaman sebelum currentPage
+      const startPage = Math.max(currentPage - 2, 1); // 2 halaman sebelum currentPage
       const endPage = Math.min(currentPage + 1, totalPages); // 1 halaman setelah currentPage
 
       if (index + 1 >= startPage && index + 1 <= endPage) {
@@ -344,7 +344,6 @@ const KajasepPage: React.FC = () => {
     )}
   </div>
 )}
-
 
     </div>
   );
