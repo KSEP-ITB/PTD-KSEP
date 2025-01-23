@@ -13,12 +13,11 @@ const processCSV = (filePath: string, role: string): Promise<any[]> => {
       .pipe(parse({ delimiter: ",", from_line: 2 }))
       .on("data", (data: any) => {
         players.push({
-          id: data[0],
           username: data[1],
           role: role,
           password: data[2],
         });
-      })
+      })  
       .on("end", () => resolve(players))
       // @ts-ignore
       .on("error", (error) => reject(error));
@@ -36,7 +35,7 @@ const load = async () => {
     const allPlayers = [...userPlayers, ...kajasepPlayers];
 
     // Clear existing data and insert new data
-    await prisma.user.deleteMany();
+    // await prisma.user.deleteMany();
     await prisma.user.createMany({
       data: allPlayers,
     });
