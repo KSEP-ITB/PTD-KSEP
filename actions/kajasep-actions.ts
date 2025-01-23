@@ -4,7 +4,11 @@ import prisma from "@/lib/prisma";
 
 export const getAllKajaseps = async () => {
   try {
-    const kajaseps = await prisma.kajasep.findMany();
+    const kajaseps = await prisma.kajasep.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
     console.log(kajaseps);
     return kajaseps;
   } catch (error) {
