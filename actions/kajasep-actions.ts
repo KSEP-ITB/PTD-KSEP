@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 export const getAllKajaseps = async () => {
   try {
     const kajaseps = await prisma.kajasep.findMany();
+    console.log(kajaseps)
     return kajaseps;
   } catch (error) {
     console.error("Error fetching Kajaseps:", error);

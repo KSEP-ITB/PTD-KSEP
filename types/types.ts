@@ -78,6 +78,8 @@ export interface Kajasep {
   totalApplicants: number;
   dejaseps: User[];
   applications: KajasepApplication[];
+  instagram?: string;
+  line?: string
 }
 
 export interface KajasepApplication {

@@ -149,22 +149,22 @@ const KajasepPage: React.FC = () => {
                     <div>
                       <p className="text-white text-[18px] font-semibold">Deskripsi</p>
                       <p className="text-white text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                        {kajasep.description}
                       </p>
                     </div>
                     <div>
                       <p className="text-white text-[18px] font-semibold">Syarat</p>
                       <p className="text-white text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque pellentesque sagittis. Sed eget orci eget eros finibus fringilla. Aenean magna metus, faucibus at laoreet nec, facilisis faucibus augue. Sed eget aliquet nunc. Nullam laoreet sapien quis semper fermentum. Fusce diam elit, ultricies quis orci non, congue iaculis turpis. 
+                        {kajasep.requirement}
                       </p>
                     </div>
                     <div>
                       <p className="text-white text-[18px] font-semibold">Kontak</p>
                       <p className="text-white text-sm">
-                       ID Line : naufarrel
+                       ID Line :{kajasep.line} 
                       </p>
                       <p className="text-white text-sm">
-                        Instagram : @naufarrel
+                        Instagram : @{kajasep.instagram}
                       </p>
                     </div>
                     <Button 
