@@ -41,7 +41,7 @@ const AdminPage = () => {
 
   return (
     <main>
-      <div className="flex flex-col items-center w-full min-h-screen h-full pt-2 pb-20 bg-[#FF5F6D]/25">
+      <div className="flex flex-col items-center w-full min-h-screen h-full pt-2 pb-20 bg-[#FF5F6D]/25 px-4">
         <div className="w-full max-w-5xl py-8">
           <h1 className="text-start text-3xl font-bold bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] bg-clip-text text-transparent">
             Daftar Ka Jasep

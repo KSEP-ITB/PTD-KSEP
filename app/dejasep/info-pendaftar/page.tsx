@@ -60,7 +60,7 @@ const InfoPendaftar = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FF5F6D]/25 p-12 flex flex-col items-center">
+    <div className="min-h-screen bg-[#FF5F6D]/25 p-4 md:p-12 flex flex-col items-center">
       <div className="w-full max-w-5xl">
         <div className="pb-8">
           <h1 className="text-start bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] bg-clip-text text-transparent font-bold text-4xl">

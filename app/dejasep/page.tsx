@@ -147,7 +147,7 @@ const KajasepForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-12">
+    <div className="min-h-screen bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-4 md:py-12">
       <Card className="max-w-xl mx-auto bg-white border-white">
         <CardHeader>
           <CardTitle className="flex justify-between">
