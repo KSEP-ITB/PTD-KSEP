@@ -34,6 +34,7 @@ import {
 
 // Schemas Import
 import { announcementSchema, announcementSchemaType } from '@/lib/schemas'
+import { Textarea } from '../ui/textarea'
 
 interface AddAnnouncementDialogProps {
   onAddAnnouncement: (newAnnouncement: announcementSchemaType) => void;
@@ -108,11 +109,12 @@ const AddAnnouncementDialog = ({ onAddAnnouncement }: AddAnnouncementDialogProps
                 <FormItem>
                   <FormLabel className='text-white'>Content</FormLabel>
                   <FormControl>
-                    <ReactQuill 
-                      theme="snow"
-                      value={field.value} 
-                      onChange={field.onChange} 
-                      className='bg-white text-black'
+                    <Textarea
+                      id="description"
+                      placeholder="Tulis deskripsi tugas di sini..."
+                      {...field}
+                      className="w-full p-2 bg-white placeholder:text-white/75 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus-visible:ring-transparent"
+                      rows={4}
                     />
                   </FormControl>
                   <FormMessage />

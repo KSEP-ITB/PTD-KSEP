@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react'
 // Component Import
 import CaKSEPHeader from '@/components/CaKSEP/CaKSEPHeader'
 import { getApplicationByApplicantId } from '@/actions/kajasep-applications'
-import Image from 'next/image'
 
 const page = () => {
   const { data: session } = useSession()
