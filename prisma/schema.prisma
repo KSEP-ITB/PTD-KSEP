@@ -111,7 +111,7 @@ model KajasepApplication {
   kajasep      Kajasep            @relation("KajasepApplications", fields: [kajasepId], references: [id], onDelete: NoAction)
 
   applicantId  String             @unique
-  applicant    User               @relation("UserApplications", fields: [applicantId], references: [id], onDelete: NoAction)
+  applicant    User               @relation("UserApplications", fields: [applicantId], references: [id], onDelete: Cascade)
 
   message      String?
   applyStatus  ApplicationStatus  @default(APPLIED)

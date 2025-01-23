@@ -4,33 +4,51 @@ const prisma = new PrismaClient();
 const fs = require("fs");
 const { parse } = require("csv-parse");
 
-let players: any = [];
+// Function to process a CSV file
+const processCSV = (filePath: string, role: string): Promise<any[]> => {
+  return new Promise((resolve, reject) => {
+    const players: any[] = [];
 
-fs.createReadStream("prisma/caksep.csv")
-  .pipe(parse({ delimiter: ",", from_line: 2 }))
-  .on("data", (data: any) => {
-    players.push({
-      id: data[0],
-      username: data[1],
-      role: Role.USER,
-      password: data[2],
-    });
-  })
-  .on("end", function () {
-    load(players);
-    console.log(players);
+    fs.createReadStream(filePath)
+      .pipe(parse({ delimiter: ",", from_line: 2 }))
+      .on("data", (data: any) => {
+        players.push({
+          id: data[0],
+          username: data[1],
+          role: role,
+          password: data[2],
+        });
+      })
+      .on("end", () => resolve(players))
+      // @ts-ignore
+      .on("error", (error) => reject(error));
   });
+};
 
-const load = async (players: any) => {
+// Main function to load data into the database
+const load = async () => {
   try {
+    // Read data from both CSV files
+    const userPlayers = await processCSV("prisma/ksep_caksep.csv", Role.USER);
+    const kajasepPlayers = await processCSV("prisma/ksep_kajasep.csv", Role.KAJASEP);
+
+    // Combine both datasets
+    const allPlayers = [...userPlayers, ...kajasepPlayers];
+
+    // Clear existing data and insert new data
     await prisma.user.deleteMany();
     await prisma.user.createMany({
-      data: players,
+      data: allPlayers,
     });
-  } catch (e) {
-    console.error(e);
+
+    console.log("Seeding completed successfully!");
+  } catch (error) {
+    console.error("Error during seeding:", error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
   }
 };
+
+// Run the seeding function
+load();
