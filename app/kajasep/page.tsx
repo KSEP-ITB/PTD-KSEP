@@ -194,7 +194,7 @@ const KajasepPage: React.FC = () => {
                           <h2 className="font-bold text-white text-3xl">
                             {selectedKajasep.name}
                           </h2>
-                          <p className="text-white">Nama Panggilan</p>
+                          <p className="text-white">{selectedKajasep.nickname}</p>
                         </div>
                         <div>
                           <p className="text-white text-[18px] font-semibold">
