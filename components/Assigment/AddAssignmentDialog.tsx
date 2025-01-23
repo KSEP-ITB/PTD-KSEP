@@ -34,6 +34,7 @@ import {
 
 // Schemas Import
 import { assignmentForStudentSchema, assignmentForStudentType } from '@/lib/schemas'
+import { Textarea } from '../ui/textarea'
 
 interface AddAssignmentDialogProps {
   onAddAssignment: (newAssignment: assignmentForStudentType) => void;
@@ -93,7 +94,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Day</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan hari penugasan' {...field} />
+                    <Input className='text-black placeholder:text-white/75 focus-visible:ring-transparent' placeholder='Masukkan hari penugasan' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,7 +107,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Title</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan judul tugas' {...field} />
+                    <Input className='text-black placeholder:text-white/75 focus-visible:ring-transparent' placeholder='Masukkan judul tugas' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,11 +120,12 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Description</FormLabel>
                   <FormControl>
-                    <ReactQuill 
-                      theme="snow"
-                      value={field.value} 
-                      onChange={field.onChange} 
-                      className='bg-white text-black'
+                    <Textarea
+                      id="description"
+                      placeholder="Tulis deskripsi tugas di sini..."
+                      {...field} // Menggunakan properti dari React Hook Form
+                      className="w-full p-2 bg-white placeholder:text-white/75 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus-visible:ring-transparent"
+                      rows={4}
                     />
                   </FormControl>
                   <FormMessage />
@@ -137,7 +139,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
                 <FormItem>
                   <FormLabel className='text-white'>Deadline Date</FormLabel>
                   <FormControl>
-                    <Input className='text-black focus-visible:ring-transparent' placeholder='Ikuti format DD/MM/YYYY' {...field} />
+                    <Input className='text-black placeholder:text-white/75 focus-visible:ring-transparent' placeholder='Ikuti format DD/MM/YYYY' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +151,7 @@ const AddAssignmentDialog = ({ onAddAssignment }: AddAssignmentDialogProps) => {
               <FormItem>
                 <FormLabel className='text-white'>Link Attachment (Optional)</FormLabel>
                 <FormControl>
-                  <Input className='text-black focus-visible:ring-transparent' placeholder='Masukkan tautan lampiran' {...field} />
+                  <Input className='text-black placeholder:text-white/75 focus-visible:ring-transparent' placeholder='Masukkan tautan lampiran' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
