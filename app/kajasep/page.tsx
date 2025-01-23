@@ -16,6 +16,7 @@ import {
 import JoYuri from '@/public/assets/JoYuti.jpg';
 // Icon Import
 import { Search } from 'lucide-react';
+import { Kajasep } from "@/types/types";
 
 const mockData = [
   { id: 1, name: "Naufarrel Zhafif Abhista", quota: 3, profilePicture: "/profile-picture.png" },
@@ -34,6 +35,7 @@ const mockData = [
 const KajasepPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [kajasepList, setKajasepList] = useState<Kajasep[]>([])
 
   const itemsPerPage = 6;
 

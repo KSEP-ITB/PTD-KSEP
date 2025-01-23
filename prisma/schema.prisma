@@ -93,8 +93,11 @@ model Kajasep {
   description      String?
   requirement      String?
   quota            Int?
-  imageUrl       String
+  imageUrl       String?
   totalApplicants Int               @default(0)
+
+  instagram String?
+  line String?
 
   dejaseps       User[]              @relation("AcceptedKajasepRelation")
   applications   KajasepApplication[] @relation("KajasepApplications")
