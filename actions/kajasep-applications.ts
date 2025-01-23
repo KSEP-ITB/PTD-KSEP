@@ -155,3 +155,23 @@ export const countKajasepApplicants = async (kajasepId: string) => {
     throw new Error("Unable to count Kajasep applicants.");
   }
 };
+
+// Fungsi untuk mendapatkan application dari suatu ca ksep
+export async function getApplicationByApplicantId(applicantId: string) {
+  try {
+    const application = await prisma.kajasepApplication.findUnique({
+      where: {
+        applicantId: applicantId,
+      },
+      include: {
+        kajasep: true,
+        applicant: true,
+      },
+    });
+
+    return application;
+  } catch (error) {
+    console.error("Error fetching application by applicantId:", error);
+    throw new Error("Failed to fetch application");
+  }
+}
