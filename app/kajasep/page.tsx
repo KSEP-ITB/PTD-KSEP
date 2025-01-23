@@ -135,7 +135,8 @@ const KajasepPage: React.FC = () => {
 
         {/* Daftar KaJasep */}
         {currentData.length > 0 ? (
-          currentData.map((kajasep) => {
+          // @ts-ignore
+          currentData.sort((a, b) => a.name.localeCompare(b.name)).map((kajasep) => {
             const isApplied = userApplications.includes(kajasep.id);
 
             return (
