@@ -1,32 +1,71 @@
-'use client';
-// Library Import
-import React, { useState } from 'react';
-import Link from 'next/link';
-// Component Import
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-// Quill Import
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-// Icon Import
-import { MoveUpRight } from 'lucide-react';
-// Lazy load React Quill
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+"use client";
 
-const page = () => {
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import {
+  createKajasep,
+  updateKajasepInfo,
+  getKajasepFromUserId,
+} from "@/actions/kajasep-actions";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { MoveUpRight } from "lucide-react";
+
+const KajasepForm = () => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id || null; // Get user ID from session
+
   const [formData, setFormData] = useState({
-    nama: '',
-    namaPanggilan: '',
-    deskripsi: '',
-    syarat: '',
-    kuota: '',
-    gambar: null, // Untuk menyimpan file gambar
+    nama: "",
+    namaPanggilan: "",
+    deskripsi: "",
+    syarat: "",
+    kuota: "",
+    instagram: "",
+    line: "",
+    gambar: null, // For storing the file
   });
 
-  // @ts-ignore
-  const handleChange = (e) => {
+  const [isLoading, setIsLoading] = useState(true); // To handle loading state
+  const [isEditMode, setIsEditMode] = useState(false); // To track if it's edit or create mode
+
+  useEffect(() => {
+    const fetchKajasep = async () => {
+      if (userId) {
+        try {
+          const kajasep = await getKajasepFromUserId(userId); // Fetch biodata using userId
+          if (kajasep) {
+            setFormData({
+              nama: kajasep.name || "",
+              namaPanggilan: kajasep.nickname || "",
+              deskripsi: kajasep.description || "",
+              syarat: kajasep.requirement || "",
+              kuota: kajasep.quota?.toString() || "",
+              instagram: kajasep.instagram || "",
+              line: kajasep.line || "",
+              gambar: null,
+            });
+            setIsEditMode(true); // If data exists, switch to edit mode
+          }
+        } catch (error) {
+          console.error("Error fetching Kajasep data:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    fetchKajasep();
+  }, [userId]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -34,41 +73,77 @@ const page = () => {
     }));
   };
 
-  // @ts-ignore
-  const handleQuillChange = (value, fieldName) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
     setFormData((prev) => ({
       ...prev,
-      [fieldName]: value,
+      gambar: file,
     }));
   };
 
-  // @ts-ignore
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        gambar: file,
-      }));
-    }
-  };
-
-  // @ts-ignore
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Proses simpan gambar ke folder public (untuk demo saja, ini seharusnya dilakukan di server)
-    if (formData.gambar) {
-      const reader = new FileReader();
-      reader.onload = () => { // @ts-ignore
-        console.log('File uploaded:', formData.gambar.name);
-        console.log('Base64 preview:', reader.result);
-      };
-      reader.readAsDataURL(formData.gambar);
+    if (!userId) {
+      console.error("User is not logged in.");
+      return;
     }
 
-    console.log('Form submitted:', formData);
+    const payload = {
+      name: formData.nama || "",
+      nickname: formData.namaPanggilan || "",
+      description: formData.deskripsi || "",
+      requirement: formData.syarat || "",
+      quota: formData.kuota ? parseInt(formData.kuota, 10) : undefined,
+      instagram: formData.instagram || "",
+      line: formData.line || "",
+      imageUrl: formData.gambar ? formData.gambar.name : "placeholder.jpg",
+    };
+
+    try {
+      if (isEditMode) {
+        // Update existing Kajasep
+        await updateKajasepInfo(userId, payload);
+      } else {
+        // Create new Kajasep
+        await createKajasep(
+          userId,
+          payload.name,
+          payload.nickname,
+          payload.description,
+          payload.requirement,
+          payload.quota,
+          payload.imageUrl,
+          payload.instagram,
+          payload.line
+        );
+        console.log("Kajasep created successfully!");
+      }
+      window.location.reload();
+
+      // Reset form after submission
+      setFormData({
+        nama: "",
+        namaPanggilan: "",
+        deskripsi: "",
+        syarat: "",
+        kuota: "",
+        instagram: "",
+        line: "",
+        gambar: null,
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-12">
@@ -76,12 +151,12 @@ const page = () => {
         <CardHeader>
           <CardTitle className="flex justify-between">
             <span className="text-start text-3xl bg-gradient-to-r text-transparent bg-clip-text from-[#FF5F6D] to-[#FFC371]">
-              Biodata
+              {isEditMode ? "Edit Biodata" : "Biodata"}
             </span>
             <Link href="/dejasep/info-pendaftar">
               <Button
-                variant={"ghost"}
-                size={"sm"}
+                variant="ghost"
+                size="sm"
                 className="text-[#FF5F6D] font-medium hover:text-[#FF5F6D]"
               >
                 Lihat Pendaftar <MoveUpRight />
@@ -89,7 +164,9 @@ const page = () => {
             </Link>
           </CardTitle>
           <p className="text-start text-sm font-normal text-slate-400">
-            Disini kamu dapat mengisi biodata diri kamu untuk dikenalkan ke Ca-KSEP
+            {isEditMode
+              ? "Edit data biodata kamu untuk Ca-KSEP."
+              : "Isi biodata untuk dikenalkan ke Ca-KSEP."}
           </p>
         </CardHeader>
         <CardContent>
@@ -104,7 +181,6 @@ const page = () => {
                 placeholder="Tulis namamu disini..."
                 value={formData.nama}
                 onChange={handleChange}
-                className="w-full p-2 rounded-md focus-visible:ring-transparent"
                 required
               />
             </div>
@@ -118,30 +194,59 @@ const page = () => {
                 placeholder="Tulis panggilanmu disini..."
                 value={formData.namaPanggilan}
                 onChange={handleChange}
-                className="w-full p-2 rounded-md focus-visible:ring-transparent"
                 required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="instagram" className="text-[#FF5F6D]">
+                Instagram
+              </Label>
+              <Input
+                id="instagram"
+                name="instagram"
+                placeholder="Tulis Instagram disini..."
+                value={formData.instagram}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="line" className="text-[#FF5F6D]">
+                ID Line
+              </Label>
+              <Input
+                id="line"
+                name="line"
+                placeholder="Tulis ID Line disini..."
+                value={formData.line}
+                onChange={handleChange}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="deskripsi" className="text-[#FF5F6D]">
                 Deskripsi
               </Label>
-              <ReactQuill
-                theme="snow"
+              <textarea
+                id="deskripsi"
+                name="deskripsi"
+                placeholder="Tulis deskripsi disini..."
                 value={formData.deskripsi}
-                onChange={(value) => handleQuillChange(value, 'deskripsi')}
-                className="bg-white text-black focus-visible:ring-transparent"
+                onChange={handleChange}
+                className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-pink-500"
+                rows={4}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="syarat" className="text-[#FF5F6D]">
                 Syarat
               </Label>
-              <ReactQuill
-                theme="snow"
+              <textarea
+                id="syarat"
+                name="syarat"
+                placeholder="Tulis syarat disini..."
                 value={formData.syarat}
-                onChange={(value) => handleQuillChange(value, 'syarat')}
-                className="bg-white text-black focus-visible:ring-transparent"
+                onChange={handleChange}
+                className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-pink-500"
+                rows={4}
               />
             </div>
             <div className="space-y-2">
@@ -154,13 +259,7 @@ const page = () => {
                 type="number"
                 placeholder="Kuota De Jasep"
                 value={formData.kuota}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value, 10);
-                  if (value >= 0 || e.target.value === "") {
-                    setFormData({ ...formData, kuota: e.target.value });
-                  }
-                }}
-                className="w-full p-2 rounded-md focus-visible:ring-transparent"
+                onChange={handleChange}
                 required
               />
             </div>
@@ -174,15 +273,13 @@ const page = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="w-full p-2 rounded-md focus-visible:ring-transparent"
               />
             </div>
-            <div className="py-2" />
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] text-white"
             >
-              Simpan
+              {isEditMode ? "Update" : "Simpan"}
             </Button>
           </form>
         </CardContent>
@@ -191,4 +288,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default KajasepForm;

@@ -31,16 +31,17 @@ export const getKajasepFromUserId = async (userId: string) => {
 };
 
 export const createKajasep = async (
-  userId: string, // the user who owns this Kajasep
+  userId: string,
   name?: string,
   nickname?: string,
   description?: string,
   requirement?: string,
   quota?: number,
-  imageUrl?: string
+  imageUrl?: string,
+  instagram?: string,
+  line?: string
 ) => {
   try {
-    // userId is required to connect this Kajasep to its owner
     if (!userId) {
       throw new Error("User ID is required to create a Kajasep.");
     }
@@ -49,11 +50,13 @@ export const createKajasep = async (
       data: {
         userId,
         name,
-        nickname,
-        description,
-        requirement,
-        quota,
-        imageUrl: imageUrl ?? "", // fallback if not provided
+        nickname: nickname || null,
+        description: description || null,
+        requirement: requirement || null,
+        quota: quota || null,
+        imageUrl: imageUrl || "",
+        instagram: instagram || null,
+        line: line || null,
       },
     });
 
@@ -145,97 +148,125 @@ interface UpdateKajasepParams {
   nickname?: string;
   description?: string;
   requirement?: string;
+  quota?: number;
   imageUrl?: string;
+  instagram?: string;
+  line?: string;
 }
 
 export const updateKajasepInfo = async (
-  id: string,
+  userId: string,
   params: UpdateKajasepParams
 ) => {
-  if (!id) {
-    throw new Error("Id is required");
+  if (!userId) {
+    throw new Error("User ID is required");
   }
 
   try {
+    const kajasep = await prisma.kajasep.findUnique({
+      where: { userId },
+    });
+
+    if (!kajasep) {
+      throw new Error("No Kajasep found for the provided User ID");
+    }
+
     const updateData = Object.fromEntries(
       Object.entries(params).filter(([_, v]) => v !== undefined)
     );
 
-    if (Object.keys(updateData).length === 0) {
-      throw new Error("No fields provided to update");
-    }
-
-    const kajasep = await prisma.kajasep.update({
-      where: { id },
+    const updatedKajasep = await prisma.kajasep.update({
+      where: { id: kajasep.id },
       data: updateData,
     });
 
-    return kajasep;
+    return updatedKajasep;
   } catch (error) {
-    throw new Error("Failed to update info");
+    console.error("Failed to update Kajasep:", error);
+    throw new Error("Failed to update Kajasep info");
   }
 };
 
 export const acceptDejasep = async (
-  kajasepId: string,
-  dejasepId: string,
-  applicationId: string
+  applicationId: string,
+  applicantId: string,
+  kajasepId: string
 ) => {
-  if (!kajasepId || !dejasepId || !applicationId) {
-    throw new Error(
-      "All fields (kajasepId, dejasepId, applicationId) are required"
-    );
-  }
-
   try {
-    const kajasep = await prisma.kajasep.update({
-      where: {
-        id: kajasepId,
-      },
-      data: {
-        dejaseps: {
-          connect: { id: dejasepId },
-        },
-      },
-    });
-
-    if (!kajasep) {
-      throw new Error("Kajasep not found");
-    }
-
-    const dejasep = await prisma.user.update({
-      where: {
-        id: dejasepId,
-      },
-      data: {
-        acceptedKajasep: {
-          connect: { id: kajasepId },
-        },
-      },
-    });
-
-    if (!dejasep) {
-      throw new Error("Dejasep not found");
-    }
-
     const application = await prisma.kajasepApplication.update({
-      where: {
-        id: applicationId,
-      },
+      where: { id: applicationId },
       data: {
         applyStatus: "APPROVED",
       },
     });
 
-    if (!application) {
-      throw new Error("Application not found");
-    }
-
-    return { kajasep, dejasep, application };
+    return application;
   } catch (error) {
-    throw new Error(`Failed to accept dejasep`);
+    console.error("Failed to accept applicant:", error);
+    throw new Error("Unable to approve applicant.");
   }
 };
+
+// export const acceptDejasep = async (
+//   kajasepId: string,
+//   dejasepId: string,
+//   applicationId: string
+// ) => {
+//   if (!kajasepId || !dejasepId || !applicationId) {
+//     throw new Error(
+//       "All fields (kajasepId, dejasepId, applicationId) are required"
+//     );
+//   }
+
+//   try {
+//     const kajasep = await prisma.kajasep.update({
+//       where: {
+//         id: kajasepId,
+//       },
+//       data: {
+//         dejaseps: {
+//           connect: { id: dejasepId },
+//         },
+//       },
+//     });
+
+//     if (!kajasep) {
+//       throw new Error("Kajasep not found");
+//     }
+
+//     const dejasep = await prisma.user.update({
+//       where: {
+//         id: dejasepId,
+//       },
+//       data: {
+//         acceptedKajasep: {
+//           connect: { id: kajasepId },
+//         },
+//       },
+//     });
+
+//     if (!dejasep) {
+//       throw new Error("Dejasep not found");
+//     }
+
+//     const application = await prisma.kajasepApplication.update({
+//       where: {
+//         id: applicationId,
+//       },
+//       data: {
+//         applyStatus: "APPROVED",
+//       },
+//     });
+
+//     if (!application) {
+//       throw new Error("Application not found");
+//     }
+
+//     return { kajasep, dejasep, application };
+//   } catch (error) {
+//     throw new Error(`Failed to accept dejasep`);
+//   }
+// };
 
 export const rejectDejasep = async (
   kajasepId: string,
