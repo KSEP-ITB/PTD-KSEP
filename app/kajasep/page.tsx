@@ -142,7 +142,7 @@ const KajasepPage: React.FC = () => {
             return (
               <div
                 key={kajasep.id}
-                className="flex items-center gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
+                className="flex items-center gap-3 md:gap-6 p-4 md:p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
               >
                 <img
                   // @ts-ignore
@@ -150,7 +150,7 @@ const KajasepPage: React.FC = () => {
                   alt={kajasep.name || "N/A"}
                   // width={120}
                   // height={120}
-                  className="w-[120px] h-[120px] min-w-[120px] min-h-[120px] max-w-[120px] max-h-[120px] rounded-full border-2 border-white object-cover"
+                  className="w-[80px] h-[80px] min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px] md:w-[80px] md:h-[80px] md:min-w-[120px] md:min-h-[120px] md:max-w-[120px] md:max-h-[120px] rounded-full border-2 border-white object-cover"
                 />
                 <div className="space-y-[2px] w-full h-full flex-1">
                   <h2 className="font-bold text-white text-[16px] md:text-2xl lg:text-3xl">
@@ -181,7 +181,7 @@ const KajasepPage: React.FC = () => {
                     </Button>
                   </DialogTrigger>
                   {selectedKajasep && (
-                    <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex md:flex-row flex-col items-start justify-start gap-x-8 md:min-w-[800px]">
+                    <DialogContent className="p-4 md:p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex md:flex-row flex-col items-start justify-start gap-x-8 md:min-w-[800px]">
                       <img
                         // @ts-ignore
                         src={selectedKajasep.imageUrl || JoYuri || null}
@@ -190,9 +190,9 @@ const KajasepPage: React.FC = () => {
                         }
                         // width={270}
                         // height={270}
-                        className="h-[300px] w-[300px] min-h-[300px] min-w-[300px] max-h-[300px] max-w-[300px] rounded-xl border-2 border-white object-cover"
+                        className="h-[200px] w-[200px] min-h-[200px] min-w-[200px] max-h-[200px] max-w-[200px] md:h-[300px] md:w-[300px] md:min-h-[300px] md:min-w-[300px] md:max-h-[300px] md:max-w-[300px] rounded-xl border-2 border-white object-cover"
                       />
-                      <div className="h-full space-y-4">
+                      <div className="h-full space-y-2 md:space-y-4">
                         <div className="">
                           <h2 className="font-bold text-white text-xl md:text-2xl lg:text-3xl">
                             {selectedKajasep.name}
