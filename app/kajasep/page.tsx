@@ -14,32 +14,31 @@ import { getApplicationsForUser } from "@/actions/kajasep-applications";
 import { createKajasepApplication } from "@/actions/kajasep-applications";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-// Icon Import
 import { UserRoundPen } from "lucide-react";
-// Types Import
-// Actions Import
 import { useRouter } from "next/navigation";
 
 const KajasepPage: React.FC = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
-  const router = useRouter()
+  const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isFormApplicationOpen, setIsFormApplicationOpen] = useState(false);
   const [kajasepList, setKajasepList] = useState<Kajasep[]>([]);
+  const [isKaJasepDialogOpen, setIsKaJasepDialogOpen] = useState(false);
   const [userApplications, setUserApplications] = useState<string[]>([]);
   const [selectedKajasepId, setSelectedKajasepId] = useState<string | null>(
     null
   );
+  const [selectedKajasep, setSelectedKajasep] = useState<Kajasep | null>(null);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     if (!session || session.user.role !== "USER") {
-      router.push("/")
+      router.push("/");
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function fetchKajasepsAndApplications() {
@@ -100,6 +99,12 @@ const KajasepPage: React.FC = () => {
     window.location.reload();
   };
 
+  const openKajasepDialog = (kajasep: Kajasep) => {
+    setSelectedKajasep(kajasep);
+    setSelectedKajasepId(kajasep.id);
+    setIsKaJasepDialogOpen(true);
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center space-y-8 bg-[#FF5F6D]/25 pb-20">
       <CaKSEPHeader />
@@ -154,47 +159,87 @@ const KajasepPage: React.FC = () => {
                     Pendaftar: {kajasep.totalApplicants}
                   </p>
                 </div>
-                {isApplied ? (
-                  <p className="text-white font-bold">Terdaftar</p>
-                ) : (
-                  <Dialog
-                    open={isFormApplicationOpen}
-                    onOpenChange={setIsFormApplicationOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        size={"default"}
-                        className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300"
-                        onClick={() => setSelectedKajasepId(kajasep.id)}
-                      >
-                        Daftar
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="p-6 bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] rounded-lg">
-                      <form onSubmit={handleSubmit}>
-                        <h2 className="text-lg font-bold text-white mb-2">
-                          Form Application
-                        </h2>
-                        <Textarea
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                          placeholder="Enter your message"
-                          className="focus-visible:ring-transparent mb-4"
-                        />
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => setIsFormApplicationOpen(false)}
-                          >
-                            Cancel
-                          </Button>
-                          <Button type="submit">Submit</Button>
+
+                <Dialog
+                  open={
+                    isKaJasepDialogOpen && selectedKajasep?.id === kajasep.id
+                  }
+                  onOpenChange={(open) => {
+                    setIsKaJasepDialogOpen(open);
+                    if (!open) setSelectedKajasep(null);
+                  }}
+                >
+                  <DialogTrigger asChild>
+                    <Button
+                      size={"default"}
+                      className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300"
+                      onClick={() => openKajasepDialog(kajasep)}
+                    >
+                      Daftar
+                    </Button>
+                  </DialogTrigger>
+                  {selectedKajasep && (
+                    <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[800px]">
+                      <Image
+                        src={selectedKajasep.imageUrl || JoYuri}
+                        alt={
+                          selectedKajasep.name ? selectedKajasep.name : "N/A"
+                        }
+                        width={240}
+                        height={240}
+                        className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
+                      />
+                      <div className="h-full space-y-4">
+                        <div className="">
+                          <h2 className="font-bold text-white text-3xl">
+                            {selectedKajasep.name}
+                          </h2>
+                          <p className="text-white">Nama Panggilan</p>
                         </div>
-                      </form>
+                        <div>
+                          <p className="text-white text-[18px] font-semibold">
+                            Deskripsi
+                          </p>
+                          <p className="text-white text-sm">
+                            {selectedKajasep.description}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-white text-[18px] font-semibold">
+                            Syarat
+                          </p>
+                          <p className="text-white text-sm">
+                            {selectedKajasep.requirement}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-white text-[18px] font-semibold">
+                            Kontak
+                          </p>
+                          <p className="text-white text-sm">
+                            ID Line: {selectedKajasep.line}
+                          </p>
+                          <p className="text-white text-sm">
+                            Instagram: @{selectedKajasep.instagram}
+                          </p>
+                        </div>
+                        {isApplied ? (
+                          <p className="text-white"> Terdaftar </p>
+                        ) : (
+                          <Button
+                            className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
+                            onClick={() => {
+                              setIsKaJasepDialogOpen(false);
+                              setIsFormApplicationOpen(true);
+                            }}
+                          >
+                            Daftar
+                          </Button>
+                        )}
+                      </div>
                     </DialogContent>
-                  </Dialog>
-                )}
+                  )}
+                </Dialog>
               </div>
             );
           })
@@ -203,6 +248,39 @@ const KajasepPage: React.FC = () => {
             Tidak ada hasil yang ditemukan.
           </p>
         )}
+
+        {/* Form Application Dialog */}
+        <Dialog
+          open={isFormApplicationOpen}
+          onOpenChange={(open) => {
+            setIsFormApplicationOpen(open);
+            if (!open) setSelectedKajasepId(null);
+          }}
+        >
+          <DialogContent className="p-6 bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] rounded-lg">
+            <form onSubmit={handleSubmit}>
+              <h2 className="text-lg font-bold text-white mb-2">
+                Form Application
+              </h2>
+              <Textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Enter your message"
+                className="focus-visible:ring-transparent mb-4"
+              />
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => setIsFormApplicationOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">Submit</Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Pagination */}
