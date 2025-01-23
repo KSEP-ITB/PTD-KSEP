@@ -13,6 +13,11 @@ import { getAllKajaseps } from "@/actions/kajasep-actions";
 import { getApplicationsForUser } from "@/actions/kajasep-applications";
 import { createKajasepApplication } from "@/actions/kajasep-applications";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+// Icon Import
+import { UserRoundPen } from "lucide-react";
+// Types Import
+// Actions Import
 
 const KajasepPage: React.FC = () => {
   const { data: session } = useSession();
@@ -93,14 +98,26 @@ const KajasepPage: React.FC = () => {
 
       {/* Search Bar */}
       <div className="px-4 max-w-5xl w-full space-y-4">
-        <div className="w-full relative py-4">
-          <Input
-            className="focus:ring-0 focus:ring-offset-0 px-12 py-6 bg-gradient-to-r text-white from-[#FF5F6D]/75 to-[#FFC371]/75 rounded-full border-2 border-white placeholder:text-white text-[16px] placeholder:text-[16px]"
-            placeholder="Cari KaJasep"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Search className="absolute top-1/2 left-4 transform -translate-y-1/2 w-6 h-6 text-white" />
+        <div className="w-full flex items-center justify-between relative py-4 gap-x-4">
+          <div className="relative w-full">
+            <Input
+              className="focus:ring-0 focus:ring-offset-0 px-12 py-6 bg-gradient-to-r text-white from-[#FF5F6D]/75 to-[#FFC371]/75 rounded-full border-2 border-white placeholder:text-white text-[16px] placeholder:text-[16px] w-full"
+              placeholder="Cari KaJasep"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="absolute top-1/2 left-4 transform -translate-y-1/2 w-6 h-6 text-white" />
+          </div>
+          <div className="flex justify-end">
+            <Link href={"/kajasep/my-application"}>
+              <Button
+                variant={"outline"}
+                className="py-6 rounded-full bg-white border-transparent text-[#FFC371] hover:text-[#FFC371]"
+              >
+                My Application <UserRoundPen />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Daftar KaJasep */}
