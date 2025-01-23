@@ -311,8 +311,8 @@ const KajasepPage: React.FC = () => {
 
     {/* Tombol Pagination */}
     {[...Array(totalPages)].map((_, index) => {
-      const startPage = Math.max(currentPage - 2, 1);
-      const endPage = Math.min(startPage + 4, totalPages);
+      const startPage = Math.max(currentPage - 1, 1); // 1 halaman sebelum currentPage
+      const endPage = Math.min(currentPage + 1, totalPages); // 1 halaman setelah currentPage
 
       if (index + 1 >= startPage && index + 1 <= endPage) {
         return (
@@ -333,17 +333,18 @@ const KajasepPage: React.FC = () => {
       return null;
     })}
 
-        {/* Tombol ke Halaman Terakhir */}
-        {currentPage < totalPages && (
-          <button
-            onClick={() => handlePageChange(totalPages)}
-            className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
-          >
-            Last
-          </button>
-        )}
-      </div>
+    {/* Tombol ke Halaman Terakhir */}
+    {currentPage < totalPages && (
+      <button
+        onClick={() => handlePageChange(totalPages)}
+        className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
+      >
+        Last
+      </button>
     )}
+  </div>
+)}
+
 
     </div>
   );
