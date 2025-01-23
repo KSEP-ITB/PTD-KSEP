@@ -18,7 +18,6 @@ const page = () => {
         if (session?.user.id) {
           const data = await getApplicationByApplicantId(session?.user.id)
           setMyApplication(Array.isArray(data) ? data : [data])
-          console.log("DATA", data)
         }
       } catch (error) {
         console.log("Error fetching application:", error)
@@ -46,13 +45,6 @@ const page = () => {
                 key={index}
                 className="w-full bg-gradient-to-r from-[#FF5F6D] to-[#FFC371] p-4 rounded-md shadow-md text-white flex items-center gap-x-4"
               >
-                <Image 
-                  src={application.kajasep.imageUrl}
-                  width={150}
-                  height={150}
-                  alt='Foto KaJasep'
-                  className='h-[150px] w-[150px] rounded-full object-cover'
-                />
                 <div>
                   <p><strong>Nama:</strong> {application.kajasep.name}</p>
                   <p><strong>Message:</strong> {application.message || "No message provided"}</p>
