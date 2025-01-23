@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { UploadButton } from "@/lib/uploadthing";
 import { MoveUpRight } from "lucide-react";
 
 const KajasepForm = () => {
@@ -26,7 +27,7 @@ const KajasepForm = () => {
     kuota: "",
     instagram: "",
     line: "",
-    gambar: null, // For storing the file
+    imageUrl: "", // Store the uploaded image URL
   });
 
   const [isLoading, setIsLoading] = useState(true); // To handle loading state
@@ -46,7 +47,7 @@ const KajasepForm = () => {
               kuota: kajasep.quota?.toString() || "",
               instagram: kajasep.instagram || "",
               line: kajasep.line || "",
-              gambar: null,
+              imageUrl: kajasep.imageUrl || "",
             });
             setIsEditMode(true); // If data exists, switch to edit mode
           }
@@ -73,14 +74,6 @@ const KajasepForm = () => {
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setFormData((prev) => ({
-      ...prev,
-      gambar: file,
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -97,7 +90,7 @@ const KajasepForm = () => {
       quota: formData.kuota ? parseInt(formData.kuota, 10) : undefined,
       instagram: formData.instagram || "",
       line: formData.line || "",
-      imageUrl: formData.gambar ? formData.gambar.name : "placeholder.jpg",
+      imageUrl: formData.imageUrl || undefined,
     };
 
     try {
@@ -130,7 +123,7 @@ const KajasepForm = () => {
         kuota: "",
         instagram: "",
         line: "",
-        gambar: null,
+        imageUrl: "",
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -267,13 +260,33 @@ const KajasepForm = () => {
               <Label htmlFor="gambar" className="text-[#FF5F6D]">
                 Upload Gambar
               </Label>
-              <Input
-                id="gambar"
-                name="gambar"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
+              {formData.imageUrl && (
+                <img
+                  src={formData.imageUrl}
+                  alt="Preview"
+                  className="w-[200px] h-auto rounded-lg mx-auto"
+                />
+              )}
+              <UploadButton
+                className="mt-3 flex items-start ut-button:bg-gradient-to-r ut-button:from-[#FF5F6D] ut-button:to-[#FFC371] ut-button:text-white  ut-button:py-7 ut-button:rounded-xl"
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  if (res && res[0]) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      imageUrl: res[0].url,
+                    }));
+                  }
+                }}
+                onUploadError={(error) => {
+                  console.error("Error uploading file:", error);
+                }}
               />
+              {/* {formData.imageUrl && (
+                <p className="text-sm text-green-600">
+                  File uploaded successfully!
+                </p>
+              )} */}
             </div>
             <Button
               type="submit"

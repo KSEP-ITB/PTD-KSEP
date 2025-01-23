@@ -131,9 +131,11 @@ const KajasepPage: React.FC = () => {
                 className="flex items-center gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
               >
                 <Image
-                  src={JoYuri}
+                  src={kajasep.imageUrl || JoYuri}
                   alt={kajasep.name || "N/A"}
-                  className="h-[120px] w-[120px] rounded-full border-2 border-white object-cover"
+                  width={120}
+                  height={120}
+                  className="w-[120px] h-[120px] rounded-full border-2 border-white object-cover"
                 />
                 <div className="space-y-[2px] w-full h-full flex-1">
                   <h2 className="font-bold text-white text-3xl">
