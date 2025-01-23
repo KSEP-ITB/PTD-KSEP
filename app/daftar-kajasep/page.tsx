@@ -1,6 +1,14 @@
+'use client'
+// Library
+import { useState } from "react";
+// Components Import
 import AdminCard from "@/components/AdminCard";
+// Types import
+import { Kajasep } from "@prisma/client";
 
 const AdminPage = () => {
+  const [kajasepList, setKajasepList] = useState<Kajasep[]>([])
+
   const exampleData = [
     {
       name: "Farrel Ganteng",

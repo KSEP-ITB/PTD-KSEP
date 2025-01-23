@@ -83,7 +83,7 @@ const SignInPage = () => {
           router.push("/");
         } else if (role === "USER") {
           router.push("/assignments");
-        }
+        } 
       }
     } catch (error) {
       toast.error(
