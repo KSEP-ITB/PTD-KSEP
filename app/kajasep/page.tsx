@@ -156,7 +156,9 @@ const KajasepPage: React.FC = () => {
                   <h2 className="font-bold text-white text-[16px] md:text-2xl lg:text-3xl">
                     {kajasep.name}
                   </h2>
-                  <p className="text-xs md:text-[16px] text-white">Kuota: {kajasep.quota}</p>
+                  <p className="text-xs md:text-[16px] text-white">
+                    Kuota: {kajasep.quota}
+                  </p>
                   <p className="text-xs md:text-[16px] text-white">
                     Pendaftar: {kajasep.totalApplicants}
                   </p>
@@ -197,7 +199,9 @@ const KajasepPage: React.FC = () => {
                           <h2 className="font-bold text-white text-xl md:text-2xl lg:text-3xl">
                             {selectedKajasep.name}
                           </h2>
-                          <p className="text-white">{selectedKajasep.nickname}</p>
+                          <p className="text-white">
+                            {selectedKajasep.nickname}
+                          </p>
                         </div>
                         <div>
                           <p className="text-white text-[18px] font-semibold">
@@ -227,28 +231,28 @@ const KajasepPage: React.FC = () => {
                           </p>
                         </div>
                         {isApplied ? (
-                            <p className="text-white">Terdaftar</p>
-                            ) : (
-                            (() => {
-                              const isFull =
-                                selectedKajasep.quota &&
-                                selectedKajasep.totalApplicants === selectedKajasep.quota + 1;
-                              return (
-                                <Button
-                                  className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
-                                  onClick={() => {
-                                    setIsKaJasepDialogOpen(false);
-                                    setIsFormApplicationOpen(true);
-                                  }}
-                                  // @ts-ignore
-                                  disabled={isFull}
-                                >
-                                  Daftar
-                                </Button>
-                              );
-                            })()
-                            )}
-
+                          <p className="text-white">Terdaftar</p>
+                        ) : (
+                          (() => {
+                            const isFull =
+                              selectedKajasep.quota &&
+                              selectedKajasep.totalApplicants >=
+                                selectedKajasep.quota + 1;
+                            return (
+                              <Button
+                                className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
+                                onClick={() => {
+                                  setIsKaJasepDialogOpen(false);
+                                  setIsFormApplicationOpen(true);
+                                }}
+                                // @ts-ignore
+                                disabled={isFull}
+                              >
+                                Daftar
+                              </Button>
+                            );
+                          })()
+                        )}
                       </div>
                     </DialogContent>
                   )}
@@ -298,53 +302,52 @@ const KajasepPage: React.FC = () => {
 
       {/* Pagination */}
       {filteredData.length > 0 && (
-  <div className="flex justify-center mt-4">
-    {/* Tombol ke Halaman Pertama */}
-    {currentPage > 1 && (
-      <button
-        onClick={() => handlePageChange(1)}
-        className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
-      >
-        First
-      </button>
-    )}
+        <div className="flex justify-center mt-4">
+          {/* Tombol ke Halaman Pertama */}
+          {currentPage > 1 && (
+            <button
+              onClick={() => handlePageChange(1)}
+              className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
+            >
+              First
+            </button>
+          )}
 
-    {/* Tombol Pagination */}
-    {[...Array(totalPages)].map((_, index) => {
-      const startPage = Math.max(currentPage - 2, 1); // 2 halaman sebelum currentPage
-      const endPage = Math.min(currentPage + 1, totalPages); // 1 halaman setelah currentPage
+          {/* Tombol Pagination */}
+          {[...Array(totalPages)].map((_, index) => {
+            const startPage = Math.max(currentPage - 2, 1); // 2 halaman sebelum currentPage
+            const endPage = Math.min(currentPage + 1, totalPages); // 1 halaman setelah currentPage
 
-      if (index + 1 >= startPage && index + 1 <= endPage) {
-        return (
-          <button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 mx-1 rounded-full transition-all duration-300 ${
-              currentPage === index + 1
-                ? "bg-[#FF5F6D] text-white border-2 border-white"
-                : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
-            }`}
-          >
-            {index + 1}
-          </button>
-        );
-      }
+            if (index + 1 >= startPage && index + 1 <= endPage) {
+              return (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`px-4 py-2 mx-1 rounded-full transition-all duration-300 ${
+                    currentPage === index + 1
+                      ? "bg-[#FF5F6D] text-white border-2 border-white"
+                      : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              );
+            }
 
-      return null;
-    })}
+            return null;
+          })}
 
-    {/* Tombol ke Halaman Terakhir */}
-    {currentPage < totalPages && (
-      <button
-        onClick={() => handlePageChange(totalPages)}
-        className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
-      >
-        Last
-      </button>
-    )}
-  </div>
-)}
-
+          {/* Tombol ke Halaman Terakhir */}
+          {currentPage < totalPages && (
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
+            >
+              Last
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
