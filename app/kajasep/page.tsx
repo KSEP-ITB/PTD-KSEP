@@ -1,40 +1,38 @@
 "use client";
-// Library Import
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-// Components Import
+import { useSession } from "next-auth/react";
 import CaKSEPHeader from "@/components/CaKSEP/CaKSEPHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea";
-// Asset Import
-import JoYuri from '@/public/assets/JoYuti.jpg';
-// Icon Import
-import { Search, UserRoundPen } from 'lucide-react';
-// Types Import
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Search } from "lucide-react";
 import { Kajasep } from "@/types/types";
-// Actions Import
+import JoYuri from "@/public/assets/JoYuti.jpg";
 import { getAllKajaseps } from "@/actions/kajasep-actions";
-import { useSession } from "next-auth/react";
+import { getApplicationsForUser } from "@/actions/kajasep-applications";
+import { createKajasepApplication } from "@/actions/kajasep-applications";
+import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+// Icon Import
+import { UserRoundPen } from "lucide-react";
+// Types Import
+// Actions Import
 import { useRouter } from "next/navigation";
 
 const KajasepPage: React.FC = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const userId = session?.user?.id || null;
   const router = useRouter()
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isKaJasepDialogOpen, setIsKaJasepDialogOpen] = useState(false)
-  const [isFormApplicationOpen, setIsFormApplicationOpen] = useState(false)
-  const [kajasepList, setKajasepList] = useState<Kajasep[]>([])
+  const [isFormApplicationOpen, setIsFormApplicationOpen] = useState(false);
+  const [kajasepList, setKajasepList] = useState<Kajasep[]>([]);
+  const [userApplications, setUserApplications] = useState<string[]>([]);
+  const [selectedKajasepId, setSelectedKajasepId] = useState<string | null>(
+    null
+  );
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
@@ -44,23 +42,26 @@ const KajasepPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    async function fetchKajasep() {
+    async function fetchKajasepsAndApplications() {
       try {
-        const data = await getAllKajaseps()
-        if (data) {
-          console.log(data)
-          // @ts-ignore
-          setKajasepList(data)
-        } else {
-          console.error("Failed to fetch Kajasep list.")
-        }        
+        const kajaseps = await getAllKajaseps();
+        //@ts-ignore
+        setKajasepList(kajaseps);
+
+        if (userId) {
+          const applications = await getApplicationsForUser(userId);
+          const appliedKajasepIds = applications.map(
+            (app: { kajasepId: string }) => app.kajasepId
+          );
+          setUserApplications(appliedKajasepIds);
+        }
       } catch (error) {
-        console.error("Error fetching Kajasep list:", error)
+        console.error("Error fetching data:", error);
       }
     }
 
-    fetchKajasep()
-  }, [])
+    fetchKajasepsAndApplications();
+  }, [userId]);
 
   const itemsPerPage = 6;
 
@@ -72,21 +73,31 @@ const KajasepPage: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   };
 
-  const currentData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const currentData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = {
-      message,
-    };
-    console.log("Form Data Submitted:", formData);
-    // Tambahkan logika submit ke API di sini
-    setIsFormApplicationOpen(false);
+
+    if (!userId || !selectedKajasepId) {
+      console.error("User ID or Kajasep ID is missing.");
+      return;
+    }
+
+    try {
+      await createKajasepApplication(userId, selectedKajasepId, message);
+      console.log("Application submitted successfully.");
+      setUserApplications((prev) => [...prev, selectedKajasepId]);
+      setIsFormApplicationOpen(false);
+    } catch (error) {
+      console.error("Error submitting application:", error);
+    }
+    window.location.reload();
   };
 
   return (
@@ -107,121 +118,90 @@ const KajasepPage: React.FC = () => {
           </div>
           <div className="flex justify-end w-full">
             <Link href={"/kajasep/my-application"}>
-              <Button variant={"outline"} className="py-6 rounded-full bg-white border-transparent text-[#FFC371] hover:text-[#FFC371]">
+              <Button
+                variant={"outline"}
+                className="py-6 rounded-full bg-white border-transparent text-[#FFC371] hover:text-[#FFC371]"
+              >
                 My Application <UserRoundPen />
-              </Button> 
+              </Button>
             </Link>
           </div>
         </div>
 
         {/* Daftar KaJasep */}
         {currentData.length > 0 ? (
-          currentData.map((kajasep) => (
-            <div
-              key={kajasep.id}
-              className="flex items-center gap-3 md:gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src={JoYuri}
-                alt={kajasep.name ? kajasep.name : "N/A"}
-                className="h-[80px] w-[80px] md:h-[120px] md:w-[120px] rounded-full border-2 border-white object-cover"
-              />
-              <div className="space-y-[2px] w-full h-full flex-1">
-                <h2 className="font-bold text-white md:text-3xl">
-                  { // @ts-ignore
-                    kajasep.name.length > 35 ? kajasep.name?.slice(0, 20) + "..." : kajasep.name
-                  }
-                </h2>
-                <p className="text-white text-sm md:text-[16px]">Kuota: {kajasep.quota}</p>
-                <p className="text-white text-sm md:text-[16px]">Pendaftar: {"2"}</p>
+          currentData.map((kajasep) => {
+            const isApplied = userApplications.includes(kajasep.id);
+
+            return (
+              <div
+                key={kajasep.id}
+                className="flex items-center gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
+              >
+                <Image
+                  src={JoYuri}
+                  alt={kajasep.name || "N/A"}
+                  className="h-[120px] w-[120px] rounded-full border-2 border-white object-cover"
+                />
+                <div className="space-y-[2px] w-full h-full flex-1">
+                  <h2 className="font-bold text-white text-3xl">
+                    {kajasep.name}
+                  </h2>
+                  <p className="text-white">Kuota: {kajasep.quota}</p>
+                  <p className="text-white">
+                    Pendaftar: {kajasep.totalApplicants}
+                  </p>
+                </div>
+                {isApplied ? (
+                  <p className="text-white font-bold">Terdaftar</p>
+                ) : (
+                  <Dialog
+                    open={isFormApplicationOpen}
+                    onOpenChange={setIsFormApplicationOpen}
+                  >
+                    <DialogTrigger asChild>
+                      <Button
+                        size={"default"}
+                        className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300"
+                        onClick={() => setSelectedKajasepId(kajasep.id)}
+                      >
+                        Daftar
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="p-6 bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] rounded-lg">
+                      <form onSubmit={handleSubmit}>
+                        <h2 className="text-lg font-bold text-white mb-2">
+                          Form Application
+                        </h2>
+                        <Textarea
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          placeholder="Enter your message"
+                          className="focus-visible:ring-transparent mb-4"
+                        />
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={() => setIsFormApplicationOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button type="submit">Submit</Button>
+                        </div>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
-              <Dialog open={isKaJasepDialogOpen} onOpenChange={setIsKaJasepDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    size={"default"}
-                    className="rounded-full bg-white font-medium hover:bg-white text-[#FF6F3C] transition-all duration-300">
-                    Daftar
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[800px]">
-                  <Image
-                    src={JoYuri}
-                    alt={kajasep.name ? kajasep.name : "N/A"}
-                    className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
-                  />
-                  <div className="h-full space-y-4">
-                    <div className="">
-                      <h2 className="font-bold text-white text-3xl">{kajasep.name}</h2>
-                      <p className="text-white">Nama Panggilan</p>
-                    </div>
-                    <div>
-                      <p className="text-white text-[18px] font-semibold">Deskripsi</p>
-                      <p className="text-white text-sm">
-                        {kajasep.description}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-white text-[18px] font-semibold">Syarat</p>
-                      <p className="text-white text-sm">
-                        {kajasep.requirement}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-white text-[18px] font-semibold">Kontak</p>
-                      <p className="text-white text-sm">
-                       ID Line :{kajasep.line} 
-                      </p>
-                      <p className="text-white text-sm">
-                        Instagram : @{kajasep.instagram}
-                      </p>
-                    </div>
-                    <Button 
-                      className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
-                      onClick={() => {
-                        setIsKaJasepDialogOpen(false)
-                        setIsFormApplicationOpen(true)
-                      }}
-                    >
-                      Daftar
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-          ))
+            );
+          })
         ) : (
-          <p className="text-center text-white text-lg">Tidak ada hasil yang ditemukan.</p>
+          <p className="text-center text-white text-lg">
+            Tidak ada hasil yang ditemukan.
+          </p>
         )}
       </div>
-
-      <Dialog open={isFormApplicationOpen} onOpenChange={setIsFormApplicationOpen}>
-        <DialogContent className="border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] p-6 rounded-lg">
-          <form onSubmit={handleSubmit}>
-            <h2 className="text-lg font-bold text-white mb-2">Form Application</h2>
-
-            {/* Message */}
-            <div>
-              <label className="block text-white text-sm font-medium mb-2">Message</label>
-              <Textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Enter your message"
-                className="focus-visible:ring-transparent mb-4"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex justify-end gap-2">
-              <Button type="button" variant="secondary" onClick={() => setIsFormApplicationOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit">
-                Submit
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       {/* Pagination */}
       {filteredData.length > 0 && (
@@ -234,7 +214,8 @@ const KajasepPage: React.FC = () => {
                 currentPage === index + 1
                   ? "bg-[#FF5F6D] text-white border-2 border-white"
                   : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
-              }`}>
+              }`}
+            >
               {index + 1}
             </button>
           ))}
@@ -245,5 +226,3 @@ const KajasepPage: React.FC = () => {
 };
 
 export default KajasepPage;
-
-// from-[#FF5F6D]/75 to-[#FFC371]/75 

@@ -2,12 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import ApplicantCard from "@/components/Kajasep/ApplicantCard";
-import { getApplicationsFromKjasepId } from "@/actions/kajasep-actions"; // Import the action to fetch applications
+import {
+  getKajasepFromUserId,
+  getApplicationsFromKjasepId,
+} from "@/actions/kajasep-actions"; // Import necessary actions
 import { useSession } from "next-auth/react";
 
 // Define a type for the applicant data
 interface Applicant {
   id: string;
+  applicantId: string;
   message: string | null;
   applyStatus: string;
   applicant: {
@@ -17,30 +21,42 @@ interface Applicant {
 
 const InfoPendaftar = () => {
   const { data: session } = useSession();
-  const [applicants, setApplicants] = useState<Applicant[]>([]); // Specify the type of applicants
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [kajasepId, setKajasepId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchApplicants = async () => {
+    const fetchData = async () => {
       try {
         if (session?.user?.id) {
-          const applications = await getApplicationsFromKjasepId(
-            session.user.id
-          ); // Fetch applicants using the logged-in user's Kajasep ID
-          setApplicants(applications); // TypeScript will now correctly recognize the type
+          // Step 1: Fetch the Kajasep ID associated with the current user
+          const kajasep = await getKajasepFromUserId(session.user.id);
+          if (kajasep) {
+            setKajasepId(kajasep.id);
+
+            // Step 2: Fetch applications using the retrieved Kajasep ID
+            const applications = await getApplicationsFromKjasepId(kajasep.id);
+            setApplicants(applications);
+          } else {
+            console.error("No Kajasep found for the current user.");
+          }
         }
       } catch (error) {
-        console.error("Error fetching applicants:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchApplicants();
+    fetchData();
   }, [session]);
 
   if (isLoading) {
     return <p>Loading applicants...</p>;
+  }
+
+  if (!kajasepId) {
+    return <p>You do not have an associated Kajasep.</p>;
   }
 
   return (
@@ -52,15 +68,21 @@ const InfoPendaftar = () => {
           </h1>
         </div>
         <div className="w-full space-y-2">
-          {applicants.map((applicant) => (
-            <ApplicantCard
-              key={applicant.id}
-              id={applicant.id}
-              name={applicant.applicant.username}
-              reason={applicant.message || "No reason provided"}
-              applyStatus={applicant.applyStatus}
-            />
-          ))}
+          {applicants.length > 0 ? (
+            applicants.map((applicant) => (
+              <ApplicantCard
+                key={applicant.id}
+                applicationId={applicant.id}
+                name={applicant.applicant.username}
+                reason={applicant.message || "No reason provided"}
+                applyStatus={applicant.applyStatus}
+                kajasepId={kajasepId || ""} // Pass the Kajasep ID
+                applicantId={applicant.applicantId || ""} // Current user ID
+              />
+            ))
+          ) : (
+            <p>No applicants found.</p>
+          )}
         </div>
       </div>
     </div>
