@@ -144,19 +144,20 @@ const KajasepPage: React.FC = () => {
                 key={kajasep.id}
                 className="flex items-center gap-6 p-4 rounded-2xl border-2 border-white bg-gradient-to-tr from-[#FF5F6D] to-[#FFC371] transition-transform duration-300 hover:scale-105"
               >
-                <Image
+                <img
+                  // @ts-ignore
                   src={kajasep.imageUrl || JoYuri}
                   alt={kajasep.name || "N/A"}
-                  width={120}
-                  height={120}
-                  className="w-[120px] h-[120px] rounded-full border-2 border-white object-cover"
+                  // width={120}
+                  // height={120}
+                  className="w-[120px] h-[120px] min-w-[120px] min-h-[120px] max-w-[120px] max-h-[120px] rounded-full border-2 border-white object-cover"
                 />
                 <div className="space-y-[2px] w-full h-full flex-1">
-                  <h2 className="font-bold text-white text-3xl">
+                  <h2 className="font-bold text-white text-[16px] md:text-2xl lg:text-3xl">
                     {kajasep.name}
                   </h2>
-                  <p className="text-white">Kuota: {kajasep.quota}</p>
-                  <p className="text-white">
+                  <p className="text-xs md:text-[16px] text-white">Kuota: {kajasep.quota}</p>
+                  <p className="text-xs md:text-[16px] text-white">
                     Pendaftar: {kajasep.totalApplicants}
                   </p>
                 </div>
@@ -180,19 +181,20 @@ const KajasepPage: React.FC = () => {
                     </Button>
                   </DialogTrigger>
                   {selectedKajasep && (
-                    <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex items-start justify-start gap-x-8 md:min-w-[800px]">
-                      <Image
-                        src={selectedKajasep.imageUrl || JoYuri}
+                    <DialogContent className="p-8 border-2 border-white bg-gradient-to-br from-[#FF5F6D] to-[#FFC371] flex md:flex-row flex-col items-start justify-start gap-x-8 md:min-w-[800px]">
+                      <img
+                        // @ts-ignore
+                        src={selectedKajasep.imageUrl || JoYuri || null}
                         alt={
                           selectedKajasep.name ? selectedKajasep.name : "N/A"
                         }
-                        width={240}
-                        height={240}
-                        className="h-[240px] w-[240px] rounded-xl border-2 border-white object-cover"
+                        // width={270}
+                        // height={270}
+                        className="h-[300px] w-[300px] min-h-[300px] min-w-[300px] max-h-[300px] max-w-[300px] rounded-xl border-2 border-white object-cover"
                       />
                       <div className="h-full space-y-4">
                         <div className="">
-                          <h2 className="font-bold text-white text-3xl">
+                          <h2 className="font-bold text-white text-xl md:text-2xl lg:text-3xl">
                             {selectedKajasep.name}
                           </h2>
                           <p className="text-white">{selectedKajasep.nickname}</p>
@@ -296,22 +298,53 @@ const KajasepPage: React.FC = () => {
 
       {/* Pagination */}
       {filteredData.length > 0 && (
-        <div className="flex justify-center mt-4">
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`px-4 py-2 mx-1 rounded-full transition-all duration-300 ${
-                currentPage === index + 1
-                  ? "bg-[#FF5F6D] text-white border-2 border-white"
-                  : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      )}
+  <div className="flex justify-center mt-4">
+    {/* Tombol ke Halaman Pertama */}
+    {currentPage > 1 && (
+      <button
+        onClick={() => handlePageChange(1)}
+        className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
+      >
+        First
+      </button>
+    )}
+
+    {/* Tombol Pagination */}
+    {[...Array(totalPages)].map((_, index) => {
+      const startPage = Math.max(currentPage - 2, 1);
+      const endPage = Math.min(startPage + 4, totalPages);
+
+      if (index + 1 >= startPage && index + 1 <= endPage) {
+        return (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 mx-1 rounded-full transition-all duration-300 ${
+              currentPage === index + 1
+                ? "bg-[#FF5F6D] text-white border-2 border-white"
+                : "bg-white text-[#FF5F6D] border-2 border-[#FF5F6D]"
+            }`}
+          >
+            {index + 1}
+          </button>
+        );
+      }
+
+      return null;
+    })}
+
+        {/* Tombol ke Halaman Terakhir */}
+        {currentPage < totalPages && (
+          <button
+            onClick={() => handlePageChange(totalPages)}
+            className="px-4 py-2 mx-1 rounded-full bg-white text-[#FF5F6D] border-2 border-[#FF5F6D] transition-all duration-300"
+          >
+            Last
+          </button>
+        )}
+      </div>
+    )}
+
     </div>
   );
 };
