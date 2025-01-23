@@ -1,10 +1,11 @@
+import { User } from "@prisma/client";
 import React from "react";
 
 interface AdminCardProps {
   name: string;
   currQuota: number;
   quota: number;
-  dejasep: string[];
+  dejasep?: User[];
 }
 
 const AdminCard: React.FC<AdminCardProps> = ({
@@ -22,12 +23,12 @@ const AdminCard: React.FC<AdminCardProps> = ({
         </p>
       </div>
       <div className="flex gap-2">
-        {dejasep.map((item, index) => (
+        {dejasep && dejasep.map((item, index) => (
           <span
             key={index}
             className=" rounded-full bg-white/10 text-white border-2 border-white py-2 px-4 text-sm"
           >
-            {item}
+            {item.username}
           </span>
         ))}
       </div>
