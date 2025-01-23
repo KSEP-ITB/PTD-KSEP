@@ -38,7 +38,7 @@ const page = () => {
         
         {isLoading ? (
           <p className="text-white">Loading...</p>
-        ) : myApplication.length > 0 ? (
+        ) : myApplication && myApplication.length > 0 ? (
           <div className="space-y-4">
             {myApplication.map((application, index) => (
               <div
