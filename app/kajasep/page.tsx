@@ -224,18 +224,28 @@ const KajasepPage: React.FC = () => {
                           </p>
                         </div>
                         {isApplied ? (
-                          <p className="text-white"> Terdaftar </p>
-                        ) : (
-                          <Button
-                            className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
-                            onClick={() => {
-                              setIsKaJasepDialogOpen(false);
-                              setIsFormApplicationOpen(true);
-                            }}
-                          >
-                            Daftar
-                          </Button>
-                        )}
+                            <p className="text-white">Terdaftar</p>
+                            ) : (
+                            (() => {
+                              const isFull =
+                                selectedKajasep.quota &&
+                                selectedKajasep.totalApplicants === selectedKajasep.quota + 1;
+                              return (
+                                <Button
+                                  className="shadow-lg bg-white hover:bg-white text-[#FF5F6D] relative bottom-0 font-medium w-[100px]"
+                                  onClick={() => {
+                                    setIsKaJasepDialogOpen(false);
+                                    setIsFormApplicationOpen(true);
+                                  }}
+                                  // @ts-ignore
+                                  disabled={isFull}
+                                >
+                                  Daftar
+                                </Button>
+                              );
+                            })()
+                            )}
+
                       </div>
                     </DialogContent>
                   )}
