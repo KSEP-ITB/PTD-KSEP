@@ -22,12 +22,12 @@ export const createKajasepApplication = async (
     }
 
     // check if user already has an application (if needed)
-     const existing = await prisma.kajasepApplication.findUnique({
-       where: { applicantId: userId },
-     });
-     if (existing) {
-       throw new Error("User already applied.");
-     }
+    const existing = await prisma.kajasepApplication.findUnique({
+      where: { applicantId: userId },
+    });
+    if (existing) {
+      throw new Error("User already applied.");
+    }
 
     // Atomic transaction: create application & increment totalApplicants
     const [newApplication] = await prisma.$transaction([
@@ -153,5 +153,20 @@ export const countKajasepApplicants = async (kajasepId: string) => {
   } catch (error) {
     console.error("Error counting Kajasep applicants:", error);
     throw new Error("Unable to count Kajasep applicants.");
+  }
+};
+
+export const getApplicationsForUser = async (userId: string) => {
+  if (!userId) throw new Error("User ID is required.");
+
+  try {
+    const applications = await prisma.kajasepApplication.findMany({
+      where: { applicantId: userId },
+      select: { kajasepId: true },
+    });
+
+    return applications;
+  } catch (error) {
+    throw new Error("Failed to fetch applications.");
   }
 };

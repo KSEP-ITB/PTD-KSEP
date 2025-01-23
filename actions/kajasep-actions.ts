@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 export const getAllKajaseps = async () => {
   try {
     const kajaseps = await prisma.kajasep.findMany();
-    console.log(kajaseps)
+    console.log(kajaseps);
     return kajaseps;
   } catch (error) {
     console.error("Error fetching Kajaseps:", error);
@@ -97,6 +97,7 @@ export const getApplicationsFromKjasepId = async (kajasepId: string) => {
       },
       select: {
         id: true,
+        applicantId: true,
         applicant: {
           select: {
             username: true,
@@ -193,15 +194,49 @@ export const acceptDejasep = async (
   applicantId: string,
   kajasepId: string
 ) => {
-  try {
-    const application = await prisma.kajasepApplication.update({
-      where: { id: applicationId },
-      data: {
-        applyStatus: "APPROVED",
-      },
-    });
+  if (!applicationId || !applicantId || !kajasepId) {
+    throw new Error(
+      "All fields (applicationId, applicantId, kajasepId) are required"
+    );
+  }
 
-    return application;
+  try {
+    // Atomic transaction to ensure all updates happen together
+    const [application, kajasep, dejasep] = await prisma.$transaction([
+      // Update the application status to APPROVED
+      prisma.kajasepApplication.update({
+        where: { id: applicationId },
+        data: {
+          applyStatus: "APPROVED",
+        },
+      }),
+
+      // Connect the applicant (dejasep) to the Kajasep
+      prisma.kajasep.update({
+        where: {
+          id: kajasepId,
+        },
+        data: {
+          dejaseps: {
+            connect: { id: applicantId },
+          },
+        },
+      }),
+
+      // Update the user's `acceptedKajasep` field to link to the Kajasep
+      prisma.user.update({
+        where: {
+          id: applicantId,
+        },
+        data: {
+          acceptedKajasep: {
+            connect: { id: kajasepId },
+          },
+        },
+      }),
+    ]);
+
+    return { application, kajasep, dejasep };
   } catch (error) {
     console.error("Failed to accept applicant:", error);
     throw new Error("Unable to approve applicant.");

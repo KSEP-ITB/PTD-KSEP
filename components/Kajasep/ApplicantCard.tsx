@@ -6,14 +6,18 @@ import { Card } from "@/components/ui/card";
 import { acceptDejasep } from "@/actions/kajasep-actions";
 
 interface ApplicantCardProps {
-  id: string;
+  applicationId: string;
+  applicantId: string;
+  kajasepId: string;
   name: string;
   reason: string;
   applyStatus: string;
 }
 
 const ApplicantCard = ({
-  id,
+  applicationId,
+  applicantId,
+  kajasepId,
   name,
   reason,
   applyStatus,
@@ -22,7 +26,7 @@ const ApplicantCard = ({
 
   const handleAccept = async () => {
     try {
-      await acceptDejasep(id, name, id); // Update application status to "APPROVED"
+      await acceptDejasep(applicationId, applicantId, kajasepId); // Update application status to "APPROVED"
       setStatus("APPROVED"); // Update local status
     } catch (error) {
       console.error("Error approving application:", error);
@@ -44,7 +48,7 @@ const ApplicantCard = ({
           Terima
         </Button>
       ) : (
-        <p className="text-gray-400"> Diterima </p>
+        <p className="text-white">Diterima</p>
       )}
     </Card>
   );
